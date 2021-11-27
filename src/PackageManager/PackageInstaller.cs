@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("DgSystems.PackageManagerUnitTests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.PackageManager
 {
     internal class PackageInstaller

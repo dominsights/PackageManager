@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,9 +6,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>DgSystems.$(MSBuildProjectName)</AssemblyName>
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
 
-    <RootNamespace>DgSystems.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PackageManager\PackageManager.csproj" />
+    <ProjectReference Include="..\..\src\PackageManager\DgSystems.PackageManager.csproj" />
   </ItemGroup>
 
 </Project>
