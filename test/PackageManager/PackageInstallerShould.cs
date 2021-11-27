@@ -9,14 +9,14 @@ using DgSystems.PackageManager;
 using FluentAssertions;
 using NSubstitute.ExceptionExtensions;
 
-namespace DgSystems.PackageManagerTests
+namespace Dgsystems.PackageManagerUnitTests
 {
     public class PackageInstallerShould
     {
         [Fact]
         public void RejectInstallationWhenPackageIsNull()
         {
-            var packageManager = Substitute.For<PackageManager.PackageManager>();
+            var packageManager = Substitute.For<PackageManager>();
             var packageInstaller = new PackageInstaller(packageManager);
             var action = () => packageInstaller.Install(null);
             action.Should().Throw<InvalidOperationException>().WithMessage("Package is null.");

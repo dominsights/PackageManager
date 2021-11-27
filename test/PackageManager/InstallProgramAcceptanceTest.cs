@@ -4,7 +4,7 @@ using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DgSystems.PackageManagerTests
+namespace Dgsystems.PackageManagerUnitTests
 {
     public class InstallProgramAcceptanceTest
     {
@@ -13,7 +13,7 @@ namespace DgSystems.PackageManagerTests
         public void InstallSimpleProgram()
         {
             var program = new Package("notepad++", "C:\\setup.exe");
-            var packageManager = Substitute.For<PackageManager.PackageManager>();
+            var packageManager = Substitute.For<PackageManager>();
             packageManager.Install(program).Returns(InstallationStatus.Success);
             var packageInstaller = new PackageInstaller(packageManager);
             var installationResult = packageInstaller.Install(program);
@@ -27,7 +27,7 @@ namespace DgSystems.PackageManagerTests
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.PackageManager>();
+            var packageManager = Substitute.For<PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
@@ -49,7 +49,7 @@ namespace DgSystems.PackageManagerTests
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.PackageManager>();
+            var packageManager = Substitute.For<PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);

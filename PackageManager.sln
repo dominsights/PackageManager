@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B57BE6D-4AA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dgsystems.PackageManagerUnitTests", "test\PackageManager\Dgsystems.PackageManagerUnitTests.csproj", "{2A6E1E95-2FE4-4C64-B09C-802AFA893A77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManagerUnitTests", "test\PackageManager\DgSystems.PackageManagerUnitTests.csproj", "{2A6E1E95-2FE4-4C64-B09C-802AFA893A77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
