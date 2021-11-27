@@ -1,4 +1,4 @@
-﻿namespace PackageManager
+﻿namespace DgSystems.PackageManager
 {
     public enum InstallationStatus
     {

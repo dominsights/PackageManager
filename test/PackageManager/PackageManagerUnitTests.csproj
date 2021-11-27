@@ -5,6 +5,10 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>DgSystems.$(MSBuildProjectName)</AssemblyName>
+
+    <RootNamespace>DgSystems.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

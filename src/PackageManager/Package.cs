@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("PackageManagerUnitTests")]
-namespace PackageManager
+namespace DgSystems.PackageManager
 {
     internal class Package
     {

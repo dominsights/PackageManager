@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PackageManager
+namespace DgSystems.PackageManager
 {
     internal interface PackageManager
     {
