@@ -5,7 +5,7 @@ using Xunit;
 
 namespace PackageManager
 {
-    public class InstallProgramFeature
+    public class InstallProgramAcceptanceTest
     {
 
         [Fact]
