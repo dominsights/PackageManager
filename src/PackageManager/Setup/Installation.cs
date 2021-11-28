@@ -71,6 +71,10 @@ namespace DgSystems.PackageManager.Setup
                 else
                     notifier.Notify(new InstallationFailed(Id, package.Name));
             }
+            else
+            {
+                notifier.Notify(new InstallationFailed(Id, package.Name));
+            }
         }
     }
 }

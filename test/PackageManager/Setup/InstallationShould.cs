@@ -84,9 +84,38 @@ namespace DgSystems.PackageManagerUnitTests.Setup
                 packageManager.Received().InstallAsync(mainPackage);
             });
 
-            Received.InOrder(() => {
+            Received.InOrder(() =>
+            {
                 notifier.Received().Notify(new InstallationExecuted(installation.Id, dependencyPackage.Name));
                 notifier.Received().Notify(new InstallationExecuted(installation.Id, mainPackage.Name));
+            });
+        }
+
+        [Fact]
+        public async void NotInstallPackageWithDependencyFailed()
+        {
+            var dependencyPackage = new Package("java", "C:\\java.exe");
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
+            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            packageManager.IsPackageValid(mainPackage).Returns(true);
+            packageManager.IsPackageValid(dependencyPackage).Returns(true);
+            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Failure);
+
+            var notifier = Substitute.For<Notifier>();
+            var installation = new Installation(packageManager, notifier);
+            await installation.Install(mainPackage);
+
+            packageManager.Received().IsPackageValid(dependencyPackage);
+            packageManager.DidNotReceive().IsPackageValid(mainPackage);
+
+            await packageManager.Received().InstallAsync(dependencyPackage);
+            await packageManager.DidNotReceive().InstallAsync(mainPackage);
+
+            Received.InOrder(() =>
+            {
+                notifier.Received().Notify(new InstallationFailed(installation.Id, dependencyPackage.Name));
+                notifier.Received().Notify(new InstallationFailed(installation.Id, mainPackage.Name));
             });
         }
     }
