@@ -24,12 +24,26 @@ namespace DgSystems.PackageManager.Setup
 
         public Guid Id { get; internal set; }
 
-        internal void Install(Package package)
+        internal async Task Install(Package package)
         {
-            if (package is null) 
+            if (package is null)
+            {
                 notifier.Notify(new InstallationRejected(Id, "Package is null."));
-            if (!packageManager.IsPackageValid(package)) 
+                return;
+            }
+
+            if (!packageManager.IsPackageValid(package))
+            {
                 notifier.Notify(new InstallationRejected(Id, "Package is invalid."));
+                return;
+            }
+
+            var installationResult = await packageManager.InstallAsync(package);
+
+            if (installationResult == InstallationStatus.Success)
+                notifier.Notify(new InstallationExecuted(Id, package.Name));
+            else
+                notifier.Notify(new InstallationFailed(Id, package.Name));
         }
     }
 }

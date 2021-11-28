@@ -16,30 +16,45 @@ namespace DgSystems.PackageManagerUnitTests.Setup
     public class InstallationShould
     {
         [Fact]
-        public void RejectInstallationWhenPackageIsNull()
+        public async void RejectInstallationWhenPackageIsNull()
         {
             var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
-            installation.Install(null);
+            await installation.Install(null);
 
             notifier.Received().Notify(new InstallationRejected(installation.Id, "Package is null."));
-            packageManager.DidNotReceive().Install(Arg.Any<Package>());
+            await packageManager.DidNotReceive().InstallAsync(Arg.Any<Package>());
         }
 
         [Fact]
-        public void RejectInstallationWhenPackageIsInvalid()
+        public async void RejectInstallationWhenPackageIsInvalid()
         {
             var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
             packageManager.IsPackageValid(Arg.Any<Package>()).Returns(false);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
             var invalidPackage = new Package("package", "invalid_path");
-            installation.Install(invalidPackage);
+            await installation.Install(invalidPackage);
 
             notifier.Received().Notify(new InstallationRejected(installation.Id, "Package is invalid."));
-            packageManager.DidNotReceive().Install(Arg.Any<Package>());
+            await packageManager.DidNotReceive().InstallAsync(Arg.Any<Package>());
             packageManager.Received().IsPackageValid(invalidPackage);
+        }
+
+        [Fact]
+        public async void ExecuteInstallationForOnePackage()
+        {
+            var package = new Package("package", "valid_path");
+            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            packageManager.IsPackageValid(package).Returns(true);
+            var notifier = Substitute.For<Notifier>();
+            var installation = new Installation(packageManager, notifier);
+            await installation.Install(package);
+
+            notifier.Received().Notify(new InstallationExecuted(installation.Id, package.Name));
+            packageManager.Received().IsPackageValid(package);
+            await packageManager.Received().InstallAsync(package);
         }
     }
 }

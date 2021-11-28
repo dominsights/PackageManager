@@ -8,7 +8,7 @@ namespace DgSystems.PackageManager.Setup
 {
     internal interface PackageManager
     {
-        InstallationStatus Install(Package package);
+        Task<InstallationStatus> InstallAsync(Package package);
         bool IsPackageValid(Package package);
     }
 }

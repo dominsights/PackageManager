@@ -4,6 +4,7 @@ using DgSystems.PackageManager.Setup.Events;
 using FluentAssertions;
 using NSubstitute;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DgSystems.PackageManagerUnitTests.Setup
@@ -12,39 +13,40 @@ namespace DgSystems.PackageManagerUnitTests.Setup
     {
 
         [Fact]
-        public void InstallSimpleProgram()
+        public async void InstallSimpleProgramAsync()
         {
             var program = new Package("notepad++", "C:\\setup.exe");
             var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
-            packageManager.Install(program).Returns(InstallationStatus.Success);
+            packageManager.IsPackageValid(program).Returns(true);
+            packageManager.InstallAsync(program).Returns(InstallationStatus.Success);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
-            installation.Install(program);
+            await installation.Install(program);
 
             notifier.Received().Notify(new InstallationExecuted(installation.Id, program.Name));
 
-            packageManager.Received().Install(program);
+            await packageManager.Received().InstallAsync(program);
         }
 
         [Fact]
-        public void InstallPackageWithDependencies()
+        public async void InstallPackageWithDependenciesAsync()
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
 
-            packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
-            packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Success);
+            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
 
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
-            installation.Install(mainPackage);
+            await installation.Install(mainPackage);
 
 
             Received.InOrder(() =>
             {
-                packageManager.Received().Install(dependencyPackage);
-                packageManager.Received().Install(mainPackage);
+                packageManager.Received().InstallAsync(dependencyPackage);
+                packageManager.Received().InstallAsync(mainPackage);
             });
 
             Received.InOrder(() =>
@@ -55,23 +57,23 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         }
 
         [Fact]
-        public void DontInstallPackageWithDependenciesIfDependencyInstallationFails()
+        public async void DontInstallPackageWithDependenciesIfDependencyInstallationFailsAsync()
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
 
-            packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);
-            packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Failure);
+            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
 
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
-            installation.Install(mainPackage);
+            await installation.Install(mainPackage);
 
             Received.InOrder(() =>
             {
-                packageManager.Received().Install(dependencyPackage);
-                packageManager.DidNotReceive().Install(mainPackage);
+                packageManager.Received().InstallAsync(dependencyPackage);
+                packageManager.DidNotReceive().InstallAsync(mainPackage);
             });
 
             Received.InOrder(() =>
