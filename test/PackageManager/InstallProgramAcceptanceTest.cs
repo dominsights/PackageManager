@@ -16,10 +16,10 @@ namespace Dgsystems.PackageManagerUnitTests
             var packageManager = Substitute.For<PackageManager>();
             packageManager.Install(program).Returns(InstallationStatus.Success);
             var notifier = Substitute.For<Notifier>();
-            var packageInstaller = new Installation(packageManager, notifier);
-            packageInstaller.Install(program);
+            var installation = new Installation(packageManager, notifier);
+            installation.Install(program);
 
-            notifier.Received().Notify(new InstallationExecuted(program.Name));
+            notifier.Received().Notify(new InstallationExecuted(installation.Id, program.Name));
 
             packageManager.Received().Install(program);
         }
@@ -35,8 +35,8 @@ namespace Dgsystems.PackageManagerUnitTests
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
 
             var notifier = Substitute.For<Notifier>();
-            var packageInstaller = new Installation(packageManager, notifier);
-            packageInstaller.Install(mainPackage);
+            var installation = new Installation(packageManager, notifier);
+            installation.Install(mainPackage);
 
 
             Received.InOrder(() =>
@@ -47,8 +47,8 @@ namespace Dgsystems.PackageManagerUnitTests
 
             Received.InOrder(() =>
             {
-                notifier.Received().Notify(new InstallationExecuted(dependencyPackage.Name));
-                notifier.Received().Notify(new InstallationExecuted(mainPackage.Name));
+                notifier.Received().Notify(new InstallationExecuted(installation.Id, dependencyPackage.Name));
+                notifier.Received().Notify(new InstallationExecuted(installation.Id, mainPackage.Name));
             });
         }
 
@@ -63,8 +63,8 @@ namespace Dgsystems.PackageManagerUnitTests
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
 
             var notifier = Substitute.For<Notifier>();
-            var packageInstaller = new Installation(packageManager, notifier);
-            packageInstaller.Install(mainPackage);
+            var installation = new Installation(packageManager, notifier);
+            installation.Install(mainPackage);
 
             Received.InOrder(() =>
             {
@@ -74,8 +74,8 @@ namespace Dgsystems.PackageManagerUnitTests
 
             Received.InOrder(() =>
             {
-                notifier.Received().Notify(new InstallationRejected($"Installation failed for package {dependencyPackage.Name}"));
-                notifier.Received().Notify(new InstallationRejected($"Dependency not installed."));
+                notifier.Received().Notify(new InstallationRejected(installation.Id, $"Installation failed for package {dependencyPackage.Name}"));
+                notifier.Received().Notify(new InstallationRejected(installation.Id, $"Dependency not installed."));
             });
         }
     }

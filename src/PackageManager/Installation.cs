@@ -18,7 +18,10 @@ namespace DgSystems.PackageManager
         {
             this.packageManager = packageManager;
             this.notifier = notifier;
+            Id = Guid.NewGuid();
         }
+
+        public Guid Id { get; internal set; }
 
         internal void Install(Package program)
         {

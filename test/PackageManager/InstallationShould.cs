@@ -18,10 +18,10 @@ namespace Dgsystems.PackageManagerUnitTests
         {
             var packageManager = Substitute.For<PackageManager>();
             var notifier = Substitute.For<Notifier>();
-            var packageInstaller = new Installation(packageManager, notifier);
-            packageInstaller.Install(null);
+            var installation = new Installation(packageManager, notifier);
+            installation.Install(null);
 
-            notifier.Received().Notify(new InstallationRejected("Package is null."));
+            notifier.Received().Notify(new InstallationRejected(installation.Id, "Package is null."));
         }
     }
 }

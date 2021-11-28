@@ -2,7 +2,7 @@
 {
     public class InstallationExecuted
     {
-        public InstallationExecuted(string packageName)
+        public InstallationExecuted(Guid installationId, string packageName)
         {
         }
     }

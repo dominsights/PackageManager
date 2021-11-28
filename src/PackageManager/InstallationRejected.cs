@@ -1,4 +1,4 @@
 ﻿namespace DgSystems.PackageManager
 {
-    public record InstallationRejected(string reason);
+    public record InstallationRejected(Guid installatonId, string reason);
 }
