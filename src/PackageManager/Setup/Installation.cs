@@ -32,18 +32,45 @@ namespace DgSystems.PackageManager.Setup
                 return;
             }
 
-            if (!packageManager.IsPackageValid(package))
+            bool areDependenciesInstalled = true;
+
+            if (package.Dependencies != null && package.Dependencies.Any())
             {
-                notifier.Notify(new InstallationRejected(Id, "Package is invalid."));
-                return;
+                foreach (var dependency in package.Dependencies)
+                {
+                    if (!packageManager.IsPackageValid(dependency))
+                        return;
+
+                    var dependencyResult = await packageManager.InstallAsync(dependency);
+
+                    if (dependencyResult == InstallationStatus.Success)
+                    {
+                        notifier.Notify(new InstallationExecuted(Id, dependency.Name));
+                    }
+                    else
+                    {
+                        notifier.Notify(new InstallationFailed(Id, dependency.Name));
+                        areDependenciesInstalled = false;
+                        break;
+                    }
+                }
             }
 
-            var installationResult = await packageManager.InstallAsync(package);
+            if (areDependenciesInstalled)
+            {
+                if (!packageManager.IsPackageValid(package))
+                {
+                    notifier.Notify(new InstallationRejected(Id, "Package is invalid."));
+                    return;
+                }
 
-            if (installationResult == InstallationStatus.Success)
-                notifier.Notify(new InstallationExecuted(Id, package.Name));
-            else
-                notifier.Notify(new InstallationFailed(Id, package.Name));
+                var installationResult = await packageManager.InstallAsync(package);
+
+                if (installationResult == InstallationStatus.Success)
+                    notifier.Notify(new InstallationExecuted(Id, package.Name));
+                else
+                    notifier.Notify(new InstallationFailed(Id, package.Name));
+            }
         }
     }
 }

@@ -56,5 +56,38 @@ namespace DgSystems.PackageManagerUnitTests.Setup
             packageManager.Received().IsPackageValid(package);
             await packageManager.Received().InstallAsync(package);
         }
+
+        [Fact]
+        public async void ExecuteInstallationForPackageWithDependency()
+        {
+            var dependencyPackage = new Package("java", "C:\\java.exe");
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
+            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            packageManager.IsPackageValid(mainPackage).Returns(true);
+            packageManager.IsPackageValid(dependencyPackage).Returns(true);
+            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Success);
+
+            var notifier = Substitute.For<Notifier>();
+            var installation = new Installation(packageManager, notifier);
+            await installation.Install(mainPackage);
+
+            Received.InOrder(() =>
+            {
+                packageManager.Received().IsPackageValid(dependencyPackage);
+                packageManager.Received().IsPackageValid(mainPackage);
+            });
+
+            Received.InOrder(() =>
+            {
+                packageManager.Received().InstallAsync(dependencyPackage);
+                packageManager.Received().InstallAsync(mainPackage);
+            });
+
+            Received.InOrder(() => {
+                notifier.Received().Notify(new InstallationExecuted(installation.Id, dependencyPackage.Name));
+                notifier.Received().Notify(new InstallationExecuted(installation.Id, mainPackage.Name));
+            });
+        }
     }
 }
