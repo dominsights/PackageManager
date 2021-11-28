@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PackageManager\DgSystems.PackageManager.csproj" />
+    <ProjectReference Include="..\..\..\src\core\PackageManager\DgSystems.PackageManager.csproj" />
   </ItemGroup>
 
 </Project>
