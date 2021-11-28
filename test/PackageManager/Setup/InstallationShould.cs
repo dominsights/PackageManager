@@ -133,5 +133,48 @@ namespace DgSystems.PackageManagerUnitTests.Setup
 
             notifier.Received().Notify(new InstallationFailed(installation.Id, mainPackage.Name, $"Installation failed for package {mainPackage.Name}"));
         }
+
+        [Fact]
+        public async void ExecuteInstallationForPackageWithNestedDependencies()
+        {
+            var dependencyPackage = new Package("java8", "C:\\java8.exe");
+            var nestedDependenciesPackage = new Package("java14", "C:\\java14.exe" , new List<Package> { dependencyPackage });
+
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { nestedDependenciesPackage });
+            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+
+            packageManager.IsPackageValid(mainPackage).Returns(true);
+            packageManager.IsPackageValid(dependencyPackage).Returns(true);
+            packageManager.IsPackageValid(nestedDependenciesPackage).Returns(true);
+
+            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Success);
+            packageManager.InstallAsync(nestedDependenciesPackage).Returns(InstallationStatus.Success);
+
+            var notifier = Substitute.For<Notifier>();
+            var installation = new Installation(packageManager, notifier, new PackageWithDependenciesStrategy());
+            await installation.Install(mainPackage);
+
+            Received.InOrder(() =>
+            {
+                packageManager.Received().IsPackageValid(dependencyPackage);
+                packageManager.Received().IsPackageValid(nestedDependenciesPackage);
+                packageManager.Received().IsPackageValid(mainPackage);
+            });
+
+            Received.InOrder(() =>
+            {
+                packageManager.Received().InstallAsync(dependencyPackage);
+                packageManager.Received().InstallAsync(nestedDependenciesPackage);
+                packageManager.Received().InstallAsync(mainPackage);
+            });
+
+            Received.InOrder(() =>
+            {
+                notifier.Received().Notify(new InstallationExecuted(installation.Id, dependencyPackage.Name));
+                notifier.Received().Notify(new InstallationExecuted(installation.Id, nestedDependenciesPackage.Name));
+                notifier.Received().Notify(new InstallationExecuted(installation.Id, mainPackage.Name));
+            });
+        }
     }
 }

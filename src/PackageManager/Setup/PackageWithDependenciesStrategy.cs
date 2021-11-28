@@ -6,43 +6,60 @@ namespace DgSystems.PackageManager.Setup
     {
         public async Task Install(Guid installationId, Package package, PackageManager packageManager, Notifier notifier)
         {
-            bool areDependenciesInstalled = true;
+            await Install_InternalAsync(installationId, package, packageManager, notifier);
+        }
 
-            foreach (var dependency in package.Dependencies)
+        private async Task<InstallationStatus> Install_InternalAsync(Guid installationId, Package package, PackageManager packageManager, Notifier notifier)
+        {
+            if (package.Dependencies == null || !package.Dependencies.Any())
             {
-                if (!packageManager.IsPackageValid(dependency))
-                    return;
+                return await InstallPackage(installationId, package, packageManager, notifier);
+            }
 
-                var dependencyResult = await packageManager.InstallAsync(dependency);
+            var dependenciesInstallationStatus = await InstallDependencies(installationId, packageManager, notifier, package.Dependencies);
 
-                if (dependencyResult == InstallationStatus.Success)
+            if (dependenciesInstallationStatus == InstallationStatus.Success)
+            {
+                return await InstallPackage(installationId, package, packageManager, notifier);
+            }
+
+            notifier.Notify(new InstallationFailed(installationId, package.Name, "Dependency not installed."));
+            return dependenciesInstallationStatus;
+        }
+
+        private async Task<InstallationStatus> InstallDependencies(Guid installationId, PackageManager packageManager, Notifier notifier, IEnumerable<Package> dependencies)
+        {
+            foreach(var dependency in dependencies)
+            {
+                var installationStatus = await Install_InternalAsync(installationId, dependency, packageManager, notifier);
+                if(installationStatus == InstallationStatus.Failure)
                 {
-                    notifier.Notify(new InstallationExecuted(installationId, dependency.Name));
-                }
-                else
-                {
-                    notifier.Notify(new InstallationFailed(installationId, dependency.Name, $"Installation failed for package {dependency.Name}"));
-                    areDependenciesInstalled = false;
-                    break;
+                    return installationStatus;
                 }
             }
 
-            if (areDependenciesInstalled)
+            return InstallationStatus.Success;
+        }
+
+        private static async Task<InstallationStatus> InstallPackage(Guid installationId, Package package, PackageManager packageManager, Notifier notifier)
+        {
+            if (!packageManager.IsPackageValid(package))
             {
-                if (!packageManager.IsPackageValid(package))
-                {
-                    notifier.Notify(new InstallationRejected(installationId, "Package is invalid."));
-                    return;
-                }
+                notifier.Notify(new InstallationRejected(installationId, "Package is invalid."));
+                return InstallationStatus.Failure;
+            }
 
-                var installationResult = await packageManager.InstallAsync(package);
+            var installationResult = await packageManager.InstallAsync(package);
 
-                if (installationResult == InstallationStatus.Success)
-                    notifier.Notify(new InstallationExecuted(installationId, package.Name));
+            if (installationResult == InstallationStatus.Success)
+            {
+                notifier.Notify(new InstallationExecuted(installationId, package.Name));
+                return InstallationStatus.Success;
             }
             else
             {
-                notifier.Notify(new InstallationFailed(installationId, package.Name, "Dependency not installed."));
+                notifier.Notify(new InstallationFailed(installationId, package.Name, $"Installation failed for package {package.Name}"));
+                return InstallationStatus.Failure;
             }
         }
     }
