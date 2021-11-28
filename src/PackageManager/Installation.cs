@@ -25,7 +25,7 @@ namespace DgSystems.PackageManager
 
         internal void Install(Package program)
         {
-            throw new NotImplementedException();
+            if (program is null) notifier.Notify(new InstallationRejected(Id, "Package is null."));
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Dgsystems.PackageManagerUnitTests
             installation.Install(null);
 
             notifier.Received().Notify(new InstallationRejected(installation.Id, "Package is null."));
+            packageManager.DidNotReceive().Install(Arg.Any<Package>());
         }
     }
 }
