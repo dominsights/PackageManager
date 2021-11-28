@@ -114,8 +114,8 @@ namespace DgSystems.PackageManagerUnitTests.Setup
 
             Received.InOrder(() =>
             {
-                notifier.Received().Notify(new InstallationFailed(installation.Id, dependencyPackage.Name));
-                notifier.Received().Notify(new InstallationFailed(installation.Id, mainPackage.Name));
+                notifier.Received().Notify(new InstallationFailed(installation.Id, dependencyPackage.Name, $"Installation failed for package {dependencyPackage.Name}"));
+                notifier.Received().Notify(new InstallationFailed(installation.Id, mainPackage.Name, "Dependency not installed."));
             });
         }
     }

@@ -37,6 +37,8 @@ namespace DgSystems.PackageManagerUnitTests.Setup
 
             packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Success);
             packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.IsPackageValid(mainPackage).Returns(true);
+            packageManager.IsPackageValid(dependencyPackage).Returns(true);
 
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier, new PackageWithDependenciesStrategy());
@@ -65,21 +67,20 @@ namespace DgSystems.PackageManagerUnitTests.Setup
 
             packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Failure);
             packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.IsPackageValid(mainPackage).Returns(true);
+            packageManager.IsPackageValid(dependencyPackage).Returns(true);
 
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier, new PackageWithDependenciesStrategy());
             await installation.Install(mainPackage);
 
-            Received.InOrder(() =>
-            {
-                packageManager.Received().InstallAsync(dependencyPackage);
-                packageManager.DidNotReceive().InstallAsync(mainPackage);
-            });
+            await packageManager.Received().InstallAsync(dependencyPackage);
+            await packageManager.DidNotReceive().InstallAsync(mainPackage);
 
             Received.InOrder(() =>
             {
-                notifier.Received().Notify(new InstallationRejected(installation.Id, $"Installation failed for package {dependencyPackage.Name}"));
-                notifier.Received().Notify(new InstallationRejected(installation.Id, $"Dependency not installed."));
+                notifier.Received().Notify(new InstallationFailed(installation.Id, dependencyPackage.Name, $"Installation failed for package {dependencyPackage.Name}"));
+                notifier.Received().Notify(new InstallationFailed(installation.Id, mainPackage.Name, $"Dependency not installed."));
             });
         }
     }

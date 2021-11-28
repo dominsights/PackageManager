@@ -1,4 +1,4 @@
 ﻿namespace DgSystems.PackageManager.Setup.Events
 {
-    public record InstallationFailed(Guid id, string name);
+    public record InstallationFailed(Guid id, string name, string reason);
 }

@@ -21,7 +21,7 @@ namespace DgSystems.PackageManager.Setup
                 }
                 else
                 {
-                    notifier.Notify(new InstallationFailed(installationId, dependency.Name));
+                    notifier.Notify(new InstallationFailed(installationId, dependency.Name, $"Installation failed for package {dependency.Name}"));
                     areDependenciesInstalled = false;
                     break;
                 }
@@ -42,7 +42,7 @@ namespace DgSystems.PackageManager.Setup
             }
             else
             {
-                notifier.Notify(new InstallationFailed(installationId, package.Name));
+                notifier.Notify(new InstallationFailed(installationId, package.Name, "Dependency not installed."));
             }
         }
     }
