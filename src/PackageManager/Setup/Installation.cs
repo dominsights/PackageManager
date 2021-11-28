@@ -85,7 +85,7 @@ namespace DgSystems.PackageManager.Setup
             else
             {
                 notifier.Notify(new InstallationFailed(installationId, package.Name, $"Installation failed for package {package.Name}"));
-                return InstallationStatus.Failure;
+                return installationResult;
             }
         }
     }
