@@ -11,15 +11,17 @@ using NSubstitute.ExceptionExtensions;
 
 namespace Dgsystems.PackageManagerUnitTests
 {
-    public class PackageInstallerShould
+    public class InstallationShould
     {
         [Fact]
         public void RejectInstallationWhenPackageIsNull()
         {
             var packageManager = Substitute.For<PackageManager>();
-            var packageInstaller = new PackageInstaller(packageManager);
-            var action = () => packageInstaller.Install(null);
-            action.Should().Throw<InvalidOperationException>().WithMessage("Package is null.");
+            var notifier = Substitute.For<Notifier>();
+            var packageInstaller = new Installation(packageManager, notifier);
+            packageInstaller.Install(null);
+
+            notifier.Received().Notify(new InstallationRejected("Package is null."));
         }
     }
 }

@@ -9,16 +9,18 @@ using System.Threading.Tasks;
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.PackageManager
 {
-    internal class PackageInstaller
+    internal class Installation
     {
         private readonly PackageManager packageManager;
+        private readonly Notifier notifier;
 
-        public PackageInstaller(PackageManager packageManager)
+        public Installation(PackageManager packageManager, Notifier notifier)
         {
             this.packageManager = packageManager;
+            this.notifier = notifier;
         }
 
-        internal InstallationStatus Install(Package program)
+        internal void Install(Package program)
         {
             throw new NotImplementedException();
         }

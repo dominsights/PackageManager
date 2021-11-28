@@ -15,10 +15,12 @@ namespace Dgsystems.PackageManagerUnitTests
             var program = new Package("notepad++", "C:\\setup.exe");
             var packageManager = Substitute.For<PackageManager>();
             packageManager.Install(program).Returns(InstallationStatus.Success);
-            var packageInstaller = new PackageInstaller(packageManager);
-            var installationResult = packageInstaller.Install(program);
+            var notifier = Substitute.For<Notifier>();
+            var packageInstaller = new Installation(packageManager, notifier);
+            packageInstaller.Install(program);
 
-            installationResult.Should().Be(InstallationStatus.Success);
+            notifier.Received().Notify(new InstallationExecuted(program.Name));
+
             packageManager.Received().Install(program);
         }
 
@@ -32,15 +34,21 @@ namespace Dgsystems.PackageManagerUnitTests
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
 
-            var packageInstaller = new PackageInstaller(packageManager);
-            var installationResult = packageInstaller.Install(mainPackage);
+            var notifier = Substitute.For<Notifier>();
+            var packageInstaller = new Installation(packageManager, notifier);
+            packageInstaller.Install(mainPackage);
 
-            installationResult.Should().Be(InstallationStatus.Success);
 
             Received.InOrder(() =>
             {
                 packageManager.Received().Install(dependencyPackage);
                 packageManager.Received().Install(mainPackage);
+            });
+
+            Received.InOrder(() =>
+            {
+                notifier.Received().Notify(new InstallationExecuted(dependencyPackage.Name));
+                notifier.Received().Notify(new InstallationExecuted(mainPackage.Name));
             });
         }
 
@@ -54,15 +62,20 @@ namespace Dgsystems.PackageManagerUnitTests
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
 
-            var packageInstaller = new PackageInstaller(packageManager);
-            var installationResult = packageInstaller.Install(mainPackage);
-
-            installationResult.Should().Be(InstallationStatus.Failure);
+            var notifier = Substitute.For<Notifier>();
+            var packageInstaller = new Installation(packageManager, notifier);
+            packageInstaller.Install(mainPackage);
 
             Received.InOrder(() =>
             {
                 packageManager.Received().Install(dependencyPackage);
                 packageManager.DidNotReceive().Install(mainPackage);
+            });
+
+            Received.InOrder(() =>
+            {
+                notifier.Received().Notify(new InstallationRejected($"Installation failed for package {dependencyPackage.Name}"));
+                notifier.Received().Notify(new InstallationRejected($"Dependency not installed."));
             });
         }
     }
