@@ -20,7 +20,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
             packageManager.IsPackageValid(program).Returns(true);
             packageManager.InstallAsync(program).Returns(InstallationStatus.Success);
             var notifier = Substitute.For<Notifier>();
-            var installation = new Installation(packageManager, notifier, new SinglePackageStrategy());
+            var installation = new Installation(packageManager, notifier);
             await installation.Install(program);
 
             notifier.Received().Notify(new InstallationExecuted(installation.Id, program.Name));
@@ -41,7 +41,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
 
             var notifier = Substitute.For<Notifier>();
-            var installation = new Installation(packageManager, notifier, new PackageWithDependenciesStrategy());
+            var installation = new Installation(packageManager, notifier);
             await installation.Install(mainPackage);
 
 
@@ -71,7 +71,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
 
             var notifier = Substitute.For<Notifier>();
-            var installation = new Installation(packageManager, notifier, new PackageWithDependenciesStrategy());
+            var installation = new Installation(packageManager, notifier);
             await installation.Install(mainPackage);
 
             await packageManager.Received().InstallAsync(dependencyPackage);
