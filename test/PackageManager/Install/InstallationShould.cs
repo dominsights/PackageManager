@@ -1,18 +1,18 @@
 ﻿using DgSystems.PackageManager;
-using DgSystems.PackageManager.Setup;
-using DgSystems.PackageManager.Setup.Events;
+using DgSystems.PackageManager.Install;
+using DgSystems.PackageManager.Install.Events;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DgSystems.PackageManagerUnitTests.Setup
+namespace DgSystems.PackageManagerUnitTests.Install
 {
     public class InstallationShould
     {
         [Fact]
         public async void RejectInstallationWhenPackageIsNull()
         {
-            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
             await installation.Install(null);
@@ -24,7 +24,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         [Fact]
         public async void RejectInstallationWhenPackageIsInvalid()
         {
-            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(Arg.Any<Package>()).Returns(false);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
@@ -40,7 +40,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         public async void ExecuteInstallationForOnePackage()
         {
             var package = new Package("package", "valid_path");
-            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(package).Returns(true);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
@@ -56,7 +56,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
             packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
@@ -90,7 +90,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
             packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
@@ -117,7 +117,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         public async void NotifyWhenInstallationFails()
         {
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe");
-            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Failure);
             var notifier = Substitute.For<Notifier>();
@@ -132,10 +132,10 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         public async void ExecuteInstallationForPackageWithNestedDependencies()
         {
             var dependencyPackage = new Package("java8", "C:\\java8.exe");
-            var nestedDependenciesPackage = new Package("java14", "C:\\java14.exe" , new List<Package> { dependencyPackage });
+            var nestedDependenciesPackage = new Package("java14", "C:\\java14.exe", new List<Package> { dependencyPackage });
 
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { nestedDependenciesPackage });
-            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);

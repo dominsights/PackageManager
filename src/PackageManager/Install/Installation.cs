@@ -1,9 +1,9 @@
-﻿using DgSystems.PackageManager.Setup.Events;
+﻿using DgSystems.PackageManager.Install.Events;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DgSystems.PackageManagerUnitTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace DgSystems.PackageManager.Setup
+namespace DgSystems.PackageManager.Install
 {
     internal class Installation
     {

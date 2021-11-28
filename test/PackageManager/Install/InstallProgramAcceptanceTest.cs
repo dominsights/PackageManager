@@ -1,11 +1,11 @@
 ﻿using DgSystems.PackageManager;
-using DgSystems.PackageManager.Setup;
-using DgSystems.PackageManager.Setup.Events;
+using DgSystems.PackageManager.Install;
+using DgSystems.PackageManager.Install.Events;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DgSystems.PackageManagerUnitTests.Setup
+namespace DgSystems.PackageManagerUnitTests.Install
 {
     public class InstallProgramAcceptanceTest
     {
@@ -14,7 +14,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         public async void InstallSimpleProgramAsync()
         {
             var program = new Package("notepad++", "C:\\setup.exe");
-            var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(program).Returns(true);
             packageManager.InstallAsync(program).Returns(InstallationStatus.Success);
             var notifier = Substitute.For<Notifier>();
@@ -31,7 +31,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
             packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Success);
             packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
@@ -61,7 +61,7 @@ namespace DgSystems.PackageManagerUnitTests.Setup
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
             packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Failure);
             packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
