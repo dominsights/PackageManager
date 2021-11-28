@@ -1,10 +1,12 @@
 ﻿using DgSystems.PackageManager;
+using DgSystems.PackageManager.Setup;
+using DgSystems.PackageManager.Setup.Events;
 using FluentAssertions;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Dgsystems.PackageManagerUnitTests
+namespace DgSystems.PackageManagerUnitTests.Setup
 {
     public class InstallProgramAcceptanceTest
     {
@@ -13,7 +15,7 @@ namespace Dgsystems.PackageManagerUnitTests
         public void InstallSimpleProgram()
         {
             var program = new Package("notepad++", "C:\\setup.exe");
-            var packageManager = Substitute.For<PackageManager>();
+            var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
             packageManager.Install(program).Returns(InstallationStatus.Success);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
@@ -29,7 +31,7 @@ namespace Dgsystems.PackageManagerUnitTests
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager>();
+            var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
@@ -57,7 +59,7 @@ namespace Dgsystems.PackageManagerUnitTests
         {
             var dependencyPackage = new Package("java", "C:\\java.exe");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager>();
+            var packageManager = Substitute.For<DgSystems.PackageManager.Setup.PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);

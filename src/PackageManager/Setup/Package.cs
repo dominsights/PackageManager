@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace DgSystems.PackageManager
+namespace DgSystems.PackageManager.Setup
 {
     internal class Package
     {
@@ -9,8 +9,8 @@ namespace DgSystems.PackageManager
 
         public Package(string name, string path)
         {
-            this.Name = name;
-            this.Path = path;
+            Name = name;
+            Path = path;
         }
 
         public Package(string name, string path, IEnumerable<Package> dependencies) : this(name, path)

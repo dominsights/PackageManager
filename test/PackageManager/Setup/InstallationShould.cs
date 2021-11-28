@@ -8,15 +8,17 @@ using Xunit;
 using DgSystems.PackageManager;
 using FluentAssertions;
 using NSubstitute.ExceptionExtensions;
+using DgSystems.PackageManager.Setup;
+using DgSystems.PackageManager.Setup.Events;
 
-namespace Dgsystems.PackageManagerUnitTests
+namespace DgSystems.PackageManagerUnitTests.Setup
 {
     public class InstallationShould
     {
         [Fact]
         public void RejectInstallationWhenPackageIsNull()
         {
-            var packageManager = Substitute.For<PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
             installation.Install(null);
