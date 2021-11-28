@@ -24,9 +24,12 @@ namespace DgSystems.PackageManager.Setup
 
         public Guid Id { get; internal set; }
 
-        internal void Install(Package program)
+        internal void Install(Package package)
         {
-            if (program is null) notifier.Notify(new InstallationRejected(Id, "Package is null."));
+            if (package is null) 
+                notifier.Notify(new InstallationRejected(Id, "Package is null."));
+            if (!packageManager.IsPackageValid(package)) 
+                notifier.Notify(new InstallationRejected(Id, "Package is invalid."));
         }
     }
 }

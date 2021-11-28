@@ -26,5 +26,20 @@ namespace DgSystems.PackageManagerUnitTests.Setup
             notifier.Received().Notify(new InstallationRejected(installation.Id, "Package is null."));
             packageManager.DidNotReceive().Install(Arg.Any<Package>());
         }
+
+        [Fact]
+        public void RejectInstallationWhenPackageIsInvalid()
+        {
+            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            packageManager.IsPackageValid(Arg.Any<Package>()).Returns(false);
+            var notifier = Substitute.For<Notifier>();
+            var installation = new Installation(packageManager, notifier);
+            var invalidPackage = new Package("package", "invalid_path");
+            installation.Install(invalidPackage);
+
+            notifier.Received().Notify(new InstallationRejected(installation.Id, "Package is invalid."));
+            packageManager.DidNotReceive().Install(Arg.Any<Package>());
+            packageManager.Received().IsPackageValid(invalidPackage);
+        }
     }
 }
