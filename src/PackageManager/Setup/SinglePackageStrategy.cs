@@ -21,6 +21,8 @@ namespace DgSystems.PackageManager.Setup
 
             if (installationResult == InstallationStatus.Success)
                 notifier.Notify(new InstallationExecuted(installationId, package.Name));
+            else
+                notifier.Notify(new InstallationFailed(installationId, package.Name, $"Installation failed for package {package.Name}"));
         }
     }
 }

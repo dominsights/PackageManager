@@ -118,5 +118,20 @@ namespace DgSystems.PackageManagerUnitTests.Setup
                 notifier.Received().Notify(new InstallationFailed(installation.Id, mainPackage.Name, "Dependency not installed."));
             });
         }
+
+        [Fact]
+        public async void NotifyWhenInstallationFails()
+        {
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe");
+            var packageManager = Substitute.For<PackageManager.Setup.PackageManager>();
+            packageManager.IsPackageValid(mainPackage).Returns(true);
+            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Failure);
+            var notifier = Substitute.For<Notifier>();
+
+            var installation = new Installation(packageManager, notifier, new SinglePackageStrategy());
+            await installation.Install(mainPackage);
+
+            notifier.Received().Notify(new InstallationFailed(installation.Id, mainPackage.Name, $"Installation failed for package {mainPackage.Name}"));
+        }
     }
 }
