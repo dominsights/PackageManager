@@ -1,10 +1,8 @@
 ﻿using DgSystems.PackageManager;
 using DgSystems.PackageManager.Setup;
 using DgSystems.PackageManager.Setup.Events;
-using FluentAssertions;
 using NSubstitute;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DgSystems.PackageManagerUnitTests.Setup

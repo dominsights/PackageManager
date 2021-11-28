@@ -1,15 +1,9 @@
-﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using DgSystems.PackageManager;
-using FluentAssertions;
-using NSubstitute.ExceptionExtensions;
+﻿using DgSystems.PackageManager;
 using DgSystems.PackageManager.Setup;
 using DgSystems.PackageManager.Setup.Events;
+using NSubstitute;
+using System.Collections.Generic;
+using Xunit;
 
 namespace DgSystems.PackageManagerUnitTests.Setup
 {
