@@ -2,7 +2,7 @@
 
 namespace DgSystems.PackageManager.Install
 {
-    internal class Package
+    public class Package
     {
         private string name;
         private string path;

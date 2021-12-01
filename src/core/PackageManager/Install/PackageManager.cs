@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.Install
 {
-    internal interface PackageManager
+    public interface PackageManager
     {
         Task<InstallationStatus> InstallAsync(Package package);
         bool IsPackageValid(Package package);
