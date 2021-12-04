@@ -10,15 +10,10 @@ using ScoopClass = DgSystems.Scoop.Scoop;
 
 namespace DgSystems.ScoopUnitTests
 {
-    public class InstallScoopPackageAcceptanceTest
+    public class ScoopShould
     {
-        // create bucket if it doesn't exist yet
-        // download package from path provided
-        // update bucket with new package
-        // install package
-
         [Fact]
-        public void InstallScoopPackage()
+        public async Task UpdateManifestWhenNewPackageIsReceivedAsync()
         {
             var console = Substitute.For<CommandLineShell>();
             var repository = Substitute.For<Repository>();
@@ -26,8 +21,10 @@ namespace DgSystems.ScoopUnitTests
             var bucket = new Bucket("my_bucket");
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, repository, bucketList);
-            scoop.InstallAsync(new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip"));
-            console.Received().Execute("scoop install notepad-plus-plus");
+            var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
+
+            await scoop.InstallAsync(package);
+            repository.Received().Sync(bucket, package);
         }
     }
 }
