@@ -10,19 +10,20 @@ namespace DgSystems.ScoopUnitTests
     public class BucketShould
     {
         private const string extractedTempFolder = "C://temp/notepad-plus-plus";
-        CommandLineShell console = Substitute.For<CommandLineShell>();
-        IFile file = Substitute.For<IFile>();
+        private const string packageUrl = "http://localhost/packages/notepad-plus-plus.zip";
+        readonly CommandLineShell console = Substitute.For<CommandLineShell>();
+        readonly IFile file = Substitute.For<IFile>();
 
         [Fact]
         public void DownloadPackage()
         {
             string bucketPath = "C://my_bucket";
-            Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
+            Package package = new Package("notepad-plus-plus", packageUrl);
             BucketMock bucket = new BucketMock("my_bucket", bucketPath, console, file); // doing too much, too many dependencies
             string packageDownloadedPath = "C://downloads/notepad-plus-plus.zip";
             bucket.Sync(package);
 
-            Assert.Equal(packageDownloadedPath, bucket.Address.AbsoluteUri);
+            Assert.Equal(packageUrl, bucket.Address.AbsoluteUri);
             Assert.Equal(packageDownloadedPath, bucket.FileName);
         }
 
