@@ -8,6 +8,6 @@ namespace DgSystems.Scoop
 {
     internal interface Downloader
     {
-        void DownloadFile(Uri address, string outputPath);
+        string DownloadFile(Uri address, string outputPath);
     }
 }

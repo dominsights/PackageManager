@@ -6,20 +6,28 @@ namespace DgSystems.Scoop
 {
     internal class Bucket
     {
+        private const string tempFolder = "C://temp/";
         private string name;
-        private readonly string folder;
+        private readonly string rootFolder;
         private CommandLineShell console;
+        private readonly IFile file;
+        private readonly Downloader downloader;
 
-        public Bucket(string name, string folder, CommandLineShell console, IFile file, Downloader downloader)
+        public Bucket(string name, string rootFolder, CommandLineShell console, IFile file, Downloader downloader)
         {
             this.console = console;
+            this.file = file;
+            this.downloader = downloader;
             this.name = name;
-            this.folder = folder;
+            this.rootFolder = rootFolder;
         }
 
-        internal void Sync(Package package)
+        internal void Sync(Package package, string downloadFolder)
         {
-            throw new NotImplementedException();
+            string outputPath = downloader.DownloadFile(new Uri(package.Path), downloadFolder);
+            string extractedTempFolder = tempFolder + package.Name;
+            ExtractToDirectory(outputPath, extractedTempFolder);
+            file.Copy($"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json");
         }
 
         protected virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)

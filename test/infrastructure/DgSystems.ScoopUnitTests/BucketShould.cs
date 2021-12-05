@@ -11,8 +11,11 @@ namespace DgSystems.ScoopUnitTests
     {
         private const string extractedTempFolder = "C://temp/notepad-plus-plus";
         private const string packageUrl = "http://localhost/packages/notepad-plus-plus.zip";
-        private const string bucketRoot = "C://my_bucket";
-        private const string packageDownloadedPath = "C://downloads/notepad-plus-plus.zip";
+        private const string bucketName = "my_bucket";
+        private const string bucketRoot = $"C://{bucketName}";
+        private const string downloadFolder = "C://downloads";
+        private const string packageName = "notepad-plus-plus";
+        private const string packageDownloadedPath = $"{downloadFolder}/{packageName}.zip";
 
         readonly CommandLineShell console = Substitute.For<CommandLineShell>();
         readonly Downloader downloader = Substitute.For<Downloader>();
@@ -21,19 +24,20 @@ namespace DgSystems.ScoopUnitTests
         [Fact]
         public void DownloadPackage()
         {
-            Package package = new Package("notepad-plus-plus", packageUrl);
-            BucketMock bucket = new BucketMock("my_bucket", bucketRoot, console, file, downloader);
-            bucket.Sync(package);
+            Package package = new Package(packageName, packageUrl);
+            BucketMock bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
+            bucket.Sync(package, downloadFolder);
 
-            downloader.Received().DownloadFile(new Uri(packageUrl), packageDownloadedPath);
+            downloader.Received().DownloadFile(new Uri(packageUrl), downloadFolder);
         }
 
         [Fact]
         public void UnzipPackage()
         {
-            Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
-            BucketMock bucket = new BucketMock("my_bucket", bucketRoot, console, file, downloader);
-            bucket.Sync(package);
+            Package package = new Package(packageName, packageUrl);
+            downloader.DownloadFile(new Uri(packageUrl), downloadFolder).Returns(packageDownloadedPath);
+            BucketMock bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
+            bucket.Sync(package, downloadFolder);
 
             Assert.Equal(packageDownloadedPath, bucket.SourceArchiveFileName);
             Assert.Equal(extractedTempFolder, bucket.DestinationDirectoryName);
@@ -42,11 +46,11 @@ namespace DgSystems.ScoopUnitTests
         [Fact]
         public void CopyManifestFiles()
         {
-            Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
-            Bucket bucket = new BucketMock("my_bucket", bucketRoot, console, file, downloader);
-            bucket.Sync(package);
+            Package package = new Package(packageName, packageUrl);
+            Bucket bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
+            bucket.Sync(package, downloadFolder);
 
-            file.Received().Copy($"{extractedTempFolder}/notepad-plus-plus.json", $"{bucketRoot}/manifests/notepad-plus-plus.json");
+            file.Received().Copy($"{extractedTempFolder}/{packageName}.json", $"{bucketRoot}/manifests/{packageName}.json");
         }
     }
 }
