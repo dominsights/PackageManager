@@ -22,7 +22,7 @@ namespace DgSystems.ScoopUnitTests
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList);
 
-            await scoop.InstallAsync(package);
+            await scoop.Install(package);
             bucket.Received().Sync(package);
         }
     }

@@ -25,7 +25,7 @@ namespace DgSystems.ScoopUnitTests
             var bucket = new Bucket(console, "my_bucket");
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList);
-            scoop.InstallAsync(new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip"));
+            scoop.Install(new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip"));
             console.Received().Execute("scoop install notepad-plus-plus");
         }
     }

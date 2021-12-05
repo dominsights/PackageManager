@@ -29,7 +29,7 @@ namespace DgSystems.Scoop
 
 
 
-        public Task<InstallationStatus> InstallAsync(Package package)
+        public Task<InstallationStatus> Install(Package package)
         {
             throw new NotImplementedException();
         }

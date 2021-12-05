@@ -16,14 +16,14 @@ namespace DgSystems.PackageManagerUnitTests.Install
             var program = new Package("notepad++", "C:\\setup.exe");
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(program).Returns(true);
-            packageManager.InstallAsync(program).Returns(InstallationStatus.Success);
+            packageManager.Install(program).Returns(InstallationStatus.Success);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
             await installation.Install(program);
 
             notifier.Received().Notify(new InstallationExecuted(installation.Id, program.Name));
 
-            await packageManager.Received().InstallAsync(program);
+            await packageManager.Received().Install(program);
         }
 
         [Fact]
@@ -33,8 +33,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
-            packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Success);
-            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
+            packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
 
@@ -45,8 +45,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
 
             Received.InOrder(() =>
             {
-                packageManager.Received().InstallAsync(dependencyPackage);
-                packageManager.Received().InstallAsync(mainPackage);
+                packageManager.Received().Install(dependencyPackage);
+                packageManager.Received().Install(mainPackage);
             });
 
             Received.InOrder(() =>
@@ -63,8 +63,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
-            packageManager.InstallAsync(dependencyPackage).Returns(InstallationStatus.Failure);
-            packageManager.InstallAsync(mainPackage).Returns(InstallationStatus.Success);
+            packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);
+            packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
 
@@ -72,8 +72,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
             var installation = new Installation(packageManager, notifier);
             await installation.Install(mainPackage);
 
-            await packageManager.Received().InstallAsync(dependencyPackage);
-            await packageManager.DidNotReceive().InstallAsync(mainPackage);
+            await packageManager.Received().Install(dependencyPackage);
+            await packageManager.DidNotReceive().Install(mainPackage);
 
             Received.InOrder(() =>
             {

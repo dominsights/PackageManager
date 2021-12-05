@@ -9,7 +9,7 @@ using Xunit;
 
 namespace DgSystems.ScoopUnitTests
 {
-    public class RepositoryShould
+    public class BucketShould
     {
         [Fact]
         public void MyTestMethod()

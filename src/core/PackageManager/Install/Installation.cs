@@ -75,7 +75,7 @@ namespace DgSystems.PackageManager.Install
                 return InstallationStatus.Failure;
             }
 
-            var installationResult = await packageManager.InstallAsync(package);
+            var installationResult = await packageManager.Install(package);
 
             if (installationResult == InstallationStatus.Success)
             {
