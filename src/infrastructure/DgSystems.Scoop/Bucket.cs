@@ -1,12 +1,6 @@
 ﻿using DgSystems.PackageManager.Install;
-using System;
-using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DgSystems.Scoop
 {
@@ -16,7 +10,7 @@ namespace DgSystems.Scoop
         private readonly string folder;
         private CommandLineShell console;
 
-        public Bucket(string name, string folder, CommandLineShell console, IFile file)
+        public Bucket(string name, string folder, CommandLineShell console, IFile file, Downloader downloader)
         {
             this.console = console;
             this.name = name;
@@ -31,11 +25,6 @@ namespace DgSystems.Scoop
         protected virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
         {
             ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
-        }
-
-        protected virtual void DownloadFile(Uri address, string fileName)
-        {
-            throw new NotImplementedException();
         }
     }
 }

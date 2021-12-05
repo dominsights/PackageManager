@@ -11,29 +11,28 @@ namespace DgSystems.ScoopUnitTests
     {
         private const string extractedTempFolder = "C://temp/notepad-plus-plus";
         private const string packageUrl = "http://localhost/packages/notepad-plus-plus.zip";
+        private const string bucketRoot = "C://my_bucket";
+        private const string packageDownloadedPath = "C://downloads/notepad-plus-plus.zip";
+
         readonly CommandLineShell console = Substitute.For<CommandLineShell>();
+        readonly Downloader downloader = Substitute.For<Downloader>();
         readonly IFile file = Substitute.For<IFile>();
 
         [Fact]
         public void DownloadPackage()
         {
-            string bucketPath = "C://my_bucket";
             Package package = new Package("notepad-plus-plus", packageUrl);
-            BucketMock bucket = new BucketMock("my_bucket", bucketPath, console, file); // doing too much, too many dependencies
-            string packageDownloadedPath = "C://downloads/notepad-plus-plus.zip";
+            BucketMock bucket = new BucketMock("my_bucket", bucketRoot, console, file, downloader);
             bucket.Sync(package);
 
-            Assert.Equal(packageUrl, bucket.Address.AbsoluteUri);
-            Assert.Equal(packageDownloadedPath, bucket.FileName);
+            downloader.Received().DownloadFile(new Uri(packageUrl), packageDownloadedPath);
         }
 
         [Fact]
         public void UnzipPackage()
         {
-            string bucketPath = "C://my_bucket";
             Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
-            BucketMock bucket = new BucketMock("my_bucket", bucketPath, console, file); // doing too much, too many dependencies
-            string packageDownloadedPath = "C://downloads/notepad-plus-plus.zip";
+            BucketMock bucket = new BucketMock("my_bucket", bucketRoot, console, file, downloader);
             bucket.Sync(package);
 
             Assert.Equal(packageDownloadedPath, bucket.SourceArchiveFileName);
@@ -43,12 +42,11 @@ namespace DgSystems.ScoopUnitTests
         [Fact]
         public void CopyManifestFiles()
         {
-            string bucketPath = "C://my_bucket";
             Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
-            Bucket bucket = new BucketMock("my_bucket", bucketPath, console, file);
+            Bucket bucket = new BucketMock("my_bucket", bucketRoot, console, file, downloader);
             bucket.Sync(package);
 
-            file.Received().Copy($"{extractedTempFolder}/notepad-plus-plus.json", $"{bucketPath}/manifests/notepad-plus-plus.json");
+            file.Received().Copy($"{extractedTempFolder}/notepad-plus-plus.json", $"{bucketRoot}/manifests/notepad-plus-plus.json");
         }
     }
 }

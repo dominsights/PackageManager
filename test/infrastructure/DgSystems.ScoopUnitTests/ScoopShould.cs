@@ -17,7 +17,7 @@ namespace DgSystems.ScoopUnitTests
             IFile file = Substitute.For<IFile>();
             string bucketPath = "C://my_bucket";
 
-            var bucket = new Bucket("my_bucket", bucketPath, console, file);
+            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>());
             var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList);
