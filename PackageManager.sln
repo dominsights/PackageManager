@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.ScoopUnitTests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{1B2AFD33-21B5-4465-BAA7-7332C43B778C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.FileSystem", "src\infrastructure\DgSystems.FileSystem\DgSystems.FileSystem.csproj", "{69A859D5-061E-419F-B962-17ABBAB057F0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{13C95116-C8E8-4AE4-A811-C74E4FBF2D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13C95116-C8E8-4AE4-A811-C74E4FBF2D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13C95116-C8E8-4AE4-A811-C74E4FBF2D80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{69A859D5-061E-419F-B962-17ABBAB057F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69A859D5-061E-419F-B962-17ABBAB057F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69A859D5-061E-419F-B962-17ABBAB057F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69A859D5-061E-419F-B962-17ABBAB057F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,7 +58,6 @@ Global
 		{7315B483-2D08-4B79-8F7E-736A3627C2B5} = {0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}
 		{13C95116-C8E8-4AE4-A811-C74E4FBF2D80} = {1B2AFD33-21B5-4465-BAA7-7332C43B778C}
 		{1B2AFD33-21B5-4465-BAA7-7332C43B778C} = {0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}
-		{69A859D5-061E-419F-B962-17ABBAB057F0} = {98FDEBC4-36DD-44E5-8F0F-1824404C0316}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD6A86CD-FBE0-4EB4-BFD6-5D889954240F}

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace DgSystems.Scoop
         private readonly string folder;
         private CommandLineShell console;
 
-        public Bucket(string name, string folder, CommandLineShell console, IFile file, ZipFile zipFile)
+        public Bucket(string name, string folder, CommandLineShell console, IFile file)
         {
             this.console = console;
             this.name = name;
@@ -24,6 +25,11 @@ namespace DgSystems.Scoop
         internal void Sync(Package package)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
+        {
+            ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
         }
     }
 }
