@@ -1,26 +1,25 @@
-﻿using DgSystems.Scoop;
+﻿using DgSystems.PackageManager.Install;
+using DgSystems.Scoop;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO.Abstractions;
 using Xunit;
 
 namespace DgSystems.ScoopUnitTests
 {
     public class BucketShould
     {
+        CommandLineShell console = Substitute.For<CommandLineShell>();
+        IFile file = Substitute.For<IFile>();
+
         [Fact]
-        public void MyTestMethod()
+        public void CopyManifestFiles()
         {
-            var console = Substitute.For<CommandLineShell>();
-            var bucket = new Bucket(console, "my_bucket");
-            var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
+            string bucketPath = "C://my_bucket";
+            Bucket bucket = new Bucket("my_bucket", bucketPath, console, file);
+            Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
             bucket.Sync(package);
 
-
-            throw new NotImplementedException();
+            file.Received().Copy("C://temp/notepad-plus-plus/notepad-plus-plus.json", $"{bucketPath}/manifests/notepad-plus-plus.json");
         }
     }
 }

@@ -2,6 +2,7 @@
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,10 @@ namespace DgSystems.ScoopUnitTests
         public void InstallScoopPackage()
         {
             var console = Substitute.For<CommandLineShell>();
+            var file = Substitute.For<IFile>();
             var bucketList = new BucketList();
-            var bucket = new Bucket(console, "my_bucket");
+            var bucketPath = "C://my_bucket";
+            var bucket = new Bucket("my_bucket", bucketPath, console, file);
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList);
             scoop.Install(new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip"));
