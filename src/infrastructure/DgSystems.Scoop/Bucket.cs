@@ -14,7 +14,7 @@ namespace DgSystems.Scoop
         private readonly string folder;
         private CommandLineShell console;
 
-        public Bucket(string name, string folder, CommandLineShell console, IFile file)
+        public Bucket(string name, string folder, CommandLineShell console, IFile file, ZipFile zipFile)
         {
             this.console = console;
             this.name = name;
