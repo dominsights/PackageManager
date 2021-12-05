@@ -28,12 +28,12 @@ namespace DgSystems.Scoop
             throw new NotImplementedException();
         }
 
-        public virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
+        protected virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
         {
             ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
         }
 
-        public virtual void DownloadFile(Uri address, string fileName)
+        protected virtual void DownloadFile(Uri address, string fileName)
         {
             throw new NotImplementedException();
         }
