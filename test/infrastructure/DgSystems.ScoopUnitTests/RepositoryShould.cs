@@ -6,24 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using ScoopClass = DgSystems.Scoop.Scoop;
 
 namespace DgSystems.ScoopUnitTests
 {
-    public class ScoopShould
+    public class RepositoryShould
     {
         [Fact]
-        public async Task UpdateManifestWhenNewPackageIsReceivedAsync()
+        public void MyTestMethod()
         {
             var console = Substitute.For<CommandLineShell>();
-            var bucketList = new BucketList();
             var bucket = new Bucket(console, "my_bucket");
             var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
-            bucketList.Add(bucket);
-            var scoop = new ScoopClass(console, bucketList);
+            bucket.Sync(package);
 
-            await scoop.InstallAsync(package);
-            bucket.Received().Sync(package);
+
+            throw new NotImplementedException();
         }
     }
 }

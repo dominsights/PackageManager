@@ -14,7 +14,7 @@ namespace DgSystems.Scoop
     {
         private CommandLineShell console;
 
-        public Scoop(CommandLineShell console, Repository manifest, BucketList bucketList)
+        public Scoop(CommandLineShell console, BucketList bucketList)
         {
             this.console = console;
         }

@@ -21,11 +21,10 @@ namespace DgSystems.ScoopUnitTests
         public void InstallScoopPackage()
         {
             var console = Substitute.For<CommandLineShell>();
-            var repository = Substitute.For<Repository>();
             var bucketList = new BucketList();
-            var bucket = new Bucket("my_bucket");
+            var bucket = new Bucket(console, "my_bucket");
             bucketList.Add(bucket);
-            var scoop = new ScoopClass(console, repository, bucketList);
+            var scoop = new ScoopClass(console, bucketList);
             scoop.InstallAsync(new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip"));
             console.Received().Execute("scoop install notepad-plus-plus");
         }

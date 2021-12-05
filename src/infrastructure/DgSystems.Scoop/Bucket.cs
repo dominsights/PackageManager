@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DgSystems.PackageManager.Install;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,17 @@ namespace DgSystems.Scoop
     {
         private string v;
 
-        public Bucket(string v)
+        private CommandLineShell console;
+
+        public Bucket(CommandLineShell console, string v)
         {
+            this.console = console;
             this.v = v;
+        }
+
+        internal void Sync(Package package)
+        {
+            throw new NotImplementedException();
         }
     }
 }
