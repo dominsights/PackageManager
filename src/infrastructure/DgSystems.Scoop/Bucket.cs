@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,11 @@ namespace DgSystems.Scoop
         public virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
         {
             ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
+        }
+
+        public virtual void DownloadFile(Uri address, string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

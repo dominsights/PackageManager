@@ -18,10 +18,12 @@ namespace DgSystems.ScoopUnitTests
         {
             string bucketPath = "C://my_bucket";
             Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
-            Bucket bucket = new BucketMock("my_bucket", bucketPath, console, file); // doing too much, too many dependencies
+            BucketMock bucket = new BucketMock("my_bucket", bucketPath, console, file); // doing too much, too many dependencies
             string packageDownloadedPath = "C://downloads/notepad-plus-plus.zip";
             bucket.Sync(package);
 
+            Assert.Equal(packageDownloadedPath, bucket.Address.AbsoluteUri);
+            Assert.Equal(packageDownloadedPath, bucket.FileName);
         }
 
         [Fact]

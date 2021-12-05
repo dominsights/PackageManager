@@ -16,11 +16,19 @@ namespace DgSystems.ScoopUnitTests
 
         public string SourceArchiveFileName { get; internal set; }
         public string DestinationDirectoryName { get; internal set; }
+        public Uri Address { get; private set; }
+        public string FileName { get; private set; }
 
         public override void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
         {
             SourceArchiveFileName = sourceArchiveFileName;
             DestinationDirectoryName = destinationDirectoryName;
+        }
+
+        public override void DownloadFile(Uri address, string fileName)
+        {
+            Address = address;
+            FileName = fileName;
         }
     }
 }
