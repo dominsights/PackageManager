@@ -18,7 +18,6 @@ namespace DgSystems.ScoopUnitTests
             string bucketPath = "C://my_bucket";
             string downloadFolder = "C://downloads";
 
-
             var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>());
             var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
             bucketList.Add(bucket);

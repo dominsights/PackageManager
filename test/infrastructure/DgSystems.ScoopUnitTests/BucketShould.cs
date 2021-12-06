@@ -2,7 +2,9 @@
 using DgSystems.Scoop;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Linq;
 using Xunit;
 
 namespace DgSystems.ScoopUnitTests
@@ -51,6 +53,32 @@ namespace DgSystems.ScoopUnitTests
             bucket.Sync(package, downloadFolder);
 
             file.Received().Copy($"{extractedTempFolder}/{packageName}.json", $"{bucketRoot}/manifests/{packageName}.json");
+        }
+
+        [Fact]
+        public void NotTryToUnzipAndCopyPackageWhenDownloadFails()
+        {
+            Package package = new Package(packageName, packageUrl);
+            BucketMock bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
+            downloader.When(x => x.DownloadFile(Arg.Any<Uri>(), Arg.Any<string>())).Do(x => throw new Exception());
+            Assert.Throws<Exception>(() => bucket.Sync(package, downloadFolder));
+
+            Assert.Null(bucket.SourceArchiveFileName);
+            Assert.Null(bucket.DestinationDirectoryName);
+            file.DidNotReceive().Copy(Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void SyncGitRepository()
+        {
+            Package package = new Package(packageName, packageUrl);
+            Bucket bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
+            bucket.Sync(package, downloadFolder);
+
+            string moveToFolder = $"cd {bucketRoot}/manifests";
+            string gitAdd = "git add .";
+            string gitCommit = "git commit -m \"Sync\"";
+            console.Received().Execute(Arg.Is<List<string>>(x => x.SequenceEqual(new List<string> { moveToFolder, gitAdd, gitCommit })));
         }
     }
 }

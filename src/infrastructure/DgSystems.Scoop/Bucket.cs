@@ -28,6 +28,13 @@ namespace DgSystems.Scoop
             string extractedTempFolder = tempFolder + package.Name;
             ExtractToDirectory(outputPath, extractedTempFolder);
             file.Copy($"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json");
+
+            console.Execute(new List<string>
+            {
+                $"cd {rootFolder}/manifests",
+                "git add .",
+                "git commit -m \"Sync\""
+            });
         }
 
         protected virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)
