@@ -35,6 +35,8 @@ namespace DgSystems.Scoop
                 "git add .",
                 "git commit -m \"Sync\""
             });
+
+            file.Copy($"{extractedTempFolder}/{package.Name}.exe", $"{rootFolder}/packages/{package.Name}.exe");
         }
 
         protected virtual void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName)

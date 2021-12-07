@@ -80,5 +80,15 @@ namespace DgSystems.ScoopUnitTests
             string gitCommit = "git commit -m \"Sync\"";
             console.Received().Execute(Arg.Is<List<string>>(x => x.SequenceEqual(new List<string> { moveToFolder, gitAdd, gitCommit })));
         }
+
+        [Fact]
+        public void CopySetupFiles()
+        {
+            Package package = new Package(packageName, packageUrl);
+            Bucket bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
+            bucket.Sync(package, downloadFolder);
+
+            file.Received().Copy($"{extractedTempFolder}/{packageName}.exe", $"{bucketRoot}/packages/{packageName}.exe");
+        }
     }
 }
