@@ -13,7 +13,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void InstallSimpleProgramAsync()
         {
-            var program = new Package("notepad++", "C:\\setup.exe");
+            var program = new Package("notepad++", "C:\\setup.exe", "setup.zip");
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(program).Returns(true);
             packageManager.Install(program).Returns(InstallationStatus.Success);
@@ -29,8 +29,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void InstallPackageWithDependenciesAsync()
         {
-            var dependencyPackage = new Package("java", "C:\\java.exe");
-            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
+            var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
@@ -59,8 +59,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void DontInstallPackageWithDependenciesIfDependencyInstallationFailsAsync()
         {
-            var dependencyPackage = new Package("java", "C:\\java.exe");
-            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
+            var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);

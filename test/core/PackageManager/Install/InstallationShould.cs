@@ -28,7 +28,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
             packageManager.IsPackageValid(Arg.Any<Package>()).Returns(false);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
-            var invalidPackage = new Package("package", "invalid_path");
+            var invalidPackage = new Package("package", "invalid_path", "file_name");
             await installation.Install(invalidPackage);
 
             notifier.Received().Notify(new InstallationRejected(installation.Id, "Package is invalid."));
@@ -39,7 +39,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void ExecuteInstallationForOnePackage()
         {
-            var package = new Package("package", "valid_path");
+            var package = new Package("package", "valid_path", "valid_file_name");
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(package).Returns(true);
             var notifier = Substitute.For<Notifier>();
@@ -54,8 +54,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void ExecuteInstallationForPackageWithDependency()
         {
-            var dependencyPackage = new Package("java", "C:\\java.exe");
-            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
+            var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
@@ -88,8 +88,8 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void NotInstallPackageWithDependencyFailed()
         {
-            var dependencyPackage = new Package("java", "C:\\java.exe");
-            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { dependencyPackage });
+            var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
@@ -116,7 +116,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void NotifyWhenInstallationFails()
         {
-            var mainPackage = new Package("eclipse", "C:\\eclipse.exe");
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip");
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Failure);
@@ -131,10 +131,10 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void ExecuteInstallationForPackageWithNestedDependencies()
         {
-            var dependencyPackage = new Package("java8", "C:\\java8.exe");
-            var nestedDependenciesPackage = new Package("java14", "C:\\java14.exe", new List<Package> { dependencyPackage });
+            var dependencyPackage = new Package("java8", "C:\\java8.exe", "java8.zip");
+            var nestedDependenciesPackage = new Package("java14", "C:\\java14.exe", "java14.zip", new List<Package> { dependencyPackage });
 
-            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", new List<Package> { nestedDependenciesPackage });
+            var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { nestedDependenciesPackage });
             var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
 
             packageManager.IsPackageValid(mainPackage).Returns(true);

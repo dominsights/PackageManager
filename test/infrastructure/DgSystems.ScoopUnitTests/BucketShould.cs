@@ -1,5 +1,6 @@
 ﻿using DgSystems.PackageManager.Install;
 using DgSystems.Scoop;
+using DgSystems.Scoop.Buckets;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,23 @@ namespace DgSystems.ScoopUnitTests
         private const string downloadFolder = "C://downloads";
         private const string packageName = "notepad-plus-plus";
         private const string packageDownloadedPath = $"{downloadFolder}/{packageName}.zip";
+        private const string packageFileName = $"{ packageName }.zip";
 
         readonly CommandLineShell console = Substitute.For<CommandLineShell>();
         readonly Downloader downloader = Substitute.For<Downloader>();
         readonly IFile file = Substitute.For<IFile>();
+        private string SourceArchiveFileName;
+        private string DestinationDirectoryName;
 
         [Fact]
         public void DownloadPackage()
         {
-            Package package = new Package(packageName, packageUrl);
-            BucketMock bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
-            bucket.Sync(package, downloadFolder);
+            Package package = new Package(packageName, packageUrl, packageFileName);
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+
+            // (source, destination) => ZipFile.ExtractToDirectory(source, destination)
+
+            bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             downloader.Received().DownloadFile(new Uri(packageUrl), downloadFolder);
         }
@@ -36,44 +43,31 @@ namespace DgSystems.ScoopUnitTests
         [Fact]
         public void UnzipPackage()
         {
-            Package package = new Package(packageName, packageUrl);
+            Package package = new Package(packageName, packageUrl, packageFileName);
             downloader.DownloadFile(new Uri(packageUrl), downloadFolder).Returns(packageDownloadedPath);
-            BucketMock bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
-            bucket.Sync(package, downloadFolder);
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            bucket.Sync(package, downloadFolder, (x, y) => { SourceArchiveFileName = x; DestinationDirectoryName = y; });
 
-            Assert.Equal(packageDownloadedPath, bucket.SourceArchiveFileName);
-            Assert.Equal(extractedTempFolder, bucket.DestinationDirectoryName);
+            Assert.Equal(packageDownloadedPath, SourceArchiveFileName);
+            Assert.Equal(extractedTempFolder, DestinationDirectoryName);
         }
 
         [Fact]
         public void CopyManifestFiles()
         {
-            Package package = new Package(packageName, packageUrl);
-            Bucket bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
-            bucket.Sync(package, downloadFolder);
+            Package package = new Package(packageName, packageUrl, packageFileName);
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             file.Received().Copy($"{extractedTempFolder}/{packageName}.json", $"{bucketRoot}/manifests/{packageName}.json");
         }
 
         [Fact]
-        public void NotTryToUnzipAndCopyPackageWhenDownloadFails()
-        {
-            Package package = new Package(packageName, packageUrl);
-            BucketMock bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
-            downloader.When(x => x.DownloadFile(Arg.Any<Uri>(), Arg.Any<string>())).Do(x => throw new Exception());
-            Assert.Throws<Exception>(() => bucket.Sync(package, downloadFolder));
-
-            Assert.Null(bucket.SourceArchiveFileName);
-            Assert.Null(bucket.DestinationDirectoryName);
-            file.DidNotReceive().Copy(Arg.Any<string>(), Arg.Any<string>());
-        }
-
-        [Fact]
         public void SyncGitRepository()
         {
-            Package package = new Package(packageName, packageUrl);
-            Bucket bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
-            bucket.Sync(package, downloadFolder);
+            Package package = new Package(packageName, packageUrl, packageFileName);
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             string moveToFolder = $"cd {bucketRoot}/manifests";
             string gitAdd = "git add .";
@@ -84,11 +78,45 @@ namespace DgSystems.ScoopUnitTests
         [Fact]
         public void CopySetupFiles()
         {
-            Package package = new Package(packageName, packageUrl);
-            Bucket bucket = new BucketMock(bucketName, bucketRoot, console, file, downloader);
-            bucket.Sync(package, downloadFolder);
+            Package package = new Package(packageName, packageUrl, packageFileName);
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             file.Received().Copy($"{extractedTempFolder}/{packageName}.exe", $"{bucketRoot}/packages/{packageName}.exe");
+        }
+
+        [Fact]
+        public void UndoAllCommandsWhenCopyInstallerFails()
+        {
+            var downloadPackage = Substitute.For<Command>();
+            var extractPackage = Substitute.For<Command>();
+            var copyManifest = Substitute.For<Command>();
+            var syncGitRepository = Substitute.For<Command>();
+            var copyInstaller = Substitute.For<Command>();
+            var commandFactory = Substitute.For<BucketCommandFactory>();
+
+            commandFactory.CreateDownloadPackageCommand(Arg.Any<Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
+            commandFactory.CreateExtractPackageCommand(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
+            commandFactory.CreateCopyManifestCommand(Arg.Any<IFile>(), Arg.Any<string>(), Arg.Any<string>()).Returns(copyManifest);
+            commandFactory.CreateSyncGitRepositoryCommand(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
+            commandFactory.CreateCopyInstallerCommand(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IFile>()).Returns(copyInstaller);
+
+            copyInstaller
+                .When(x => x.Execute())
+                .Do(x => { throw new Exception(); });
+
+            Package package = new Package(packageName, packageUrl, packageFileName);
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, commandFactory);
+            bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
+
+            Received.InOrder(() =>
+            {
+                copyInstaller.Undo();
+                syncGitRepository.Undo();
+                copyManifest.Undo();
+                extractPackage.Undo();
+                downloadPackage.Undo();
+            });
         }
     }
 }

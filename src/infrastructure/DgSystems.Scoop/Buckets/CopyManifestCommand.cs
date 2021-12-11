@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Abstractions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.Abstractions;
 
 namespace DgSystems.Scoop
 {
@@ -22,7 +17,7 @@ namespace DgSystems.Scoop
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            file.Copy(v1, v2);
         }
 
         public void Undo()

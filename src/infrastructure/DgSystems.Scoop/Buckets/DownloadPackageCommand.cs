@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DgSystems.Scoop
+﻿namespace DgSystems.Scoop
 {
     internal class DownloadPackageCommand : Command
     {
@@ -23,7 +17,7 @@ namespace DgSystems.Scoop
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            OutputPath = downloader.DownloadFile(uri, downloadFolder);
         }
 
         public void Undo()

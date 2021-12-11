@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.Abstractions;
 
 namespace DgSystems.Scoop
 {
@@ -10,16 +6,18 @@ namespace DgSystems.Scoop
     {
         private string v1;
         private string v2;
+        private readonly IFile file;
 
-        public CopyInstallerCommand(string v1, string v2)
+        public CopyInstallerCommand(string sourceFileName, string destFileName, IFile file)
         {
-            this.v1 = v1;
-            this.v2 = v2;
+            this.v1 = sourceFileName;
+            this.v2 = destFileName;
+            this.file = file;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            file.Copy(v1, v2);
         }
 
         public void Undo()

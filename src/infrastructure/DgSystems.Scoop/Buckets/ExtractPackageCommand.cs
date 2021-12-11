@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO.Compression;
 
 namespace DgSystems.Scoop
 {
@@ -10,16 +6,18 @@ namespace DgSystems.Scoop
     {
         private string sourceArchiveFileName;
         private string destinationDirectoryName;
+        private readonly ExtractToDirectory extract;
 
-        public ExtractPackageCommand(string sourceArchiveFileName, string destinationDirectoryName)
+        public ExtractPackageCommand(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)
         {
             this.sourceArchiveFileName = sourceArchiveFileName;
             this.destinationDirectoryName = destinationDirectoryName;
+            this.extract = extract;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            extract(sourceArchiveFileName, destinationDirectoryName);
         }
 
         public void Undo()

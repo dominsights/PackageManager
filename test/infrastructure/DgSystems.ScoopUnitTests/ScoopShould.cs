@@ -1,4 +1,5 @@
 ﻿using DgSystems.Scoop;
+using DgSystems.Scoop.Buckets;
 using NSubstitute;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
@@ -18,13 +19,13 @@ namespace DgSystems.ScoopUnitTests
             string bucketPath = "C://my_bucket";
             string downloadFolder = "C://downloads";
 
-            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>());
-            var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip");
+            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>(), new BucketCommandFactory());
+            var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip");
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList);
 
             await scoop.Install(package);
-            bucket.Received().Sync(package, downloadFolder);
+            bucket.Received().Sync(package, downloadFolder, Arg.Any<ExtractToDirectory>());
         }
     }
 }

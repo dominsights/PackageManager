@@ -27,7 +27,7 @@ namespace DgSystems.Scoop
 
         public bool IsEmpty()
         {
-            return commands.Any();
+            return !commands.Any();
         }
     }
 }
