@@ -13,10 +13,16 @@ namespace DgSystems.Scoop
     internal class Scoop : PackageManager.Install.PackageManager
     {
         private CommandLineShell console;
+        private readonly BucketList bucketList;
+        private readonly string downloadFolder;
+        private readonly ExtractToDirectory extractToDirectory;
 
-        public Scoop(CommandLineShell console, BucketList bucketList)
+        public Scoop(CommandLineShell console, BucketList bucketList, string downloadFolder, ExtractToDirectory extractToDirectory)
         {
             this.console = console;
+            this.bucketList = bucketList;
+            this.downloadFolder = downloadFolder;
+            this.extractToDirectory = extractToDirectory;
         }
 
         // create bucket if it doesn't exist yet
@@ -31,7 +37,9 @@ namespace DgSystems.Scoop
 
         public Task<InstallationStatus> Install(Package package)
         {
-            throw new NotImplementedException();
+            var bucket = bucketList.Default();
+            bucket.Sync(package, downloadFolder, extractToDirectory);
+            return Task.FromResult(InstallationStatus.Failure);
         }
 
         public bool IsPackageValid(Package package)

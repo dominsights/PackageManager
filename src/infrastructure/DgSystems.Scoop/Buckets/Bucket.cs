@@ -1,7 +1,6 @@
 ﻿using DgSystems.PackageManager.Install;
 using DgSystems.Scoop.Buckets;
 using System.IO.Abstractions;
-using System.IO.Compression;
 
 namespace DgSystems.Scoop
 {
@@ -27,7 +26,10 @@ namespace DgSystems.Scoop
             this.rootFolder = rootFolder;
         }
 
-        internal void Sync(Package package, string downloadFolder, ExtractToDirectory extract)
+        [Obsolete("Use constructor with parameters.")]
+        protected Bucket() { }
+
+        internal virtual void Sync(Package package, string downloadFolder, ExtractToDirectory extract)
         {
             CommandHistory commandHistory = new CommandHistory();
             string extractedTempFolder = tempFolder + package.Name;
@@ -38,7 +40,7 @@ namespace DgSystems.Scoop
                 commandHistory.Push(downloadPackage);
                 downloadPackage.Execute();
 
-                Command extractPackage = bucketCommandFactory.CreateExtractPackageCommand($"C://downloads/{package.FileName}", extractedTempFolder, extract);
+                Command extractPackage = bucketCommandFactory.CreateExtractPackageCommand($"{downloadFolder}/{package.FileName}", extractedTempFolder, extract);
                 commandHistory.Push(extractPackage);
                 extractPackage.Execute();
 
@@ -69,6 +71,18 @@ namespace DgSystems.Scoop
                     }
                 }
             }
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Bucket bucket &&
+                   name == bucket.name &&
+                   rootFolder == bucket.rootFolder;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(name, rootFolder);
         }
     }
 }
