@@ -61,7 +61,7 @@ namespace DgSystems.Scoop
                     Command command = commandHistory.Pop();
                     try
                     {
-                        command.Undo(); // it must be testable!!!
+                        command.Undo();
                     }
                     catch
                     {
