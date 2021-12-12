@@ -33,8 +33,6 @@ namespace DgSystems.ScoopUnitTests
             Package package = new Package(packageName, packageUrl, packageFileName);
             Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
 
-            // (source, destination) => ZipFile.ExtractToDirectory(source, destination)
-
             bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             downloader.Received().DownloadFile(new Uri(packageUrl), downloadFolder);
