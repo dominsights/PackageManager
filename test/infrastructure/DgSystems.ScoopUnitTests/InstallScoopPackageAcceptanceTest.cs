@@ -21,7 +21,7 @@ namespace DgSystems.ScoopUnitTests
         // install package
 
         [Fact]
-        public void InstallScoopPackage()
+        public async Task InstallScoopPackage()
         {
             var console = Substitute.For<CommandLineShell>();
             var file = Substitute.For<IFile>();
@@ -29,11 +29,26 @@ namespace DgSystems.ScoopUnitTests
             var bucketPath = "C://my_bucket";
             string downloadFolder = "C://downloads";
 
-            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>(), new BucketCommandFactory());
+            var downloadPackage = Substitute.For<Command>();
+            var extractPackage = Substitute.For<Command>();
+            var copyManifest = Substitute.For<Command>();
+            var syncGitRepository = Substitute.For<Command>();
+            var copyInstaller = Substitute.For<Command>();
+            var commandFactory = Substitute.For<BucketCommandFactory>();
+
+            commandFactory.CreateDownloadPackageCommand(Arg.Any<Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
+            commandFactory.CreateExtractPackageCommand(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
+            commandFactory.CreateCopyManifestCommand(Arg.Any<IFile>(), Arg.Any<string>(), Arg.Any<string>()).Returns(copyManifest);
+            commandFactory.CreateSyncGitRepositoryCommand(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
+            commandFactory.CreateCopyInstallerCommand(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IFile>()).Returns(copyInstaller);
+
+            PackageManager.Install.Package package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip");
+            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>(), commandFactory);
+
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList, downloadFolder, (source, destination) => ZipFile.ExtractToDirectory(source, destination));
-            scoop.Install(new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip"));
-            console.Received().Execute("scoop install notepad-plus-plus");
+            await scoop.Install(package);
+            await console.Received().Execute("scoop install notepad-plus-plus");
         }
     }
 }

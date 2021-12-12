@@ -15,12 +15,15 @@ namespace DgSystems.Scoop
             this.extract = extract;
         }
 
-        public void Execute()
+        public Task Execute()
         {
-            extract(sourceArchiveFileName, destinationDirectoryName);
+            return Task.Run(() =>
+            {
+                extract(sourceArchiveFileName, destinationDirectoryName);
+            });
         }
 
-        public void Undo()
+        public Task Undo()
         {
             throw new NotImplementedException();
         }

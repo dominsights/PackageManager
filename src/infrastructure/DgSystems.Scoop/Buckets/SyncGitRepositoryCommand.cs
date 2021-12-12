@@ -17,9 +17,9 @@ namespace DgSystems.Scoop
             this.console = console;
         }
 
-        public void Execute()
+        public async Task Execute()
         {
-            console.Execute(new List<string>
+            await console.Execute(new List<string>
             {
                 $"cd {rootFolder}/manifests",
                 "git add .",
@@ -27,7 +27,7 @@ namespace DgSystems.Scoop
             });
         }
 
-        public void Undo()
+        public Task Undo()
         {
             throw new NotImplementedException();
         }

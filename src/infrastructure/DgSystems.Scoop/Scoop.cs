@@ -35,11 +35,18 @@ namespace DgSystems.Scoop
 
 
 
-        public Task<InstallationStatus> Install(Package package)
+        public async Task<InstallationStatus> Install(Package package)
         {
             var bucket = bucketList.Default();
-            bucket.Sync(package, downloadFolder, extractToDirectory);
-            return Task.FromResult(InstallationStatus.Failure);
+            bool success = await bucket.Sync(package, downloadFolder, extractToDirectory);
+
+            if (success)
+            {
+                await console.Execute($"scoop install {package.Name}");
+                return InstallationStatus.Success;
+            }
+
+            return InstallationStatus.Failure;
         }
 
         public bool IsPackageValid(Package package)

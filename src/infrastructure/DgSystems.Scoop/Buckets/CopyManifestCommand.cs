@@ -15,12 +15,15 @@ namespace DgSystems.Scoop
             this.v2 = v2;
         }
 
-        public void Execute()
+        public Task Execute()
         {
-            file.Copy(v1, v2);
+            return Task.Run(() =>
+            {
+                file.Copy(v1, v2);
+            });
         }
 
-        public void Undo()
+        public Task Undo()
         {
             throw new NotImplementedException();
         }

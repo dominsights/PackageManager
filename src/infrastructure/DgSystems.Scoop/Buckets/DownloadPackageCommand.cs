@@ -15,12 +15,12 @@
 
         public string OutputPath { get; internal set; }
 
-        public void Execute()
+        public async Task Execute()
         {
-            OutputPath = downloader.DownloadFile(uri, downloadFolder);
+            OutputPath = await downloader.DownloadFile(uri, downloadFolder);
         }
 
-        public void Undo()
+        public Task Undo()
         {
             throw new NotImplementedException();
         }

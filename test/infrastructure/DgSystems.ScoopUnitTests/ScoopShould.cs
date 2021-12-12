@@ -26,7 +26,7 @@ namespace DgSystems.ScoopUnitTests
             var scoop = new ScoopClass(console, bucketList, downloadFolder, (x, y) => Console.Write(""));
 
             await scoop.Install(package);
-            bucket.Received().Sync(package, downloadFolder, Arg.Any<ExtractToDirectory>());
+            await bucket.Received().Sync(package, downloadFolder, Arg.Any<ExtractToDirectory>());
         }
     }
 }

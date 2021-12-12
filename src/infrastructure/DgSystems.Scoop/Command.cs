@@ -8,7 +8,7 @@ namespace DgSystems.Scoop
 {
     internal interface Command
     {
-        void Execute();
-        void Undo();
+        Task Execute();
+        Task Undo();
     }
 }
