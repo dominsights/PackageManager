@@ -36,54 +36,51 @@ namespace DgSystems.Scoop
         /// <param name="downloadFolder"></param>
         /// <param name="extract"></param>
         /// <returns>true if success or false for failure.</returns>
-        internal virtual Task<bool> Sync(Package package, string downloadFolder, ExtractToDirectory extract)
+        internal virtual async Task<bool> Sync(Package package, string downloadFolder, ExtractToDirectory extract)
         {
-            return Task.Run(() =>
+            CommandHistory commandHistory = new CommandHistory();
+            string extractedTempFolder = tempFolder + package.Name;
+
+            try
             {
-                CommandHistory commandHistory = new CommandHistory();
-                string extractedTempFolder = tempFolder + package.Name;
+                Command downloadPackage = bucketCommandFactory.CreateDownloadPackageCommand(downloader, new Uri(package.Path), downloadFolder);
+                commandHistory.Push(downloadPackage);
+                await downloadPackage.Execute();
 
-                try
+                Command extractPackage = bucketCommandFactory.CreateExtractPackageCommand($"{downloadFolder}/{package.FileName}", extractedTempFolder, extract);
+                commandHistory.Push(extractPackage);
+                await extractPackage.Execute();
+
+                Command copyManifest = bucketCommandFactory.CreateCopyManifestCommand(file, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json");
+                commandHistory.Push(copyManifest);
+                await copyManifest.Execute();
+
+                Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepositoryCommand(rootFolder, console);
+                commandHistory.Push(syncGitRepository);
+                await syncGitRepository.Execute();
+
+                Command copyInstaller = bucketCommandFactory.CreateCopyInstallerCommand($"{extractedTempFolder}/{package.Name}.exe", $"{rootFolder}/packages/{package.Name}.exe", file);
+                commandHistory.Push(copyInstaller);
+                await copyInstaller.Execute();
+
+                return true;
+            }
+            catch
+            {
+                while (!commandHistory.IsEmpty())
                 {
-                    Command downloadPackage = bucketCommandFactory.CreateDownloadPackageCommand(downloader, new Uri(package.Path), downloadFolder);
-                    commandHistory.Push(downloadPackage);
-                    downloadPackage.Execute();
-
-                    Command extractPackage = bucketCommandFactory.CreateExtractPackageCommand($"{downloadFolder}/{package.FileName}", extractedTempFolder, extract);
-                    commandHistory.Push(extractPackage);
-                    extractPackage.Execute();
-
-                    Command copyManifest = bucketCommandFactory.CreateCopyManifestCommand(file, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json");
-                    commandHistory.Push(copyManifest);
-                    copyManifest.Execute();
-
-                    Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepositoryCommand(rootFolder, console);
-                    commandHistory.Push(syncGitRepository);
-                    syncGitRepository.Execute();
-
-                    Command copyInstaller = bucketCommandFactory.CreateCopyInstallerCommand($"{extractedTempFolder}/{package.Name}.exe", $"{rootFolder}/packages/{package.Name}.exe", file);
-                    commandHistory.Push(copyInstaller);
-                    copyInstaller.Execute();
-
-                    return true;
-                }
-                catch
-                {
-                    while (!commandHistory.IsEmpty())
+                    Command command = commandHistory.Pop();
+                    try
                     {
-                        Command command = commandHistory.Pop();
-                        try
-                        {
-                            command.Undo();
-                        }
-                        catch
-                        {
-                            //
-                        }
+                        await command.Undo();
                     }
-                    return false;
+                    catch
+                    {
+                        //
+                    }
                 }
-            });
+                return false;
+            }
         }
 
         public override bool Equals(object? obj)

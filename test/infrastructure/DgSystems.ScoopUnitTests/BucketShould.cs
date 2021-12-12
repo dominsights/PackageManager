@@ -29,14 +29,14 @@ namespace DgSystems.ScoopUnitTests
         private string DestinationDirectoryName;
 
         [Fact]
-        public void DownloadPackage()
+        public async Task DownloadPackage()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
             Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
 
-            bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
+            await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
-            downloader.Received().DownloadFile(new Uri(packageUrl), downloadFolder);
+            await downloader.Received().DownloadFile(new Uri(packageUrl), downloadFolder);
         }
 
         [Fact]
@@ -62,11 +62,11 @@ namespace DgSystems.ScoopUnitTests
         }
 
         [Fact]
-        public void SyncGitRepository()
+        public async Task SyncGitRepository()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
             Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
-            bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
+            await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             string moveToFolder = $"cd {bucketRoot}/manifests";
             string gitAdd = "git add .";

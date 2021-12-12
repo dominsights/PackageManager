@@ -1,10 +1,5 @@
 ﻿using DgSystems.PackageManager.Install;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("DgSystems.ScoopUnitTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
@@ -24,16 +19,6 @@ namespace DgSystems.Scoop
             this.downloadFolder = downloadFolder;
             this.extractToDirectory = extractToDirectory;
         }
-
-        // create bucket if it doesn't exist yet
-        // download package from path provided
-        // update bucket with new package
-        // install package
-
-
-
-
-
 
         public async Task<InstallationStatus> Install(Package package)
         {

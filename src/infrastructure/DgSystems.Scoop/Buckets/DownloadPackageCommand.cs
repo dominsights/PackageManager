@@ -13,11 +13,9 @@
             this.downloadFolder = downloadFolder;
         }
 
-        public string OutputPath { get; internal set; }
-
         public async Task Execute()
         {
-            OutputPath = await downloader.DownloadFile(uri, downloadFolder);
+            await downloader.DownloadFile(uri, downloadFolder);
         }
 
         public Task Undo()
