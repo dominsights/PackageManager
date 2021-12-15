@@ -1,6 +1,6 @@
 ﻿namespace DgSystems.Scoop
 {
-    internal interface CommandLineShell
+    public interface CommandLineShell
     {
         Task Execute(string command);
         /// <summary>
