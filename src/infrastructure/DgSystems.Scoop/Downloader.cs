@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DgSystems.Scoop
 {
-    internal interface Downloader
+    public interface Downloader
     {
         Task<string> DownloadFile(Uri address, string outputPath);
     }
