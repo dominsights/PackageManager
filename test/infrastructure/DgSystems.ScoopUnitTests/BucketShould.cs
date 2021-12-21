@@ -43,7 +43,6 @@ namespace DgSystems.ScoopUnitTests
         public async Task UnzipPackage()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
-            downloader.DownloadFile(new Uri(packageUrl), downloadFolder).Returns(packageDownloadedPath);
             Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
             await bucket.Sync(package, downloadFolder, (x, y) => { SourceArchiveFileName = x; DestinationDirectoryName = y; });
 
