@@ -26,7 +26,7 @@ namespace DgSystems.Downloader
             }
 
             byte[] fileBytes = await httpClient.GetByteArrayAsync(address);
-            fileSystem.File.WriteAllBytes(FilePath(outputPath, fileName), fileBytes);
+            await fileSystem.File.WriteAllBytesAsync(FilePath(outputPath, fileName), fileBytes);
         }
 
         public bool IsSuccess() => fileSystem.File.Exists(FilePath(outputPath, fileName));

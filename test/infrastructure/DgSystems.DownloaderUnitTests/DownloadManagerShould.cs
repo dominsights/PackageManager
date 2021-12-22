@@ -1,6 +1,9 @@
 ﻿using DgSystems.Downloader;
 using FluentAssertions;
+using NSubstitute;
 using System;
+using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Net;
 using System.Net.Http;
@@ -26,7 +29,7 @@ namespace DgSystems.DownloaderUnitTests
 
             // Act
             await downloader.DownloadFile(new Uri(eclipseUrl), downloadFolder);
-            
+
             // Assert
             downloader.IsSuccess().Should().BeTrue();
         }
@@ -51,6 +54,44 @@ namespace DgSystems.DownloaderUnitTests
 
             // Assert
             downloader.IsSuccess().Should().BeFalse();
+        }
+
+        [Fact]
+        public async void OverrideWhenFileAlreadyExists()
+        {
+            // Arrange
+            var httpResponseMessage = new HttpResponseMessage() { StatusCode = HttpStatusCode.OK };
+            var httpMessageHandler = new MockHttpMessageHandler(httpResponseMessage);
+            var httpClient = new HttpClient(httpMessageHandler);
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData> { { "eclipse.exe", new MockFileData(new byte[64]) } }, downloadFolder);
+            var downloader = new DownloadManager(httpClient, fileSystem);
+
+            // Act
+            await downloader.DownloadFile(new Uri(eclipseUrl), downloadFolder);
+
+            // Assert
+            downloader.IsSuccess().Should().BeTrue();
+            fileSystem.AllFiles.Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async void FailWhenCopyFails()
+        {
+            // Arrange
+            var file = Substitute.For<IFile>();
+            file
+                .When(x => x.WriteAllBytesAsync(Arg.Any<string>(), Arg.Any<byte[]>()))
+                .Do(x => { throw new UnauthorizedAccessException(); });
+            var fileSystem = Substitute.For<IFileSystem>();
+            fileSystem.File.Returns(file);
+
+            var httpResponseMessage = new HttpResponseMessage() { StatusCode = HttpStatusCode.OK };
+            var httpMessageHandler = new MockHttpMessageHandler(httpResponseMessage);
+            var httpClient = new HttpClient(httpMessageHandler);
+            var downloader = new DownloadManager(httpClient, fileSystem);
+
+            // Act
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => downloader.DownloadFile(new Uri(eclipseUrl), downloadFolder));
         }
     }
 }
