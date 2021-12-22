@@ -31,11 +31,15 @@ namespace DgSystems.DownloaderUnitTests
             downloader.IsSuccess().Should().BeTrue();
         }
 
-        [Fact]
-        public async void NotCopyWhenDownloadFails()
+        [Theory]
+        [InlineData(HttpStatusCode.NotFound)]
+        [InlineData(HttpStatusCode.NotAcceptable)]
+        [InlineData(HttpStatusCode.Unauthorized)]
+        [InlineData(HttpStatusCode.RequestTimeout)]
+        public async void NotCopyWhenDownloadFails(HttpStatusCode httpStatusCode)
         {
             // Arrange
-            var httpResponseMessage = new HttpResponseMessage() { StatusCode = HttpStatusCode.NotFound };
+            var httpResponseMessage = new HttpResponseMessage() { StatusCode = httpStatusCode };
             var httpMessageHandler = new MockHttpMessageHandler(httpResponseMessage);
             var httpClient = new HttpClient(httpMessageHandler);
             var fileSystem = new MockFileSystem();
