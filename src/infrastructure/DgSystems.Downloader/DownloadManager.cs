@@ -8,6 +8,7 @@ namespace DgSystems.Downloader
         private readonly IFileSystem fileSystem;
         private string outputPath;
         private string fileName;
+        private bool copyCompleted;
 
         public DownloadManager(HttpClient httpClient, IFileSystem fileSystem)
         {
@@ -27,9 +28,10 @@ namespace DgSystems.Downloader
 
             byte[] fileBytes = await httpClient.GetByteArrayAsync(address);
             await fileSystem.File.WriteAllBytesAsync(FilePath(outputPath, fileName), fileBytes);
+            copyCompleted = true;
         }
 
-        public bool IsSuccess() => fileSystem.File.Exists(FilePath(outputPath, fileName));
+        public bool IsSuccess() => fileSystem.File.Exists(FilePath(outputPath, fileName)) && copyCompleted;
 
         private string FilePath(string outputPath, string fileName) => fileSystem.Path.Combine(outputPath, fileName);
     }
