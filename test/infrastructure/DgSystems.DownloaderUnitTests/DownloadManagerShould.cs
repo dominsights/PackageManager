@@ -82,8 +82,13 @@ namespace DgSystems.DownloaderUnitTests
             file
                 .When(x => x.WriteAllBytesAsync(Arg.Any<string>(), Arg.Any<byte[]>()))
                 .Do(x => { throw new UnauthorizedAccessException(); });
+
+            file.Exists("C:\\Downloads\\" + "eclipse.exe").Returns(true);
+
             var fileSystem = Substitute.For<IFileSystem>();
+            var mockFileSystem = new MockFileSystem();
             fileSystem.File.Returns(file);
+            fileSystem.Path.Returns(mockFileSystem.Path);
 
             var httpResponseMessage = new HttpResponseMessage() { StatusCode = HttpStatusCode.OK };
             var httpMessageHandler = new MockHttpMessageHandler(httpResponseMessage);
@@ -92,6 +97,9 @@ namespace DgSystems.DownloaderUnitTests
 
             // Act
             await Assert.ThrowsAsync<UnauthorizedAccessException>(() => downloader.DownloadFile(new Uri(eclipseUrl), downloadFolder));
+
+            // Assert
+            downloader.IsSuccess().Should().BeFalse();
         }
     }
 }
