@@ -1,22 +1,34 @@
 ﻿using DgSystems.Scoop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DgSystems.PowerShellUnitTests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.PowerShell
 {
     internal class PowerShell : CommandLineShell
     {
+        private PowerShellCLI powershellCLI;
+
+        public PowerShell(PowerShellCLI powershellCLI)
+        {
+            this.powershellCLI = powershellCLI;
+        }
+
         public Task Execute(string command)
         {
-            throw new NotImplementedException();
+            powershellCLI.AddCommand(command);
+            powershellCLI.Invoke();
+            return Task.CompletedTask;
         }
 
         public Task Execute(List<string> commands)
         {
-            throw new NotImplementedException();
+            foreach (string command in commands)
+            {
+                powershellCLI.AddCommand(command);
+            }
+            powershellCLI.Invoke();
+            return Task.CompletedTask;
         }
     }
 }
