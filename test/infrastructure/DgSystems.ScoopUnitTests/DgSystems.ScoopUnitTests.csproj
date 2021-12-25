@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\infrastructure\DgSystems.Downloader\DgSystems.Downloader.csproj" />
+    <ProjectReference Include="..\..\..\src\infrastructure\DgSystems.PowerShell\DgSystems.PowerShell.csproj" />
     <ProjectReference Include="..\..\..\src\infrastructure\DgSystems.Scoop\DgSystems.Scoop.csproj" />
   </ItemGroup>
 

@@ -14,7 +14,7 @@ namespace DgSystems.ScoopUnitTests
             var console = Substitute.For<CommandLineShell>();
             IFile file = Substitute.For<IFile>();
             string bucketPath = "C://my_bucket";
-            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>(), new BucketCommandFactory());
+            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Scoop.Downloader>(), new BucketCommandFactory());
 
             var bucketList = new BucketList();
             bucketList.Add(bucket);
@@ -27,7 +27,7 @@ namespace DgSystems.ScoopUnitTests
             var console = Substitute.For<CommandLineShell>();
             IFile file = Substitute.For<IFile>();
             string bucketPath = "C://my_bucket";
-            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Downloader>(), new BucketCommandFactory());
+            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Scoop.Downloader>(), new BucketCommandFactory());
 
             var bucketList = new BucketList();
             bucketList.Add(bucket);

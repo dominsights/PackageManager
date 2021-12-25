@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DgSystems.PowerShellUnitTests")]
+[assembly: InternalsVisibleTo("DgSystems.ScoopUnitTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.PowerShell
 {

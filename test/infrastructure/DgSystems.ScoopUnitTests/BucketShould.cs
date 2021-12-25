@@ -23,7 +23,7 @@ namespace DgSystems.ScoopUnitTests
         private const string packageFileName = $"{ packageName }.zip";
 
         readonly CommandLineShell console = Substitute.For<CommandLineShell>();
-        readonly Downloader downloader = Substitute.For<Downloader>();
+        readonly Scoop.Downloader downloader = Substitute.For<Scoop.Downloader>();
         readonly IFile file = Substitute.For<IFile>();
         private string SourceArchiveFileName;
         private string DestinationDirectoryName;
@@ -93,7 +93,7 @@ namespace DgSystems.ScoopUnitTests
             var copyInstaller = Substitute.For<Command>();
             var commandFactory = Substitute.For<BucketCommandFactory>();
 
-            commandFactory.CreateDownloadPackageCommand(Arg.Any<Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
+            commandFactory.CreateDownloadPackageCommand(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackageCommand(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
             commandFactory.CreateCopyManifestCommand(Arg.Any<IFile>(), Arg.Any<string>(), Arg.Any<string>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepositoryCommand(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
@@ -128,7 +128,7 @@ namespace DgSystems.ScoopUnitTests
             var copyInstaller = Substitute.For<Command>();
             var commandFactory = Substitute.For<BucketCommandFactory>();
 
-            commandFactory.CreateDownloadPackageCommand(Arg.Any<Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
+            commandFactory.CreateDownloadPackageCommand(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackageCommand(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
             commandFactory.CreateCopyManifestCommand(Arg.Any<IFile>(), Arg.Any<string>(), Arg.Any<string>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepositoryCommand(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
