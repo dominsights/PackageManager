@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.UseCases
 {
-    internal class InstallPackageInteractor
+    public class InstallPackageInteractor
     {
         public void Execute()
         {

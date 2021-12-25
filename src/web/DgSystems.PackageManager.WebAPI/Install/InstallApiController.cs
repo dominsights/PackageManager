@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DgSystems.PackageManager.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,8 +7,15 @@ namespace DgSystems.PackageManager.WebAPI.Install
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InstallController : ControllerBase
+    public class InstallApiController : ControllerBase
     {
+        private readonly InstallController installController;
+
+        public InstallApiController(InstallController installController)
+        {
+            this.installController = installController;
+        }
+
         // GET: api/<InstallController>
         [HttpGet]
         public IEnumerable<string> Get()
