@@ -31,9 +31,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.DownloaderUnitTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PowerShellUnitTests", "test\infrastructure\DgSystems.PowerShellUnitTests\DgSystems.PowerShellUnitTests.csproj", "{C1E865AA-8A7C-4B88-9461-EB1BCDBE37A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.WebAPI", "src\web\DgSystems.PackageManager.WebAPI\DgSystems.PackageManager.WebAPI.csproj", "{E2604A56-72EE-4FC2-9207-61EB10B352F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.WebAPI", "src\web\DgSystems.PackageManager.WebAPI\DgSystems.PackageManager.WebAPI.csproj", "{E2604A56-72EE-4FC2-9207-61EB10B352F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{DD4F0440-9FA5-4C7E-A2C9-4C61450B2FEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Controllers", "src\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.Controllers.csproj", "{914633EF-CC53-4C9F-A7AF-66EDDD8FA221}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapters", "adapters", "{C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Presenters", "src\adapters\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj", "{E44FFD83-27CD-4E91-BE31-B41878825836}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +83,14 @@ Global
 		{E2604A56-72EE-4FC2-9207-61EB10B352F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2604A56-72EE-4FC2-9207-61EB10B352F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2604A56-72EE-4FC2-9207-61EB10B352F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{914633EF-CC53-4C9F-A7AF-66EDDD8FA221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{914633EF-CC53-4C9F-A7AF-66EDDD8FA221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{914633EF-CC53-4C9F-A7AF-66EDDD8FA221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{914633EF-CC53-4C9F-A7AF-66EDDD8FA221}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E44FFD83-27CD-4E91-BE31-B41878825836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44FFD83-27CD-4E91-BE31-B41878825836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E44FFD83-27CD-4E91-BE31-B41878825836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E44FFD83-27CD-4E91-BE31-B41878825836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +110,9 @@ Global
 		{C1E865AA-8A7C-4B88-9461-EB1BCDBE37A6} = {1B2AFD33-21B5-4465-BAA7-7332C43B778C}
 		{E2604A56-72EE-4FC2-9207-61EB10B352F9} = {DD4F0440-9FA5-4C7E-A2C9-4C61450B2FEB}
 		{DD4F0440-9FA5-4C7E-A2C9-4C61450B2FEB} = {1B57BE6D-4AA1-47DF-855E-1FD738F32CBE}
+		{914633EF-CC53-4C9F-A7AF-66EDDD8FA221} = {C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45}
+		{C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45} = {1B57BE6D-4AA1-47DF-855E-1FD738F32CBE}
+		{E44FFD83-27CD-4E91-BE31-B41878825836} = {C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD6A86CD-FBE0-4EB4-BFD6-5D889954240F}

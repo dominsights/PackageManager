@@ -1,11 +1,11 @@
 ﻿using DgSystems.PackageManager;
-using DgSystems.PackageManager.Install;
-using DgSystems.PackageManager.Install.Events;
+using DgSystems.PackageManager.Entities;
+using DgSystems.PackageManager.Entities.Events;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DgSystems.PackageManagerUnitTests.Install
+namespace DgSystems.PackageManagerUnitTests.Entities
 {
     public class InstallProgramAcceptanceTest
     {
@@ -14,7 +14,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         public async void InstallSimpleProgramAsync()
         {
             var program = new Package("notepad++", "C:\\setup.exe", "setup.zip");
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
             packageManager.IsPackageValid(program).Returns(true);
             packageManager.Install(program).Returns(InstallationStatus.Success);
             var notifier = Substitute.For<Notifier>();
@@ -31,7 +31,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         {
             var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
@@ -61,7 +61,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         {
             var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);

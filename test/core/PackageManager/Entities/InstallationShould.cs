@@ -1,18 +1,18 @@
 ﻿using DgSystems.PackageManager;
-using DgSystems.PackageManager.Install;
-using DgSystems.PackageManager.Install.Events;
+using DgSystems.PackageManager.Entities;
+using DgSystems.PackageManager.Entities.Events;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DgSystems.PackageManagerUnitTests.Install
+namespace DgSystems.PackageManagerUnitTests.Entities
 {
     public class InstallationShould
     {
         [Fact]
         public async void RejectInstallationWhenPackageIsNull()
         {
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
             await installation.Install(null);
@@ -24,7 +24,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         [Fact]
         public async void RejectInstallationWhenPackageIsInvalid()
         {
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
             packageManager.IsPackageValid(Arg.Any<Package>()).Returns(false);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
@@ -40,7 +40,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         public async void ExecuteInstallationForOnePackage()
         {
             var package = new Package("package", "valid_path", "valid_file_name");
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
             packageManager.IsPackageValid(package).Returns(true);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
@@ -56,7 +56,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         {
             var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
@@ -90,7 +90,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         {
             var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
@@ -117,7 +117,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
         public async void NotifyWhenInstallationFails()
         {
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip");
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Failure);
             var notifier = Substitute.For<Notifier>();
@@ -135,7 +135,7 @@ namespace DgSystems.PackageManagerUnitTests.Install
             var nestedDependenciesPackage = new Package("java14", "C:\\java14.exe", "java14.zip", new List<Package> { dependencyPackage });
 
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { nestedDependenciesPackage });
-            var packageManager = Substitute.For<PackageManager.Install.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
 
             packageManager.IsPackageValid(mainPackage).Returns(true);
             packageManager.IsPackageValid(dependencyPackage).Returns(true);

@@ -1,5 +1,5 @@
 ﻿using DgSystems.Downloader;
-using DgSystems.PackageManager.Install;
+using DgSystems.PackageManager.Entities;
 using DgSystems.PowerShell;
 using DgSystems.Scoop;
 using DgSystems.Scoop.Buckets;

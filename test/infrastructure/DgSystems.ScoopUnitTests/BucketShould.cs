@@ -1,4 +1,4 @@
-﻿using DgSystems.PackageManager.Install;
+﻿using DgSystems.PackageManager.Entities;
 using DgSystems.Scoop;
 using DgSystems.Scoop.Buckets;
 using NSubstitute;

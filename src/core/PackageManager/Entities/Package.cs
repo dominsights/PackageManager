@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace DgSystems.PackageManager.Install
+namespace DgSystems.PackageManager.Entities
 {
     public class Package
     {

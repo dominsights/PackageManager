@@ -1,11 +1,11 @@
-﻿using DgSystems.PackageManager.Install;
+﻿using DgSystems.PackageManager.Entities;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DgSystems.ScoopUnitTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.Scoop
 {
-    internal class Scoop : PackageManager.Install.PackageManager
+    internal class Scoop : PackageManager.Entities.PackageManager
     {
         private CommandLineShell console;
         private readonly BucketList bucketList;

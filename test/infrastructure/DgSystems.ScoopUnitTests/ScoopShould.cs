@@ -1,4 +1,4 @@
-﻿using DgSystems.PackageManager.Install;
+﻿using DgSystems.PackageManager.Entities;
 using DgSystems.Scoop;
 using DgSystems.Scoop.Buckets;
 using NSubstitute;
@@ -22,7 +22,7 @@ namespace DgSystems.ScoopUnitTests
             string downloadFolder = "C://downloads";
 
             var bucket = Substitute.For<Bucket>();
-            var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip");
+            var package = new PackageManager.Entities.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip");
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList, downloadFolder, (x, y) => Console.Write(""));
 
@@ -40,7 +40,7 @@ namespace DgSystems.ScoopUnitTests
             string downloadFolder = "C://downloads";
 
             var bucket = Substitute.For<Bucket>();
-            var package = new PackageManager.Install.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip");
+            var package = new PackageManager.Entities.Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip");
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList, downloadFolder, (x, y) => Console.Write(""));
 
