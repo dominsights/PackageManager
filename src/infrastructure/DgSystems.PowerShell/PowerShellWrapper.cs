@@ -1,4 +1,7 @@
-﻿namespace DgSystems.PowerShell
+﻿using System.Collections.ObjectModel;
+using System.Management.Automation;
+
+namespace DgSystems.PowerShell
 {
     internal class PowerShellWrapper : PowerShellCLI
     {
@@ -9,14 +12,14 @@
             powerShell = System.Management.Automation.PowerShell.Create();
         }
 
-        public void AddCommand(string command)
+        public System.Management.Automation.PowerShell AddCommand(string command)
         {
-            powerShell.AddCommand(command);
+            return powerShell.AddCommand(command);
         }
 
-        public void Invoke()
+        public Collection<PSObject> Invoke()
         {
-            powerShell.Invoke();
+            return powerShell.Invoke();
         }
     }
 }

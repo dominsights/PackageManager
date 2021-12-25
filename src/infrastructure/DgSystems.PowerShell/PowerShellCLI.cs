@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.Management.Automation;
 
 namespace DgSystems.PowerShell
 {
     internal interface PowerShellCLI
     {
-        public void AddCommand(string command);
-        public void Invoke();
+        public System.Management.Automation.PowerShell AddCommand(string command);
+        public Collection<PSObject> Invoke();
     }
 }
