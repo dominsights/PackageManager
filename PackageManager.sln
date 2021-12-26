@@ -35,11 +35,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.We
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{DD4F0440-9FA5-4C7E-A2C9-4C61450B2FEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Controllers", "src\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.Controllers.csproj", "{914633EF-CC53-4C9F-A7AF-66EDDD8FA221}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.Controllers", "src\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.Controllers.csproj", "{914633EF-CC53-4C9F-A7AF-66EDDD8FA221}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapters", "adapters", "{C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Presenters", "src\adapters\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj", "{E44FFD83-27CD-4E91-BE31-B41878825836}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.Presenters", "src\adapters\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj", "{E44FFD83-27CD-4E91-BE31-B41878825836}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapters", "adapters", "{C2986860-6C32-4BA2-90EC-7ADC86187924}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Controllers", "test\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.Controllers.csproj", "{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Presenters", "test\adapters\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj", "{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +97,14 @@ Global
 		{E44FFD83-27CD-4E91-BE31-B41878825836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E44FFD83-27CD-4E91-BE31-B41878825836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E44FFD83-27CD-4E91-BE31-B41878825836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +127,9 @@ Global
 		{914633EF-CC53-4C9F-A7AF-66EDDD8FA221} = {C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45}
 		{C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45} = {1B57BE6D-4AA1-47DF-855E-1FD738F32CBE}
 		{E44FFD83-27CD-4E91-BE31-B41878825836} = {C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45}
+		{C2986860-6C32-4BA2-90EC-7ADC86187924} = {0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}
+		{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7} = {C2986860-6C32-4BA2-90EC-7ADC86187924}
+		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED} = {C2986860-6C32-4BA2-90EC-7ADC86187924}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD6A86CD-FBE0-4EB4-BFD6-5D889954240F}
