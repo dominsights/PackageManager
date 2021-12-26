@@ -24,15 +24,15 @@ namespace DgSystems.PackageManager.Entities
         /// </summary>
         /// <param name="package"></param>
         /// <returns></returns>
-        internal async Task Install(Package package)
+        internal async Task<InstallationStatus> Install(Package package)
         {
             if (package is null)
             {
                 notifier.Notify(new InstallationRejected(Id, "Package is null."));
-                return;
+                return InstallationStatus.Failure;
             }
 
-            await Install_InternalAsync(Id, package, packageManager, notifier);
+            return await Install_InternalAsync(Id, package, packageManager, notifier);
         }
 
         private async Task<InstallationStatus> Install_InternalAsync(Guid installationId, Package package, PackageManager packageManager, Notifier notifier)

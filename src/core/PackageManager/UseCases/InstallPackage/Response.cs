@@ -6,15 +6,27 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.UseCases.InstallPackage
 {
-    internal class Response
+    public class Response
     {
-        private string v1;
-        private string v2;
+        private string packageName;
+        private string message;
 
-        public Response(string v1, string v2)
+        public Response(string packageName, string message)
         {
-            this.v1 = v1;
-            this.v2 = v2;
+            this.packageName = packageName;
+            this.message = message;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Response response &&
+                   packageName == response.packageName &&
+                   message == response.message;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(packageName, message);
         }
     }
 }

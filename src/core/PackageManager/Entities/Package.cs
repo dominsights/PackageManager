@@ -23,5 +23,21 @@ namespace DgSystems.PackageManager.Entities
         public string Path { get => path; set => path = value; }
         public string FileName { get; set; }
         public IEnumerable<Package> Dependencies { get; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Package package &&
+                   name == package.name &&
+                   path == package.path &&
+                   Name == package.Name &&
+                   Path == package.Path &&
+                   FileName == package.FileName &&
+                   EqualityComparer<IEnumerable<Package>>.Default.Equals(Dependencies, package.Dependencies);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(name, path, Name, Path, FileName, Dependencies);
+        }
     }
 }

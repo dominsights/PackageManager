@@ -15,10 +15,18 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
             this.notifier = notifier;
         }
 
-        public void Execute(Request request)
+        public async Task ExecuteAsync(Request request)
         {
             var installation = new Installation(packageManager, notifier);
-            throw new NotImplementedException();
+            var installationStatus = await installation.Install(new Package(request.Name, request.Path, request.FileName));
+            if (installationStatus == InstallationStatus.Success)
+            {
+                presenter.Execute(new Response(request.Name, $"{request.Name} was installed successfully."));
+            }
+            else
+            {
+                presenter.Execute(new Response(request.Name, $"{request.Name} failed to install."));
+            }
         }
     }
 }

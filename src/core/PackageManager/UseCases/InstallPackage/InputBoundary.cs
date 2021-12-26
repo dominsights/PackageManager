@@ -8,6 +8,6 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
 {
     public interface InputBoundary
     {
-        void Execute(Request request);
+        Task ExecuteAsync(Request request);
     }
 }
