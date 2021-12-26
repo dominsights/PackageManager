@@ -10,13 +10,13 @@ namespace DgSystems.PackageManagerUnitTests.UseCases.InstallPackage
         [Fact]
         public void InstallPackage()
         {
-            var presenter = Substitute.For<InstallPackageOutputBoundary>();
+            var presenter = Substitute.For<OutputBoundary>();
             var package = new Package("notepad++", "C:\\setup.exe", "setup.zip");
             var request = new InstallPackageRequest(package);
             var installPackageInteractor = new InstallPackageInteractor(presenter);
             installPackageInteractor.Execute(request);
 
-            presenter.Received().Execute(new InstallPackageResponse("notepad++", "notepad++ was installed successfully."));
+            presenter.Received().Execute(new Response("notepad++", "notepad++ was installed successfully."));
         }
     }
 }

@@ -9,9 +9,9 @@ namespace DgSystems.PackageManager.Controllers
 {
     public class InstallController
     {
-        private readonly InstallPackageInputBoundary installPackageInteractor;
+        private readonly InputBoundary installPackageInteractor;
 
-        public InstallController(InstallPackageInputBoundary installPackageInteractor)
+        public InstallController(InputBoundary installPackageInteractor)
         {
             this.installPackageInteractor = installPackageInteractor;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.Presenters
 {
-    internal class InstallPackagePresenter : InstallPackageOutputBoundary
+    internal class InstallPackagePresenter : OutputBoundary
     {
     }
 }

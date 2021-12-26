@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.UseCases.InstallPackage
 {
-    public interface InstallPackageInputBoundary
+    public interface OutputBoundary
     {
-        void Execute(InstallPackageRequest request);
+        void Execute(Response installPackageResponse);
     }
 }
