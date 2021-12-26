@@ -9,6 +9,13 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
 {
     public class InstallPackageInteractor : InstallPackageInputBoundary
     {
+        private InstallPackageOutputBoundary presenter;
+
+        public InstallPackageInteractor(InstallPackageOutputBoundary presenter)
+        {
+            this.presenter = presenter;
+        }
+
         public void Execute(InstallPackageRequest request)
         {
             throw new NotImplementedException();
