@@ -1,4 +1,4 @@
-﻿using DgSystems.PackageManager.UseCases;
+﻿using DgSystems.PackageManager.UseCases.InstallPackage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,9 @@ namespace DgSystems.PackageManager.Controllers
 {
     public class InstallController
     {
-        private readonly InstallPackageInteractor installPackageInteractor;
+        private readonly InstallPackageInputBoundary installPackageInteractor;
 
-        public InstallController(InstallPackageInteractor installPackageInteractor)
+        public InstallController(InstallPackageInputBoundary installPackageInteractor)
         {
             this.installPackageInteractor = installPackageInteractor;
         }
