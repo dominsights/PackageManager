@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DgSystems.PackageManager.Controllers
+namespace DgSystems.PackageManager.Controllers.InstallPackage
 {
     public class InstallController
     {
