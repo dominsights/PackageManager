@@ -15,5 +15,10 @@ namespace DgSystems.PackageManager.Controllers.InstallPackage
         {
             this.installPackageInteractor = installPackageInteractor;
         }
+
+        public void Install(string name, string path, string fileName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

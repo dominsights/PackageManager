@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapters", "adapters", "{C2986860-6C32-4BA2-90EC-7ADC86187924}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Controllers", "test\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.Controllers.csproj", "{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.ControllersUnitTests", "test\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.ControllersUnitTests.csproj", "{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.PackageManager.Presenters", "test\adapters\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj", "{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}"
 EndProject
