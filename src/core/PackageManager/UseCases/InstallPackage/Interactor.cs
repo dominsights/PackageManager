@@ -4,7 +4,7 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
 {
     internal class Interactor : InputBoundary
     {
-        private OutputBoundary presenter;
+        private readonly OutputBoundary presenter;
         private readonly Entities.PackageManager packageManager;
         private readonly Notifier notifier;
 
