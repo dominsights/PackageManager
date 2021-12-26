@@ -1,9 +1,4 @@
 ﻿using DgSystems.PackageManager.UseCases.InstallPackage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.Controllers.InstallPackage
 {
@@ -18,7 +13,10 @@ namespace DgSystems.PackageManager.Controllers.InstallPackage
 
         public void Install(string name, string path, string fileName)
         {
-            throw new NotImplementedException();
+            if(string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName))
+                return;
+            
+            installPackageInteractor.ExecuteAsync(new Request(name, path, fileName));
         }
     }
 }

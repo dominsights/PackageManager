@@ -21,5 +21,21 @@
         public string Path { get => path; set => path = value; }
         public string FileName { get; set; }
         public IEnumerable<Request> Dependencies { get; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Request request &&
+                   name == request.name &&
+                   path == request.path &&
+                   Name == request.Name &&
+                   Path == request.Path &&
+                   FileName == request.FileName &&
+                   EqualityComparer<IEnumerable<Request>>.Default.Equals(Dependencies, request.Dependencies);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(name, path, Name, Path, FileName, Dependencies);
+        }
     }
 }
