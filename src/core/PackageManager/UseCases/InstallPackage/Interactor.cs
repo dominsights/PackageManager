@@ -21,11 +21,11 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
             var installationStatus = await installation.Install(new Package(request.Name, request.Path, request.FileName));
             if (installationStatus == InstallationStatus.Success)
             {
-                presenter.Execute(new Response(request.Name, $"{request.Name} was installed successfully."));
+                presenter.Present(new Response(request.Name, $"{request.Name} was installed successfully."));
             }
             else
             {
-                presenter.Execute(new Response(request.Name, $"{request.Name} failed to install."));
+                presenter.Present(new Response(request.Name, $"{request.Name} failed to install."));
             }
         }
     }

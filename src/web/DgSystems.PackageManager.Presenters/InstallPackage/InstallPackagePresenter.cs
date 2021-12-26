@@ -9,7 +9,7 @@ namespace DgSystems.PackageManager.Presenters.InstallPackage
 {
     internal class InstallPackagePresenter : OutputBoundary
     {
-        public void Execute(Response installPackageResponse)
+        public void Present(Response installPackageResponse)
         {
             throw new NotImplementedException();
         }

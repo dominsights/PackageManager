@@ -23,7 +23,7 @@ namespace DgSystems.PackageManagerUnitTests.UseCases.InstallPackage
             var installPackageInteractor = new Interactor(presenter, packageManager, notifier);
             await installPackageInteractor.ExecuteAsync(request);
 
-            presenter.Received().Execute(new Response("notepad++", "notepad++ was installed successfully."));
+            presenter.Received().Present(new Response("notepad++", "notepad++ was installed successfully."));
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace DgSystems.PackageManagerUnitTests.UseCases.InstallPackage
             var installPackageInteractor = new Interactor(presenter, packageManager, notifier);
             await installPackageInteractor.ExecuteAsync(request);
 
-            presenter.Received().Execute(new Response("notepad++", "notepad++ failed to install."));
+            presenter.Received().Present(new Response("notepad++", "notepad++ failed to install."));
         }
     }
 }
