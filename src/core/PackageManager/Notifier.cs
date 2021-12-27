@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DgSystems.PackageManager
+﻿namespace DgSystems.PackageManager
 {
-    internal interface Notifier
+    public interface Notifier
     {
         void Notify<T>(T @event);
     }

@@ -1,17 +1,23 @@
 ﻿using DgSystems.PackageManager.UseCases.InstallPackage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace DgSystems.PackageManager.Presenters.InstallPackage
 {
-    internal class InstallPackagePresenter : OutputBoundary
+    public class InstallPackagePresenter : OutputBoundary
     {
-        public void Present(Response installPackageResponse)
+        private readonly HttpResponse httpResponse;
+
+        public InstallPackagePresenter(HttpResponse httpResponse)
         {
-            throw new NotImplementedException();
+            this.httpResponse = httpResponse;
+        }
+
+        public void PresentAsync(Response installPackageResponse)
+        {
+            var output = new InstallPackageOutput(installPackageResponse.PackageName, installPackageResponse.Message);
+            string json = JsonConvert.SerializeObject(output);
+            httpResponse.WriteAsync(json);
         }
     }
 }

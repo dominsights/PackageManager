@@ -2,7 +2,7 @@
 
 namespace DgSystems.PackageManager.UseCases.InstallPackage
 {
-    internal class Interactor : InputBoundary
+    public class Interactor : InputBoundary
     {
         private readonly OutputBoundary presenter;
         private readonly Entities.PackageManager packageManager;
@@ -21,11 +21,11 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
             var installationStatus = await installation.Install(new Package(request.Name, request.Path, request.FileName));
             if (installationStatus == InstallationStatus.Success)
             {
-                presenter.Present(new Response(request.Name, $"{request.Name} was installed successfully."));
+                presenter.PresentAsync(new Response(request.Name, $"{request.Name} was installed successfully."));
             }
             else
             {
-                presenter.Present(new Response(request.Name, $"{request.Name} failed to install."));
+                presenter.PresentAsync(new Response(request.Name, $"{request.Name} failed to install."));
             }
         }
     }

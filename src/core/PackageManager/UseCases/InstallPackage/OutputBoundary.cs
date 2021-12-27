@@ -8,6 +8,6 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
 {
     public interface OutputBoundary
     {
-        void Present(Response installPackageResponse);
+        void PresentAsync(Response installPackageResponse);
     }
 }
