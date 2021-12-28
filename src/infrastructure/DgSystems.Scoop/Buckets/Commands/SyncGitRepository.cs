@@ -1,11 +1,11 @@
 ﻿namespace DgSystems.Scoop.Buckets.Commands
 {
-    internal class SyncGitRepositoryCommand : Command
+    internal class SyncGitRepository : Command
     {
         private string rootFolder;
         private readonly CommandLineShell console;
 
-        public SyncGitRepositoryCommand(string rootFolder, CommandLineShell console)
+        public SyncGitRepository(string rootFolder, CommandLineShell console)
         {
             this.rootFolder = rootFolder;
             this.console = console;

@@ -44,23 +44,23 @@ namespace DgSystems.Scoop
 
             try
             {
-                Command downloadPackage = bucketCommandFactory.CreateDownloadPackageCommand(downloader, new Uri(package.DownloadUrl), downloadFolder);
+                Command downloadPackage = bucketCommandFactory.CreateDownloadPackage(downloader, new Uri(package.DownloadUrl), downloadFolder);
                 commandHistory.Push(downloadPackage);
                 await downloadPackage.Execute();
 
-                Command extractPackage = bucketCommandFactory.CreateExtractPackageCommand($"{downloadFolder}/{package.FileName}", extractedTempFolder, extract);
+                Command extractPackage = bucketCommandFactory.CreateExtractPackage($"{downloadFolder}/{package.FileName}", extractedTempFolder, extract);
                 commandHistory.Push(extractPackage);
                 await extractPackage.Execute();
 
-                Command copyManifest = bucketCommandFactory.CreateCopyManifestCommand(file, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json");
+                Command copyManifest = bucketCommandFactory.CreateCopyManifest(file, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json");
                 commandHistory.Push(copyManifest);
                 await copyManifest.Execute();
 
-                Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepositoryCommand(rootFolder, console);
+                Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepository(rootFolder, console);
                 commandHistory.Push(syncGitRepository);
                 await syncGitRepository.Execute();
 
-                Command copyInstaller = bucketCommandFactory.CreateCopyInstallerCommand($"{extractedTempFolder}/{package.Name}.zip", $"{rootFolder}/packages/{package.Name}.zip", file); // TODO: copy everything that is not manifest
+                Command copyInstaller = bucketCommandFactory.CreateCopyInstaller($"{extractedTempFolder}/{package.Name}.zip", $"{rootFolder}/packages/{package.Name}.zip", file); // TODO: copy everything that is not manifest
                 commandHistory.Push(copyInstaller);
                 await copyInstaller.Execute();
 

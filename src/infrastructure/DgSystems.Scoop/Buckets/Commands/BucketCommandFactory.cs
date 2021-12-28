@@ -4,29 +4,29 @@ namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class BucketCommandFactory
     {
-        public virtual Command CreateDownloadPackageCommand(Downloader downloader, Uri uri, string downloadFolder)
+        public virtual Command CreateDownloadPackage(Downloader downloader, Uri uri, string downloadFolder)
         {
-            return new DownloadPackageCommand(downloader, uri, downloadFolder);
+            return new DownloadPackage(downloader, uri, downloadFolder);
         }
 
-        public virtual Command CreateExtractPackageCommand(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)
+        public virtual Command CreateExtractPackage(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)
         {
-            return new ExtractPackageCommand(sourceArchiveFileName, destinationDirectoryName, extract);
+            return new ExtractPackage(sourceArchiveFileName, destinationDirectoryName, extract);
         }
 
-        public virtual Command CreateCopyManifestCommand(IFile file, string v1, string v2)
+        public virtual Command CreateCopyManifest(IFile file, string v1, string v2)
         {
-            return new CopyManifestCommand(file, v1, v2);
+            return new CopyManifest(file, v1, v2);
         }
 
-        public virtual Command CreateSyncGitRepositoryCommand(string rootFolder, CommandLineShell console)
+        public virtual Command CreateSyncGitRepository(string rootFolder, CommandLineShell console)
         {
-            return new SyncGitRepositoryCommand(rootFolder, console);
+            return new SyncGitRepository(rootFolder, console);
         }
 
-        public virtual Command CreateCopyInstallerCommand(string sourceFileName, string destFileName, IFile file)
+        public virtual Command CreateCopyInstaller(string sourceFileName, string destFileName, IFile file)
         {
-            return new CopyInstallerCommand(sourceFileName, destFileName, file);
+            return new CopyInstaller(sourceFileName, destFileName, file);
         }
     }
 }

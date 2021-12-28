@@ -2,13 +2,13 @@
 
 namespace DgSystems.Scoop.Buckets.Commands
 {
-    internal class ExtractPackageCommand : Command
+    internal class ExtractPackage : Command
     {
         private string sourceArchiveFileName;
         private string destinationDirectoryName;
         private readonly ExtractToDirectory extract;
 
-        public ExtractPackageCommand(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)
+        public ExtractPackage(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)
         {
             this.sourceArchiveFileName = sourceArchiveFileName;
             this.destinationDirectoryName = destinationDirectoryName;

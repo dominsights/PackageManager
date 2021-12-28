@@ -2,17 +2,17 @@
 
 namespace DgSystems.Scoop.Buckets.Commands
 {
-    internal class CopyInstallerCommand : Command
+    internal class CopyManifest : Command
     {
+        private IFile file;
         private string v1;
         private string v2;
-        private readonly IFile file;
 
-        public CopyInstallerCommand(string sourceFileName, string destFileName, IFile file)
+        public CopyManifest(IFile file, string v1, string v2)
         {
-            this.v1 = sourceFileName;
-            this.v2 = destFileName;
             this.file = file;
+            this.v1 = v1;
+            this.v2 = v2;
         }
 
         public Task Execute()

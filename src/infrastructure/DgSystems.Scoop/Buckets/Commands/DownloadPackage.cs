@@ -1,12 +1,12 @@
 ﻿namespace DgSystems.Scoop.Buckets.Commands
 {
-    internal class DownloadPackageCommand : Command
+    internal class DownloadPackage : Command
     {
         private Downloader downloader;
         private Uri uri;
         private string downloadFolder;
 
-        public DownloadPackageCommand(Downloader downloader, Uri uri, string downloadFolder)
+        public DownloadPackage(Downloader downloader, Uri uri, string downloadFolder)
         {
             this.downloader = downloader;
             this.uri = uri;
