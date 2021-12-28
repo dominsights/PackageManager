@@ -1,5 +1,5 @@
 ﻿using DgSystems.Scoop;
-using DgSystems.Scoop.Buckets;
+using DgSystems.Scoop.Buckets.Commands;
 using NSubstitute;
 using System.IO.Abstractions;
 using Xunit;

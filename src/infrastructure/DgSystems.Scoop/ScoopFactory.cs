@@ -1,5 +1,5 @@
 ﻿using DgSystems.PackageManager;
-using DgSystems.Scoop.Buckets;
+using DgSystems.Scoop.Buckets.Commands;
 using System.IO.Abstractions;
 using System.IO.Compression;
 

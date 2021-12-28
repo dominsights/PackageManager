@@ -1,6 +1,6 @@
 ﻿using System.IO.Compression;
 
-namespace DgSystems.Scoop
+namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class ExtractPackageCommand : Command
     {

@@ -1,6 +1,6 @@
 ﻿using DgSystems.PackageManager.Entities;
 using DgSystems.Scoop;
-using DgSystems.Scoop.Buckets;
+using DgSystems.Scoop.Buckets.Commands;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace DgSystems.ScoopUnitTests
             Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
             await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
-            file.Received().Copy($"{extractedTempFolder}/{packageName}.json", $"{bucketRoot}/manifests/{packageName}.json");
+            file.Received().Copy($"{extractedTempFolder}/{packageName}.json", $"{bucketRoot}/manifests/{packageName}.json", true);
         }
 
         [Fact]
@@ -70,7 +70,8 @@ namespace DgSystems.ScoopUnitTests
             string moveToFolder = $"cd {bucketRoot}/manifests";
             string gitAdd = "git add .";
             string gitCommit = "git commit -m \"Sync\"";
-            console.Received().Execute(Arg.Is<List<string>>(x => x.SequenceEqual(new List<string> { moveToFolder, gitAdd, gitCommit })));
+            string scoopUpdate = "scoop update";
+            await console.Received().Execute(Arg.Is<List<string>>(x => x.SequenceEqual(new List<string> { moveToFolder, gitAdd, gitCommit, scoopUpdate })));
         }
 
         [Fact]
@@ -80,7 +81,7 @@ namespace DgSystems.ScoopUnitTests
             Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
             await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
-            file.Received().Copy($"{extractedTempFolder}/{packageName}.exe", $"{bucketRoot}/packages/{packageName}.exe");
+            file.Received().Copy($"{extractedTempFolder}/{packageName}.zip", $"{bucketRoot}/packages/{packageName}.zip", true);
         }
 
         [Fact]

@@ -1,6 +1,6 @@
 ﻿using System.IO.Abstractions;
 
-namespace DgSystems.Scoop.Buckets
+namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class BucketCommandFactory
     {

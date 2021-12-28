@@ -1,18 +1,18 @@
 ﻿using System.IO.Abstractions;
 
-namespace DgSystems.Scoop
+namespace DgSystems.Scoop.Buckets.Commands
 {
-    internal class CopyManifestCommand : Command
+    internal class CopyInstallerCommand : Command
     {
-        private IFile file;
         private string v1;
         private string v2;
+        private readonly IFile file;
 
-        public CopyManifestCommand(IFile file, string v1, string v2)
+        public CopyInstallerCommand(string sourceFileName, string destFileName, IFile file)
         {
+            this.v1 = sourceFileName;
+            this.v2 = destFileName;
             this.file = file;
-            this.v1 = v1;
-            this.v2 = v2;
         }
 
         public Task Execute()

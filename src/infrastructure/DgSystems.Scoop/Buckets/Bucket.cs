@@ -1,5 +1,6 @@
 ﻿using DgSystems.PackageManager.Entities;
 using DgSystems.Scoop.Buckets;
+using DgSystems.Scoop.Buckets.Commands;
 using System.IO.Abstractions;
 
 namespace DgSystems.Scoop

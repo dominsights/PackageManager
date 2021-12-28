@@ -1,4 +1,4 @@
-﻿namespace DgSystems.Scoop
+﻿namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class DownloadPackageCommand : Command
     {

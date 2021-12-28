@@ -2,7 +2,7 @@
 using DgSystems.PackageManager.Entities;
 using DgSystems.PowerShell;
 using DgSystems.Scoop;
-using DgSystems.Scoop.Buckets;
+using DgSystems.Scoop.Buckets.Commands;
 using NSubstitute;
 using System;
 using System.IO.Abstractions;
