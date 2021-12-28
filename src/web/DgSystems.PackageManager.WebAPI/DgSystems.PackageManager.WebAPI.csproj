@@ -12,6 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.Controllers.csproj" />
+    <ProjectReference Include="..\..\infrastructure\DgSystems.Downloader\DgSystems.Downloader.csproj" />
+    <ProjectReference Include="..\..\infrastructure\DgSystems.PowerShell\DgSystems.PowerShell.csproj" />
+    <ProjectReference Include="..\..\infrastructure\DgSystems.Scoop\DgSystems.Scoop.csproj" />
     <ProjectReference Include="..\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj" />
   </ItemGroup>
 

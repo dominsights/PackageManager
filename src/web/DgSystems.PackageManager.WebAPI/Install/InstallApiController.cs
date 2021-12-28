@@ -10,14 +10,12 @@ namespace DgSystems.PackageManager.WebAPI.Install
     [ApiController]
     public class InstallApiController : ControllerBase
     {
-        private readonly InstallController installController;
-        private readonly Entities.PackageManager packageManager;
+        private readonly PackageManagerFactory packageManagerFactory;
         private readonly Notifier notifier;
 
-        public InstallApiController(InstallController installController, Entities.PackageManager packageManager, Notifier notifier)
+        public InstallApiController(PackageManagerFactory packageManagerFactory, Notifier notifier)
         {
-            this.installController = installController;
-            this.packageManager = packageManager;
+            this.packageManagerFactory = packageManagerFactory;
             this.notifier = notifier;
         }
 
@@ -40,7 +38,7 @@ namespace DgSystems.PackageManager.WebAPI.Install
         public void Post([FromBody] InstallPackageInput input)
         {
             var presenter = new InstallPackagePresenter(Response);
-            var interactor = new UseCases.InstallPackage.Interactor(presenter, packageManager, notifier);
+            var interactor = new UseCases.InstallPackage.Interactor(presenter, packageManagerFactory.Create(), notifier);
             var installController = new InstallController(interactor);
             installController.Install(input.Name, input.Path, input.FileName);
         }
