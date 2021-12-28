@@ -43,7 +43,7 @@ namespace DgSystems.Scoop
 
             try
             {
-                Command downloadPackage = bucketCommandFactory.CreateDownloadPackageCommand(downloader, new Uri(package.Path), downloadFolder);
+                Command downloadPackage = bucketCommandFactory.CreateDownloadPackageCommand(downloader, new Uri(package.DownloadUrl), downloadFolder);
                 commandHistory.Push(downloadPackage);
                 await downloadPackage.Execute();
 
@@ -55,18 +55,19 @@ namespace DgSystems.Scoop
                 commandHistory.Push(copyManifest);
                 await copyManifest.Execute();
 
-                Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepositoryCommand(rootFolder, console);
+                Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepositoryCommand($"{rootFolder}/manifests", console);
                 commandHistory.Push(syncGitRepository);
                 await syncGitRepository.Execute();
 
-                Command copyInstaller = bucketCommandFactory.CreateCopyInstallerCommand($"{extractedTempFolder}/{package.Name}.exe", $"{rootFolder}/packages/{package.Name}.exe", file);
+                Command copyInstaller = bucketCommandFactory.CreateCopyInstallerCommand($"{extractedTempFolder}/{package.Name}.zip", $"{rootFolder}/packages/{package.Name}.zip", file); // TODO: copy everything that is not manifest
                 commandHistory.Push(copyInstaller);
                 await copyInstaller.Execute();
 
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
                 while (!commandHistory.IsEmpty())
                 {
                     Command command = commandHistory.Pop();

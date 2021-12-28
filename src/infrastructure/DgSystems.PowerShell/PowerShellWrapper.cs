@@ -12,14 +12,15 @@ namespace DgSystems.PowerShell
             powerShell = System.Management.Automation.PowerShell.Create();
         }
 
-        public System.Management.Automation.PowerShell AddCommand(string command)
+        public System.Management.Automation.PowerShell AddScript(string command)
         {
-            return powerShell.AddCommand(command);
+            return powerShell.AddScript(command);
         }
 
         public Collection<PSObject> Invoke()
         {
-            return powerShell.Invoke();
+            Collection<PSObject> pSObjects = powerShell.Invoke();
+            return pSObjects;
         }
     }
 }

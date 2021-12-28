@@ -36,7 +36,7 @@ namespace DgSystems.Scoop
 
         public bool IsPackageValid(Package package)
         {
-            throw new NotImplementedException();
+            return true; // TODO: validate manifest
         }
     }
 }

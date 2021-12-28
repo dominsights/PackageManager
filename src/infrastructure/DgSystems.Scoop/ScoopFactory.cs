@@ -25,7 +25,7 @@ namespace DgSystems.Scoop
             var bucketList = new BucketList();
             bucketList.Add(bucket);
 
-            return new Scoop(commandLineShell, bucketList, "C:\\Downloads", (source, destination) => ZipFile.ExtractToDirectory(source, destination));
+            return new Scoop(commandLineShell, bucketList, "C:\\Downloads", (source, destination) => ZipFile.ExtractToDirectory(source, destination)); // TODO: clear or remove folder before copying
         }
     }
 }

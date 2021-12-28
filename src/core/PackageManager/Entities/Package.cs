@@ -5,22 +5,22 @@ namespace DgSystems.PackageManager.Entities
     public class Package
     {
         private string name;
-        private string path;
+        private string downloadUrl;
 
-        public Package(string name, string path, string fileName)
+        public Package(string name, string downloadUrl, string fileName)
         {
             Name = name;
-            Path = path;
+            DownloadUrl = downloadUrl;
             FileName = fileName;
         }
 
-        public Package(string name, string path, string fileName, IEnumerable<Package> dependencies) : this(name, path, fileName)
+        public Package(string name, string downloadUrl, string fileName, IEnumerable<Package> dependencies) : this(name, downloadUrl, fileName)
         {
             Dependencies = dependencies;
         }
 
         public string Name { get => name; set => name = value; }
-        public string Path { get => path; set => path = value; }
+        public string DownloadUrl { get => downloadUrl; set => downloadUrl = value; }
         public string FileName { get; set; }
         public IEnumerable<Package> Dependencies { get; }
 
@@ -28,16 +28,16 @@ namespace DgSystems.PackageManager.Entities
         {
             return obj is Package package &&
                    name == package.name &&
-                   path == package.path &&
+                   downloadUrl == package.downloadUrl &&
                    Name == package.Name &&
-                   Path == package.Path &&
+                   DownloadUrl == package.DownloadUrl &&
                    FileName == package.FileName &&
                    EqualityComparer<IEnumerable<Package>>.Default.Equals(Dependencies, package.Dependencies);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(name, path, Name, Path, FileName, Dependencies);
+            return HashCode.Combine(name, downloadUrl, Name, DownloadUrl, FileName, Dependencies);
         }
     }
 }

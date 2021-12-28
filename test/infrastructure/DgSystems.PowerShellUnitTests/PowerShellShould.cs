@@ -17,7 +17,7 @@ namespace DgSystems.PowerShellUnitTests
             var powershellCLI = Substitute.For<PowerShellCLI>();
             var powershell = new PowerShell.PowerShell(powershellCLI);
             powershell.Execute(MkDir);
-            powershellCLI.Received().AddCommand(MkDir);
+            powershellCLI.Received().AddScript(MkDir);
             powershellCLI.Received().Invoke();
         }
 
@@ -30,8 +30,8 @@ namespace DgSystems.PowerShellUnitTests
 
             Received.InOrder(() =>
             {
-                powershellCLI.AddCommand(MkDir);
-                powershellCLI.AddCommand(RmDir);
+                powershellCLI.AddScript(MkDir);
+                powershellCLI.AddScript(RmDir);
                 powershellCLI.Invoke();
             });
         }

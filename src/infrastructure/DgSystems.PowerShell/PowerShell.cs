@@ -17,17 +17,15 @@ namespace DgSystems.PowerShell
 
         public Task Execute(string command)
         {
-            powershellCLI.AddCommand(command);
+            powershellCLI.AddScript(command);
             powershellCLI.Invoke();
             return Task.CompletedTask;
         }
 
         public Task Execute(List<string> commands)
         {
-            foreach (string command in commands)
-            {
-                powershellCLI.AddCommand(command);
-            }
+            string command = string.Join(";", commands);
+            powershellCLI.AddScript(command);
             powershellCLI.Invoke();
             return Task.CompletedTask;
         }

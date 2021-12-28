@@ -21,7 +21,7 @@ namespace DgSystems.Scoop
         {
             await console.Execute(new List<string>
             {
-                $"cd {rootFolder}/manifests",
+                $"Set-Location {rootFolder}/manifests",
                 "git add .",
                 "git commit -m \"Sync\""
             });

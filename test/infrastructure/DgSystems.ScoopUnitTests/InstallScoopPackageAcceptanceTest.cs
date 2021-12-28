@@ -55,7 +55,7 @@ namespace DgSystems.ScoopUnitTests
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList, downloadFolder, (source, destination) => ZipFile.ExtractToDirectory(source, destination));
             var result = await scoop.Install(package);
-            powershellCLI.Received().AddCommand("scoop install notepad-plus-plus");
+            powershellCLI.Received().AddScript("scoop install notepad-plus-plus");
             powershellCLI.Received().Invoke();
             Assert.Equal(InstallationStatus.Success, result);
         }
