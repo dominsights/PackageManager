@@ -2,7 +2,7 @@
 
 namespace DgSystems.Scoop.Buckets.Commands
 {
-    internal class BucketCommandFactory
+    internal class CommandFactory
     {
         public virtual Command CreateDownloadPackage(Downloader downloader, Uri uri, string downloadFolder)
         {

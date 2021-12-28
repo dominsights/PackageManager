@@ -32,7 +32,7 @@ namespace DgSystems.ScoopUnitTests
         public async Task DownloadPackage()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
-            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new CommandFactory());
 
             await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
@@ -43,7 +43,7 @@ namespace DgSystems.ScoopUnitTests
         public async Task UnzipPackage()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
-            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new CommandFactory());
             await bucket.Sync(package, downloadFolder, (x, y) => { SourceArchiveFileName = x; DestinationDirectoryName = y; });
 
             Assert.Equal(packageDownloadedPath, SourceArchiveFileName);
@@ -54,7 +54,7 @@ namespace DgSystems.ScoopUnitTests
         public async Task CopyManifestFiles()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
-            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new CommandFactory());
             await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             file.Received().Copy($"{extractedTempFolder}/{packageName}.json", $"{bucketRoot}/manifests/{packageName}.json", true);
@@ -64,7 +64,7 @@ namespace DgSystems.ScoopUnitTests
         public async Task SyncGitRepository()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
-            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new CommandFactory());
             await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             string moveToFolder = $"cd {bucketRoot}/manifests";
@@ -78,7 +78,7 @@ namespace DgSystems.ScoopUnitTests
         public async Task CopySetupFiles()
         {
             Package package = new Package(packageName, packageUrl, packageFileName);
-            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new BucketCommandFactory());
+            Bucket bucket = new Bucket(bucketName, bucketRoot, console, file, downloader, new CommandFactory());
             await bucket.Sync(package, downloadFolder, (x, y) => Console.Write(""));
 
             file.Received().Copy($"{extractedTempFolder}/{packageName}.zip", $"{bucketRoot}/packages/{packageName}.zip", true);
@@ -92,7 +92,7 @@ namespace DgSystems.ScoopUnitTests
             var copyManifest = Substitute.For<Command>();
             var syncGitRepository = Substitute.For<Command>();
             var copyInstaller = Substitute.For<Command>();
-            var commandFactory = Substitute.For<BucketCommandFactory>();
+            var commandFactory = Substitute.For<CommandFactory>();
 
             commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
@@ -127,7 +127,7 @@ namespace DgSystems.ScoopUnitTests
             var copyManifest = Substitute.For<Command>();
             var syncGitRepository = Substitute.For<Command>();
             var copyInstaller = Substitute.For<Command>();
-            var commandFactory = Substitute.For<BucketCommandFactory>();
+            var commandFactory = Substitute.For<CommandFactory>();
 
             commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);

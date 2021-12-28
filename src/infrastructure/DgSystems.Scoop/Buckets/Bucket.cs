@@ -15,9 +15,9 @@ namespace DgSystems.Scoop
         private CommandLineShell console;
         private readonly IFile file;
         private readonly Downloader downloader;
-        private readonly BucketCommandFactory bucketCommandFactory;
+        private readonly CommandFactory bucketCommandFactory;
 
-        public Bucket(string name, string rootFolder, CommandLineShell console, IFile file, Downloader downloader, BucketCommandFactory bucketCommandFactory)
+        public Bucket(string name, string rootFolder, CommandLineShell console, IFile file, Downloader downloader, CommandFactory bucketCommandFactory)
         {
             this.console = console;
             this.file = file;

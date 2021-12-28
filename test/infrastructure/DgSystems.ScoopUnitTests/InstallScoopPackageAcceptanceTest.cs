@@ -41,7 +41,7 @@ namespace DgSystems.ScoopUnitTests
             var copyManifest = Substitute.For<Command>();
             var syncGitRepository = Substitute.For<Command>();
             var copyInstaller = Substitute.For<Command>();
-            var commandFactory = Substitute.For<BucketCommandFactory>();
+            var commandFactory = Substitute.For<CommandFactory>();
 
             commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
