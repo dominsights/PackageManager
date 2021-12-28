@@ -19,7 +19,7 @@ namespace DgSystems.Scoop
         {
             return Task.Run(() =>
             {
-                file.Copy(v1, v2);
+                file.Copy(v1, v2, true);
             });
         }
 

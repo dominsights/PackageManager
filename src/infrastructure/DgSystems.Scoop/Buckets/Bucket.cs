@@ -55,7 +55,7 @@ namespace DgSystems.Scoop
                 commandHistory.Push(copyManifest);
                 await copyManifest.Execute();
 
-                Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepositoryCommand($"{rootFolder}/manifests", console);
+                Command syncGitRepository = bucketCommandFactory.CreateSyncGitRepositoryCommand(rootFolder, console);
                 commandHistory.Push(syncGitRepository);
                 await syncGitRepository.Execute();
 

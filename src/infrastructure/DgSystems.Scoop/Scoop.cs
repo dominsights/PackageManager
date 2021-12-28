@@ -27,8 +27,15 @@ namespace DgSystems.Scoop
 
             if (success)
             {
-                await console.Execute($"scoop install {package.Name}");
-                return InstallationStatus.Success;
+                try
+                {
+                    await console.Execute($"scoop install {package.Name}");
+                    return InstallationStatus.Success;
+                }
+                catch
+                {
+                    return InstallationStatus.Failure;
+                }
             }
 
             return InstallationStatus.Failure;

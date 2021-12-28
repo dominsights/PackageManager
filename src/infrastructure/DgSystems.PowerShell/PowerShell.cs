@@ -17,16 +17,41 @@ namespace DgSystems.PowerShell
 
         public Task Execute(string command)
         {
-            powershellCLI.AddScript(command);
-            powershellCLI.Invoke();
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "powershell.exe";
+            startInfo.Arguments = command;
+            startInfo.RedirectStandardError = true;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            if (process.ExitCode != 0) throw new Exception("Operation not executed!");
+            process.Close();
+
             return Task.CompletedTask;
         }
 
         public Task Execute(List<string> commands)
         {
-            string command = string.Join(";", commands);
-            powershellCLI.AddScript(command);
-            powershellCLI.Invoke();
+            string command = string.Join("; ", commands);
+
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "powershell.exe";
+            startInfo.Arguments = command;
+            startInfo.RedirectStandardError = true;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            System.Diagnostics.Debug.WriteLine(process.StandardError.ReadLine());
+
+            if (process.ExitCode != 0) throw new Exception("Operation not executed!");
+            process.Close();
+
             return Task.CompletedTask;
         }
     }
