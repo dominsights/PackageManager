@@ -2,6 +2,7 @@
 using DgSystems.Scoop.Buckets.Commands;
 using NSubstitute;
 using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using Xunit;
 
 namespace DgSystems.ScoopUnitTests
@@ -12,9 +13,8 @@ namespace DgSystems.ScoopUnitTests
         public void AddBucket()
         {
             var console = Substitute.For<CommandLineShell>();
-            IFile file = Substitute.For<IFile>();
             string bucketPath = "C://my_bucket";
-            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Scoop.Downloader>(), new CommandFactory());
+            var bucket = new Bucket("my_bucket", bucketPath, console, new MockFileSystem(), Substitute.For<Scoop.Downloader>(), new CommandFactory());
 
             var bucketList = new BucketList();
             bucketList.Add(bucket);
@@ -25,9 +25,8 @@ namespace DgSystems.ScoopUnitTests
         public void ReturnDefault()
         {
             var console = Substitute.For<CommandLineShell>();
-            IFile file = Substitute.For<IFile>();
             string bucketPath = "C://my_bucket";
-            var bucket = new Bucket("my_bucket", bucketPath, console, file, Substitute.For<Scoop.Downloader>(), new CommandFactory());
+            var bucket = new Bucket("my_bucket", bucketPath, console, new MockFileSystem(), Substitute.For<Scoop.Downloader>(), new CommandFactory());
 
             var bucketList = new BucketList();
             bucketList.Add(bucket);

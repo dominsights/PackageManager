@@ -21,8 +21,8 @@ namespace DgSystems.ScoopUnitTests
         [Fact]
         public async Task InstallScoopPackage()
         {
-            var powershellCLI = Substitute.For<PowerShellCLI>();
-            var console = new PowerShell.PowerShell(powershellCLI);
+            var process = Substitute.For<Process>();
+            var console = new PowerShell.PowerShell(process);
             var file = Substitute.For<IFile>();
             var bucketList = new BucketList();
             var bucketPath = "C://my_bucket";
@@ -45,18 +45,17 @@ namespace DgSystems.ScoopUnitTests
 
             commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
-            commandFactory.CreateCopyManifest(Arg.Any<IFile>(), Arg.Any<string>(), Arg.Any<string>()).Returns(copyManifest);
+            commandFactory.CreateCopyManifest(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<string>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepository(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
             commandFactory.CreateCopyInstaller(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IFile>()).Returns(copyInstaller);
 
             Package package = new Package("notepad-plus-plus", "http://localhost/packages/notepad-plus-plus.zip", "notepad-plus-plus.zip");
-            var bucket = new Bucket("my_bucket", bucketPath, console, file, downloader, commandFactory);
+            var bucket = new Bucket("my_bucket", bucketPath, console, mockFileSystem, downloader, commandFactory);
 
             bucketList.Add(bucket);
             var scoop = new ScoopClass(console, bucketList, downloadFolder, (source, destination) => ZipFile.ExtractToDirectory(source, destination));
             var result = await scoop.Install(package);
-            powershellCLI.Received().AddScript("scoop install notepad-plus-plus");
-            powershellCLI.Received().Invoke();
+            process.Received().Execute("powershell.exe","scoop install notepad-plus-plus");
             Assert.Equal(InstallationStatus.Success, result);
         }
     }

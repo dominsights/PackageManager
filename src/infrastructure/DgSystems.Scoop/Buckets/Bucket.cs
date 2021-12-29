@@ -13,11 +13,11 @@ namespace DgSystems.Scoop
         private string name;
         private readonly string rootFolder;
         private CommandLineShell console;
-        private readonly IFile file;
+        private readonly IFileSystem file;
         private readonly Downloader downloader;
         private readonly CommandFactory bucketCommandFactory;
 
-        public Bucket(string name, string rootFolder, CommandLineShell console, IFile file, Downloader downloader, CommandFactory bucketCommandFactory)
+        public Bucket(string name, string rootFolder, CommandLineShell console, IFileSystem file, Downloader downloader, CommandFactory bucketCommandFactory)
         {
             this.console = console;
             this.file = file;
@@ -60,7 +60,7 @@ namespace DgSystems.Scoop
                 commandHistory.Push(syncGitRepository);
                 await syncGitRepository.Execute();
 
-                Command copyInstaller = bucketCommandFactory.CreateCopyInstaller($"{extractedTempFolder}/{package.Name}.zip", $"{rootFolder}/packages/{package.Name}.zip", file); // TODO: copy everything that is not manifest
+                Command copyInstaller = bucketCommandFactory.CreateCopyInstaller($"{extractedTempFolder}/{package.Name}.zip", $"{rootFolder}/packages/{package.Name}.zip", file.File); // TODO: copy everything that is not manifest
                 commandHistory.Push(copyInstaller);
                 await copyInstaller.Execute();
 

@@ -21,7 +21,7 @@ namespace DgSystems.Scoop
         public PackageManager.Entities.PackageManager Create()
         {
             var bucketCommandFactory = new CommandFactory();
-            var bucket = new Bucket("local_bucket", "C:\\local_bucket", commandLineShell, fileSystem.File, downloader, bucketCommandFactory);
+            var bucket = new Bucket("local_bucket", "C:\\local_bucket", commandLineShell, fileSystem, downloader, bucketCommandFactory);
             var bucketList = new BucketList();
             bucketList.Add(bucket);
 

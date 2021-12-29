@@ -1,6 +1,5 @@
 ﻿using DgSystems.PowerShell;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -14,26 +13,21 @@ namespace DgSystems.PowerShellUnitTests
         [Fact]
         public void ExecuteCommand()
         {
-            var powershellCLI = Substitute.For<PowerShellCLI>();
-            var powershell = new PowerShell.PowerShell(powershellCLI);
+            var process = Substitute.For<Process>();
+            var powershell = new PowerShell.PowerShell(process);
             powershell.Execute(MkDir);
-            powershellCLI.Received().AddScript(MkDir);
-            powershellCLI.Received().Invoke();
+            process.Received().Execute("powershell.exe", MkDir);
         }
 
         [Fact]
         public void ExecuteMultipleCommandsInOrder()
         {
-            var powershellCLI = Substitute.For<PowerShellCLI>();
-            var powershell = new PowerShell.PowerShell(powershellCLI);
+            var process = Substitute.For<Process>();
+
+            var powershell = new PowerShell.PowerShell(process);
             powershell.Execute(new List<string> { MkDir, RmDir });
 
-            Received.InOrder(() =>
-            {
-                powershellCLI.AddScript(MkDir);
-                powershellCLI.AddScript(RmDir);
-                powershellCLI.Invoke();
-            });
+            process.Received().Execute("powershell.exe", $"{MkDir}; {RmDir}");
         }
     }
 }

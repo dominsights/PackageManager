@@ -14,7 +14,7 @@ namespace DgSystems.Scoop.Buckets.Commands
             return new ExtractPackage(sourceArchiveFileName, destinationDirectoryName, extract);
         }
 
-        public virtual Command CreateCopyManifest(IFile file, string v1, string v2)
+        public virtual Command CreateCopyManifest(IFileSystem file, string v1, string v2)
         {
             return new CopyManifest(file, v1, v2);
         }

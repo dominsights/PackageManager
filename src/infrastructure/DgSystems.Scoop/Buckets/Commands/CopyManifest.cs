@@ -4,22 +4,26 @@ namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class CopyManifest : Command
     {
-        private IFile file;
-        private string v1;
-        private string v2;
+        private IFileSystem fileSystem;
+        private string source;
+        private string destination;
 
-        public CopyManifest(IFile file, string v1, string v2)
+        public CopyManifest(IFileSystem fileSystem, string source, string destination)
         {
-            this.file = file;
-            this.v1 = v1;
-            this.v2 = v2;
+            this.fileSystem = fileSystem;
+            this.source = source;
+            this.destination = destination;
         }
 
         public Task Execute()
         {
             return Task.Run(() =>
             {
-                file.Copy(v1, v2, true);
+                if(!fileSystem.Directory.Exists(destination)) {
+                    fileSystem.Directory.CreateDirectory(destination);
+                }
+
+                fileSystem.File.Copy(source, destination, true);
             });
         }
 

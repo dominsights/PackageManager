@@ -6,7 +6,7 @@ namespace DgSystems.PowerShell
     {
         public CommandLineShell Create()
         {
-            return new PowerShell(new PowerShellWrapper());
+            return new PowerShell(new Process());
         }
     }
 }
