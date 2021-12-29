@@ -52,7 +52,7 @@ namespace DgSystems.Scoop
                 commandHistory.Push(extractPackage);
                 await extractPackage.Execute();
 
-                Command copyManifest = bucketCommandFactory.CreateCopyManifest(file, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json");
+                Command copyManifest = bucketCommandFactory.CreateCopyManifest(file, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json", console);
                 commandHistory.Push(copyManifest);
                 await copyManifest.Execute();
 

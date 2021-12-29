@@ -7,19 +7,22 @@ namespace DgSystems.Scoop.Buckets.Commands
         private IFileSystem fileSystem;
         private string source;
         private string destination;
+        private readonly CommandLineShell commandLine;
 
-        public CopyManifest(IFileSystem fileSystem, string source, string destination)
+        public CopyManifest(IFileSystem fileSystem, string source, string destination, CommandLineShell commandLine)
         {
             this.fileSystem = fileSystem;
             this.source = source;
             this.destination = destination;
+            this.commandLine = commandLine;
         }
 
         public Task Execute()
         {
             return Task.Run(() =>
             {
-                if(!fileSystem.Directory.Exists(destination)) {
+                if (!fileSystem.Directory.Exists(destination))
+                {
                     fileSystem.Directory.CreateDirectory(destination);
                 }
 
@@ -27,9 +30,13 @@ namespace DgSystems.Scoop.Buckets.Commands
             });
         }
 
-        public Task Undo()
+        public async Task Undo()
         {
-            throw new NotImplementedException();
+            await commandLine.Execute(new List<string> {
+                "git reset",
+                "git checkout .",
+                "git clean -fdx"
+            });
         }
     }
 }

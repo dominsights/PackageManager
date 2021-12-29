@@ -45,7 +45,7 @@ namespace DgSystems.ScoopUnitTests
 
             commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
-            commandFactory.CreateCopyManifest(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<string>()).Returns(copyManifest);
+            commandFactory.CreateCopyManifest(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepository(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
             commandFactory.CreateCopyInstaller(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IFile>()).Returns(copyInstaller);
 
