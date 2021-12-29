@@ -21,7 +21,7 @@ namespace DgSystems.Scoop.Buckets.Commands
         {
             return Task.Run(() =>
             {
-                if (!fileSystem.Directory.Exists(destination))
+                if (!fileSystem.Directory.Exists(fileSystem.Path.GetDirectoryName(destination)))
                 {
                     fileSystem.Directory.CreateDirectory(destination);
                 }

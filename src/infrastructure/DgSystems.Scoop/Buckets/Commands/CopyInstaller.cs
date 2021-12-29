@@ -28,6 +28,12 @@ namespace DgSystems.Scoop.Buckets.Commands
                     string destFileName = fileSystem.Path.Combine(directory, fileName + $"_backup{extension}");
                     fileSystem.File.Copy(destination, destFileName, true);
                 }
+
+                if (!fileSystem.Directory.Exists(fileSystem.Path.GetDirectoryName(destination)))
+                {
+                    fileSystem.Directory.CreateDirectory(destination);
+                }
+
                 fileSystem.File.Copy(source, destination, true);
             });
         }
