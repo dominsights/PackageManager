@@ -43,15 +43,18 @@ namespace DgSystems.ScoopUnitTests.Commands
         {
             var commandLine = Substitute.For<CommandLineShell>();
             var fileSystem = Substitute.For<IFileSystem>();
+            fileSystem.File.Returns(x => throw new Exception());
             var copyManifest = new CopyManifest(fileSystem, "C:\\Downloads\\notepadplusplus.json", "C:\\local_bucket\\manifests\\notepadplusplus.json", commandLine);
             await Assert.ThrowsAsync<Exception>(() => copyManifest.Execute());
-
-            await commandLine.Received().Execute(new List<string>
+            await copyManifest.Undo();
+            var expected = new List<string>
             {
                 "git reset",
                 "git checkout .",
                 "git clean -fdx"
-            });
+            };
+
+            await commandLine.Received().Execute(Arg.Is<List<string>>(x => x.SequenceEqual(expected)));
         }
     }
 }
