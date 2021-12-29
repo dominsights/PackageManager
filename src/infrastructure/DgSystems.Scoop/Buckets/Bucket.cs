@@ -13,14 +13,14 @@ namespace DgSystems.Scoop
         private string name;
         private readonly string rootFolder;
         private CommandLineShell console;
-        private readonly IFileSystem file;
+        private readonly IFileSystem fileSystem;
         private readonly Downloader downloader;
         private readonly CommandFactory bucketCommandFactory;
 
         public Bucket(string name, string rootFolder, CommandLineShell console, IFileSystem file, Downloader downloader, CommandFactory bucketCommandFactory)
         {
             this.console = console;
-            this.file = file;
+            this.fileSystem = file;
             this.downloader = downloader;
             this.bucketCommandFactory = bucketCommandFactory;
             this.name = name;
@@ -52,7 +52,7 @@ namespace DgSystems.Scoop
                 commandHistory.Push(extractPackage);
                 await extractPackage.Execute();
 
-                Command copyManifest = bucketCommandFactory.CreateCopyManifest(file, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json", console);
+                Command copyManifest = bucketCommandFactory.CreateCopyManifest(fileSystem, $"{extractedTempFolder}/{package.Name}.json", $"{rootFolder}/manifests/{package.Name}.json", console);
                 commandHistory.Push(copyManifest);
                 await copyManifest.Execute();
 
@@ -60,7 +60,7 @@ namespace DgSystems.Scoop
                 commandHistory.Push(syncGitRepository);
                 await syncGitRepository.Execute();
 
-                Command copyInstaller = bucketCommandFactory.CreateCopyInstaller($"{extractedTempFolder}/{package.Name}.zip", $"{rootFolder}/packages/{package.Name}.zip", file.File); // TODO: copy everything that is not manifest
+                Command copyInstaller = bucketCommandFactory.CreateCopyInstaller($"{extractedTempFolder}/{package.Name}.zip", $"{rootFolder}/packages/{package.Name}.zip", fileSystem); // TODO: copy everything that is not manifest
                 commandHistory.Push(copyInstaller);
                 await copyInstaller.Execute();
 

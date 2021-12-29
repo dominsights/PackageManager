@@ -24,9 +24,9 @@ namespace DgSystems.Scoop.Buckets.Commands
             return new SyncGitRepository(rootFolder, console);
         }
 
-        public virtual Command CreateCopyInstaller(string sourceFileName, string destFileName, IFile file)
+        public virtual Command CreateCopyInstaller(string sourceFileName, string destFileName, IFileSystem fileSystem)
         {
-            return new CopyInstaller(sourceFileName, destFileName, file);
+            return new CopyInstaller(sourceFileName, destFileName, fileSystem);
         }
     }
 }
