@@ -20,7 +20,6 @@ namespace DgSystems.Scoop.Buckets.Commands
             string fileName = fileSystem.Path.GetFileNameWithoutExtension(destination);
             string extension = fileSystem.Path.GetExtension(destination);
             backupFileName = fileSystem.Path.Combine(directory, fileName + $"_backup{extension}");
-
         }
 
         public Task Execute()
@@ -43,7 +42,8 @@ namespace DgSystems.Scoop.Buckets.Commands
 
         public Task Undo()
         {
-            throw new NotImplementedException();
+            fileSystem.File.Copy(backupFileName, destination, true);
+            return Task.CompletedTask;
         }
     }
 }
