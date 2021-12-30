@@ -4,15 +4,23 @@ namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class CopyInstaller : Command
     {
-        private string source;
-        private string destination;
+        private readonly string source;
+        private readonly string destination;
         private readonly IFileSystem fileSystem;
+        private readonly string backupFileName;
+        private readonly string directory;
 
         public CopyInstaller(string source, string destination, IFileSystem fileSystem)
         {
             this.source = source;
             this.destination = destination;
             this.fileSystem = fileSystem;
+
+            directory = fileSystem.Path.GetDirectoryName(destination);
+            string fileName = fileSystem.Path.GetFileNameWithoutExtension(destination);
+            string extension = fileSystem.Path.GetExtension(destination);
+            backupFileName = fileSystem.Path.Combine(directory, fileName + $"_backup{extension}");
+
         }
 
         public Task Execute()
@@ -21,17 +29,12 @@ namespace DgSystems.Scoop.Buckets.Commands
             {
                 if (fileSystem.File.Exists(destination))
                 {
-                    string fileName = fileSystem.Path.GetFileNameWithoutExtension(destination);
-                    var directory = fileSystem.Path.GetDirectoryName(destination);
-                    string extension = fileSystem.Path.GetExtension(destination);
-
-                    string destFileName = fileSystem.Path.Combine(directory, fileName + $"_backup{extension}");
-                    fileSystem.File.Copy(destination, destFileName, true);
+                    fileSystem.File.Copy(destination, backupFileName, true);
                 }
 
-                if (!fileSystem.Directory.Exists(fileSystem.Path.GetDirectoryName(destination)))
+                if (!fileSystem.Directory.Exists(directory))
                 {
-                    fileSystem.Directory.CreateDirectory(destination);
+                    fileSystem.Directory.CreateDirectory(directory);
                 }
 
                 fileSystem.File.Copy(source, destination, true);

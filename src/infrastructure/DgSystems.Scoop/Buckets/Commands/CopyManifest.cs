@@ -4,9 +4,9 @@ namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class CopyManifest : Command
     {
-        private IFileSystem fileSystem;
-        private string source;
-        private string destination;
+        private readonly IFileSystem fileSystem;
+        private readonly string source;
+        private readonly string destination;
         private readonly CommandLineShell commandLine;
 
         public CopyManifest(IFileSystem fileSystem, string source, string destination, CommandLineShell commandLine)
@@ -21,9 +21,10 @@ namespace DgSystems.Scoop.Buckets.Commands
         {
             return Task.Run(() =>
             {
-                if (!fileSystem.Directory.Exists(fileSystem.Path.GetDirectoryName(destination)))
+                string directory = fileSystem.Path.GetDirectoryName(destination);
+                if (!fileSystem.Directory.Exists(directory))
                 {
-                    fileSystem.Directory.CreateDirectory(destination);
+                    fileSystem.Directory.CreateDirectory(directory);
                 }
 
                 fileSystem.File.Copy(source, destination, true);
