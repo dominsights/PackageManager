@@ -100,7 +100,7 @@ namespace DgSystems.ScoopUnitTests
             var copyInstaller = Substitute.For<Command>();
             var commandFactory = Substitute.For<CommandFactory>();
 
-            commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
+            commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>(), Arg.Any<IFileSystem>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
             commandFactory.CreateCopyManifest(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepository(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
@@ -135,7 +135,7 @@ namespace DgSystems.ScoopUnitTests
             var copyInstaller = Substitute.For<Command>();
             var commandFactory = Substitute.For<CommandFactory>();
 
-            commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>()).Returns(downloadPackage);
+            commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>(), Arg.Any<IFileSystem>()).Returns(downloadPackage);
             commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
             commandFactory.CreateCopyManifest(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepository(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);

@@ -4,9 +4,9 @@ namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class CommandFactory
     {
-        public virtual Command CreateDownloadPackage(Downloader downloader, Uri uri, string downloadFolder)
+        public virtual Command CreateDownloadPackage(Downloader downloader, Uri uri, string downloadFolder, IFileSystem fileSystem)
         {
-            return new DownloadPackage(downloader, uri, downloadFolder);
+            return new DownloadPackage(downloader, uri, downloadFolder, fileSystem);
         }
 
         public virtual Command CreateExtractPackage(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)

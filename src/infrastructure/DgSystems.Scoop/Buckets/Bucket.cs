@@ -44,7 +44,7 @@ namespace DgSystems.Scoop
 
             try
             {
-                Command downloadPackage = bucketCommandFactory.CreateDownloadPackage(downloader, new Uri(package.DownloadUrl), downloadFolder);
+                Command downloadPackage = bucketCommandFactory.CreateDownloadPackage(downloader, new Uri(package.DownloadUrl), downloadFolder, fileSystem);
                 commandHistory.Push(downloadPackage);
                 await downloadPackage.Execute();
 
