@@ -99,9 +99,10 @@ namespace DgSystems.ScoopUnitTests
             var syncGitRepository = Substitute.For<Command>();
             var copyInstaller = Substitute.For<Command>();
             var commandFactory = Substitute.For<CommandFactory>();
+            var directory = Substitute.For<IDirectory>();
 
             commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>(), Arg.Any<IFileSystem>()).Returns(downloadPackage);
-            commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
+            commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>(), Arg.Any<IFileSystem>()).Returns(extractPackage);
             commandFactory.CreateCopyManifest(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepository(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
             commandFactory.CreateCopyInstaller(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IFileSystem>()).Returns(copyInstaller);
@@ -134,9 +135,10 @@ namespace DgSystems.ScoopUnitTests
             var syncGitRepository = Substitute.For<Command>();
             var copyInstaller = Substitute.For<Command>();
             var commandFactory = Substitute.For<CommandFactory>();
+            var directory = Substitute.For<IDirectory>();
 
             commandFactory.CreateDownloadPackage(Arg.Any<Scoop.Downloader>(), Arg.Any<Uri>(), Arg.Any<string>(), Arg.Any<IFileSystem>()).Returns(downloadPackage);
-            commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>()).Returns(extractPackage);
+            commandFactory.CreateExtractPackage(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ExtractToDirectory>(), Arg.Any<IFileSystem>()).Returns(extractPackage);
             commandFactory.CreateCopyManifest(Arg.Any<IFileSystem>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(copyManifest);
             commandFactory.CreateSyncGitRepository(Arg.Any<string>(), Arg.Any<CommandLineShell>()).Returns(syncGitRepository);
             commandFactory.CreateCopyInstaller(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<IFileSystem>()).Returns(copyInstaller);

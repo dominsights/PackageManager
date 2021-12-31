@@ -9,9 +9,9 @@ namespace DgSystems.Scoop.Buckets.Commands
             return new DownloadPackage(downloader, uri, downloadFolder, fileSystem);
         }
 
-        public virtual Command CreateExtractPackage(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)
+        public virtual Command CreateExtractPackage(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract, IFileSystem fileSystem)
         {
-            return new ExtractPackage(sourceArchiveFileName, destinationDirectoryName, extract);
+            return new ExtractPackage(sourceArchiveFileName, destinationDirectoryName, extract, fileSystem);
         }
 
         public virtual Command CreateCopyManifest(IFileSystem file, string v1, string v2, CommandLineShell console)

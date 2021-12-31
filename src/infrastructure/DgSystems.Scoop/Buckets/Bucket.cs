@@ -48,7 +48,7 @@ namespace DgSystems.Scoop
                 commandHistory.Push(downloadPackage);
                 await downloadPackage.Execute();
 
-                Command extractPackage = bucketCommandFactory.CreateExtractPackage($"{downloadFolder}/{package.FileName}", extractedTempFolder, extract);
+                Command extractPackage = bucketCommandFactory.CreateExtractPackage($"{downloadFolder}/{package.FileName}", extractedTempFolder, extract, fileSystem);
                 commandHistory.Push(extractPackage);
                 await extractPackage.Execute();
 

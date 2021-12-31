@@ -1,18 +1,20 @@
-﻿using System.IO.Compression;
+﻿using System.IO.Abstractions;
 
 namespace DgSystems.Scoop.Buckets.Commands
 {
     internal class ExtractPackage : Command
     {
-        private string sourceArchiveFileName;
-        private string destinationDirectoryName;
+        private readonly string sourceArchiveFileName;
+        private readonly string destinationDirectoryName;
         private readonly ExtractToDirectory extract;
+        private readonly IFileSystem fileSystem;
 
-        public ExtractPackage(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract)
+        public ExtractPackage(string sourceArchiveFileName, string destinationDirectoryName, ExtractToDirectory extract, System.IO.Abstractions.IFileSystem fileSystem)
         {
             this.sourceArchiveFileName = sourceArchiveFileName;
             this.destinationDirectoryName = destinationDirectoryName;
             this.extract = extract;
+            this.fileSystem = fileSystem;
         }
 
         public Task Execute()
@@ -25,7 +27,10 @@ namespace DgSystems.Scoop.Buckets.Commands
 
         public Task Undo()
         {
-            throw new NotImplementedException();
+            string fileName = fileSystem.Path.GetFileNameWithoutExtension(sourceArchiveFileName);
+            string directory = fileSystem.Path.Combine(destinationDirectoryName, fileName);
+            fileSystem.Directory.Delete(directory, true);
+            return Task.CompletedTask;
         }
     }
 }
