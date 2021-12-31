@@ -22,9 +22,13 @@
             });
         }
 
-        public Task Undo()
+        public async Task Undo()
         {
-            throw new NotImplementedException();
+            await console.Execute(new List<string> {
+                "git reset",
+                "git checkout .",
+                "git clean -fdx"
+            });
         }
     }
 }
