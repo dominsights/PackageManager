@@ -45,9 +45,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapters", "adapters", "{C2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.ControllersUnitTests", "test\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.ControllersUnitTests.csproj", "{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.Presenters", "test\web\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj", "{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.PresentersUnitTests", "test\web\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.PresentersUnitTests.csproj", "{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{7B7AF445-95A8-4831-82BF-B906D9981754}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackageManagerAcceptanceTests", "test\acceptance\PackageManagerAcceptanceTests\PackageManagerAcceptanceTests.csproj", "{F3A184AB-4EF1-40A3-9367-0A6F41190FD8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "acceptance", "acceptance", "{A52B703C-9791-4581-A8FB-C69F39D4585F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +111,10 @@ Global
 		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A184AB-4EF1-40A3-9367-0A6F41190FD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A184AB-4EF1-40A3-9367-0A6F41190FD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A184AB-4EF1-40A3-9367-0A6F41190FD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A184AB-4EF1-40A3-9367-0A6F41190FD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +141,8 @@ Global
 		{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7} = {C2986860-6C32-4BA2-90EC-7ADC86187924}
 		{8BF6F356-D93B-48B1-9FB5-63F96AC351ED} = {7B7AF445-95A8-4831-82BF-B906D9981754}
 		{7B7AF445-95A8-4831-82BF-B906D9981754} = {0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}
+		{F3A184AB-4EF1-40A3-9367-0A6F41190FD8} = {A52B703C-9791-4581-A8FB-C69F39D4585F}
+		{A52B703C-9791-4581-A8FB-C69F39D4585F} = {0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD6A86CD-FBE0-4EB4-BFD6-5D889954240F}
