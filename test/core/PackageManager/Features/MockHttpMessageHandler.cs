@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DgSystems.PackageManagerUnitTests.Feature
+namespace DgSystems.PackageManagerUnitTests.Features
 {
     internal class MockHttpMessageHandler : HttpMessageHandler
     {

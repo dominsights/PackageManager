@@ -15,7 +15,7 @@ using System.Net;
 using System.Net.Http;
 using Xunit;
 
-namespace DgSystems.PackageManagerUnitTests.Feature
+namespace DgSystems.PackageManagerUnitTests.Features
 {
     public class InstallProgramAcceptanceTest
     {
