@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PowerShell
 {
-    internal class Process
+    public class Process
     {
         public virtual int Execute(string program, string arguments)
         {

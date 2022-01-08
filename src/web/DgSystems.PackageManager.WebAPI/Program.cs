@@ -4,6 +4,7 @@ using DgSystems.PackageManager.WebAPI.Install;
 using DgSystems.PowerShell;
 using DgSystems.Scoop;
 using System.IO.Abstractions;
+using System.IO.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +15,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<Process>();
 builder.Services.AddTransient<PackageManagerFactory, ScoopFactory>();
 builder.Services.AddTransient<Notifier, LoggerNotifier>();
 builder.Services.AddTransient<CommandLineShellFactory, PowerShellFactory>();
 builder.Services.AddTransient<IFileSystem, FileSystem>();
 builder.Services.AddHttpClient<Downloader, DownloadManager>();
+builder.Services.AddSingleton<ExtractToDirectory>((ExtractToDirectory)((source, destination) => ZipFile.ExtractToDirectory(source, destination, true)));
 
 var app = builder.Build();
 

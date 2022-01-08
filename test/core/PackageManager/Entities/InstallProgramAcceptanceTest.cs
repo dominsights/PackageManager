@@ -1,8 +1,18 @@
-﻿using DgSystems.PackageManager;
+﻿using DgSystems.Downloader;
+using DgSystems.PackageManager;
 using DgSystems.PackageManager.Entities;
 using DgSystems.PackageManager.Entities.Events;
+using DgSystems.PackageManager.WebAPI.Install;
+using DgSystems.PowerShell;
+using DgSystems.Scoop;
+using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
+using System.IO.Abstractions.TestingHelpers;
+using System.Net;
+using System.Net.Http;
 using Xunit;
 
 namespace DgSystems.PackageManagerUnitTests.Entities
@@ -13,17 +23,39 @@ namespace DgSystems.PackageManagerUnitTests.Entities
         [Fact]
         public async void InstallSimpleProgramAsync()
         {
-            var program = new Package("notepad++", "C:\\setup.exe", "setup.zip");
-            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
-            packageManager.IsPackageValid(program).Returns(true);
-            packageManager.Install(program).Returns(InstallationStatus.Success);
-            var notifier = Substitute.For<Notifier>();
+            // Arrange
+
+            // External
+            var mockFileSystem = new MockFileSystem();
+            mockFileSystem.AddFile("C:/temp/notepadplusplus/notepadplusplus.json", new MockFileData(new byte[1]));
+            mockFileSystem.AddFile("C:/temp/notepadplusplus/notepadplusplus.zip", new MockFileData(new byte[1]));
+            var downloadContent = new MultipartContent("zip") {
+                new ByteArrayContent(new byte[64])
+            };
+            var httpResponseMessage = new HttpResponseMessage() { 
+                StatusCode = HttpStatusCode.OK, Content = downloadContent
+            };
+            var httpClient = new HttpClient(new MockHttpMessageHandler(httpResponseMessage));
+            var logger = Substitute.For<ILogger<LoggerNotifier>>();
+            static void extractZip(string x, string y) => Console.Write("");
+            var process = Substitute.For<Process>();
+
+            // Collaborators
+            var program = new Package("notepadplusplus", "C:\\setup.exe", "setup.zip");
+            var powershellFactory = new PowerShellFactory(process);
+            var downloader = new DownloadManager(httpClient, mockFileSystem);
+            var scoopFactory = new ScoopFactory(powershellFactory, mockFileSystem, downloader, extractZip);
+            var packageManager = scoopFactory.Create();
+            var notifier = new LoggerNotifier(logger);
             var installation = new Installation(packageManager, notifier);
-            await installation.Install(program);
+            
+            // Act
 
-            notifier.Received().Notify(new InstallationExecuted(installation.Id, program.Name));
+            var installationStatus = await installation.Install(program);
 
-            await packageManager.Received().Install(program);
+            // Assert
+
+            installationStatus.Should().Be(InstallationStatus.Success);
         }
 
         [Fact]

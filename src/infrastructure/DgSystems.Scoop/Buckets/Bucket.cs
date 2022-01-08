@@ -5,7 +5,7 @@ using System.IO.Abstractions;
 
 namespace DgSystems.Scoop
 {
-    delegate void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName);
+    public delegate void ExtractToDirectory(string sourceArchiveFileName, string destinationDirectoryName);
 
     internal class Bucket
     {
