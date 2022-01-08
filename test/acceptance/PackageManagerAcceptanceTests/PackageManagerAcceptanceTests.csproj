@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.Controllers.csproj" />
-    <ProjectReference Include="..\..\..\src\web\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using DgSystems.PackageManager.Controllers.InstallPackage;
-using DgSystems.PackageManager.Presenters.InstallPackage;
+using DgSystems.PackageManager.Presenters;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,7 +9,7 @@ namespace DgSystems.PackageManager.WebAPI.Install
 {
     [Route("api/install")]
     [ApiController]
-    public class InstallApiController : ControllerBase
+    public class InstallApiController : ControllerBase, Observer
     {
         private readonly PackageManagerFactory packageManagerFactory;
         private readonly Notifier notifier;
@@ -37,7 +38,8 @@ namespace DgSystems.PackageManager.WebAPI.Install
         [HttpPost]
         public void Post([FromBody] InstallPackageInput input)
         {
-            var presenter = new InstallPackagePresenter(Response);
+            var presenter = new Presenters.InstallPackage.Presenter();
+            presenter.Attach(this);
             var interactor = new UseCases.InstallPackage.Interactor(presenter, packageManagerFactory.Create(), notifier);
             var installController = new InstallController(interactor);
             installController.Install(input.Name, input.Path, input.FileName);
@@ -53,6 +55,16 @@ namespace DgSystems.PackageManager.WebAPI.Install
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [NonAction]
+        public void Update(Subject subject)
+        {
+            if (subject is Presenters.InstallPackage.Presenter presenter)
+            {
+                string json = JsonConvert.SerializeObject(presenter.InstallPackageOutput);
+                Response.WriteAsync(json); //TODO: reply with signalR
+            }
         }
     }
 }
