@@ -1,11 +1,8 @@
 ﻿using DgSystems.PackageManager.Entities.Events;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("DgSystems.PackageManagerUnitTests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.PackageManager.Entities
 {
-    internal class Installation
+    public class Installation
     {
         private readonly PackageManager packageManager;
         private readonly Notifier notifier;
@@ -24,7 +21,7 @@ namespace DgSystems.PackageManager.Entities
         /// </summary>
         /// <param name="package"></param>
         /// <returns></returns>
-        internal async Task<InstallationStatus> Install(Package package)
+        public async Task<InstallationStatus> Install(Package package)
         {
             if (package is null)
             {
