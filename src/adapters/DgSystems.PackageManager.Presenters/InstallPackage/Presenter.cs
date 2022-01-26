@@ -2,7 +2,7 @@
 
 namespace DgSystems.PackageManager.Presenters.InstallPackage
 {
-    public class Presenter : OutputBoundary, Subject
+    public class Presenter : InstallPackageOutputBoundary, Subject
     {
         public InstallPackageOutput InstallPackageOutput { get; set; }
         private readonly List<Observer> observers = new List<Observer>();
@@ -22,7 +22,7 @@ namespace DgSystems.PackageManager.Presenters.InstallPackage
             observers.ForEach(o => o.Update(this));
         }
 
-        public void PresentAsync(Response installPackageResponse)
+        public void PresentAsync(InstallPackageResponse installPackageResponse)
         {
             InstallPackageOutput = new InstallPackageOutput(installPackageResponse.PackageName, installPackageResponse.Message);
             Notify();

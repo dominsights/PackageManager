@@ -40,7 +40,7 @@ namespace DgSystems.PackageManager.WebAPI.Install
         {
             var presenter = new Presenters.InstallPackage.Presenter();
             presenter.Attach(this);
-            var interactor = new UseCases.InstallPackage.Interactor(presenter, packageManagerFactory.Create(), notifier);
+            var interactor = new UseCases.InstallPackage.InstallPackageInteractor(presenter, packageManagerFactory.Create(), notifier);
             var installController = new InstallController(interactor);
             installController.Install(input.Name, input.Path, input.FileName);
         }

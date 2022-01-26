@@ -4,9 +4,9 @@ namespace DgSystems.PackageManager.Controllers.InstallPackage
 {
     public class InstallController
     {
-        private readonly InputBoundary installPackageInteractor;
+        private readonly InstallPackageInputBoundary installPackageInteractor;
 
-        public InstallController(InputBoundary installPackageInteractor)
+        public InstallController(InstallPackageInputBoundary installPackageInteractor)
         {
             this.installPackageInteractor = installPackageInteractor;
         }
@@ -16,7 +16,7 @@ namespace DgSystems.PackageManager.Controllers.InstallPackage
             if(string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName))
                 return;
             
-            installPackageInteractor.ExecuteAsync(new Request(name, path, fileName));
+            installPackageInteractor.ExecuteAsync(new InstallPackageRequest(name, path, fileName));
         }
     }
 }
