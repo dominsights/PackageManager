@@ -19,5 +19,10 @@ namespace DgSystems.PackageManager.Presenters.UninstallPackage
         {
             throw new NotImplementedException();
         }
+
+        public void PresentAsync(UninstallPackageResponse uninstallPackageResponse)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

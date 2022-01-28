@@ -45,5 +45,10 @@ namespace DgSystems.Scoop
         {
             return true; // TODO: validate manifest
         }
+
+        public void Uninstall(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

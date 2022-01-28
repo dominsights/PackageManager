@@ -12,7 +12,7 @@ namespace DgSystems.PackageManagerUnitTests.Entities
         [Fact]
         public async void RejectInstallationWhenPackageIsNull()
         {
-            var packageManager = Substitute.For<PackageManager.Entities.PackageInstallation>();
+            var packageManager = Substitute.For<PackageInstallation>();
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
             await installation.Install(null);
@@ -24,7 +24,7 @@ namespace DgSystems.PackageManagerUnitTests.Entities
         [Fact]
         public async void RejectInstallationWhenPackageIsInvalid()
         {
-            var packageManager = Substitute.For<PackageManager.Entities.PackageInstallation>();
+            var packageManager = Substitute.For<PackageInstallation>();
             packageManager.IsPackageValid(Arg.Any<Package>()).Returns(false);
             var notifier = Substitute.For<Notifier>();
             var installation = new Installation(packageManager, notifier);
