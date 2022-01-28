@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.Entities
 {
-    public interface PackageManager
+    public interface PackageUninstallation
     {
-        Task<InstallationStatus> Install(Package package);
-        bool IsPackageValid(Package package);
+        public void void Uninstall(string v);
     }
 }

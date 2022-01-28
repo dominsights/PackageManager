@@ -5,7 +5,7 @@ using System.IO.Compression;
 
 namespace DgSystems.Scoop
 {
-    public class ScoopFactory : PackageManagerFactory
+    public class ScoopFactory
     {
         private readonly CommandLineShell commandLineShell;
         private readonly IFileSystem fileSystem;
@@ -20,7 +20,7 @@ namespace DgSystems.Scoop
             commandLineShell = commandLineShellFactory.Create();
         }
 
-        public PackageManager.Entities.PackageManager Create()
+        public Scoop Create()
         {
             var bucketCommandFactory = new CommandFactory();
             var bucket = new Bucket("local_bucket", "C:\\local_bucket", commandLineShell, fileSystem, downloader, bucketCommandFactory);

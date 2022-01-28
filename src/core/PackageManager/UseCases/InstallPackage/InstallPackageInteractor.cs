@@ -5,10 +5,10 @@ namespace DgSystems.PackageManager.UseCases.InstallPackage
     public class InstallPackageInteractor : InstallPackageInputBoundary
     {
         private readonly InstallPackageOutputBoundary presenter;
-        private readonly Entities.PackageManager packageManager;
+        private readonly PackageInstallation packageManager;
         private readonly Notifier notifier;
 
-        public InstallPackageInteractor(InstallPackageOutputBoundary presenter, Entities.PackageManager packageManager, Notifier notifier)
+        public InstallPackageInteractor(InstallPackageOutputBoundary presenter, PackageInstallation packageManager, Notifier notifier)
         {
             this.presenter = presenter;
             this.packageManager = packageManager;

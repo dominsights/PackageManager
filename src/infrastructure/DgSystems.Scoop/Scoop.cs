@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.Scoop
 {
-    internal class Scoop : PackageManager.Entities.PackageManager
+    public class Scoop : PackageInstallation, PackageUninstallation
     {
         private CommandLineShell console;
         private readonly BucketList bucketList;

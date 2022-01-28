@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager
 {
-    public interface PackageManagerFactory
+    public interface PackageUninstallerFactory
     {
-        public Entities.PackageManager Create();
+        public Entities.PackageUninstallation Create();
     }
 }

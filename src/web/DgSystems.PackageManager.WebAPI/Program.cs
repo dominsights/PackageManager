@@ -16,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<Process>();
-builder.Services.AddTransient<PackageManagerFactory, ScoopFactory>();
+builder.Services.AddTransient<ScoopFactory>();
 builder.Services.AddTransient<Notifier, LoggerNotifier>();
 builder.Services.AddTransient<CommandLineShellFactory, PowerShellFactory>();
 builder.Services.AddTransient<IFileSystem, FileSystem>();

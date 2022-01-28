@@ -8,5 +8,6 @@ namespace DgSystems.PackageManager.UseCases.UninstallPackage
 {
     public interface UninstallPackageOutputBoundary
     {
+        void PresentAsync(UninstallPackageResponse uninstallPackageResponse);
     }
 }

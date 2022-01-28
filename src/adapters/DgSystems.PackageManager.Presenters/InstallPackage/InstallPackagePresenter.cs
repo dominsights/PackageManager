@@ -2,7 +2,7 @@
 
 namespace DgSystems.PackageManager.Presenters.InstallPackage
 {
-    public class Presenter : InstallPackageOutputBoundary, Subject
+    public class InstallPackagePresenter : InstallPackageOutputBoundary, Subject
     {
         public InstallPackageOutput InstallPackageOutput { get; set; }
         private readonly List<Observer> observers = new List<Observer>();

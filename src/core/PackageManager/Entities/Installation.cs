@@ -4,10 +4,10 @@ namespace DgSystems.PackageManager.Entities
 {
     public class Installation
     {
-        private readonly PackageManager packageManager;
+        private readonly PackageInstallation packageManager;
         private readonly Notifier notifier;
 
-        public Installation(PackageManager packageManager, Notifier notifier)
+        public Installation(PackageInstallation packageManager, Notifier notifier)
         {
             this.packageManager = packageManager;
             this.notifier = notifier;
@@ -32,7 +32,7 @@ namespace DgSystems.PackageManager.Entities
             return await Install_InternalAsync(Id, package, packageManager, notifier);
         }
 
-        private async Task<InstallationStatus> Install_InternalAsync(Guid installationId, Package package, PackageManager packageManager, Notifier notifier)
+        private async Task<InstallationStatus> Install_InternalAsync(Guid installationId, Package package, PackageInstallation packageManager, Notifier notifier)
         {
             if (package.Dependencies == null || !package.Dependencies.Any())
             {
@@ -50,7 +50,7 @@ namespace DgSystems.PackageManager.Entities
             return dependenciesInstallationStatus;
         }
 
-        private async Task<InstallationStatus> InstallDependencies(Guid installationId, PackageManager packageManager, Notifier notifier, IEnumerable<Package> dependencies)
+        private async Task<InstallationStatus> InstallDependencies(Guid installationId, PackageInstallation packageManager, Notifier notifier, IEnumerable<Package> dependencies)
         {
             foreach (var dependency in dependencies)
             {
@@ -64,7 +64,7 @@ namespace DgSystems.PackageManager.Entities
             return InstallationStatus.Success;
         }
 
-        private static async Task<InstallationStatus> InstallPackage(Guid installationId, Package package, PackageManager packageManager, Notifier notifier)
+        private static async Task<InstallationStatus> InstallPackage(Guid installationId, Package package, PackageInstallation packageManager, Notifier notifier)
         {
             if (!packageManager.IsPackageValid(package))
             {

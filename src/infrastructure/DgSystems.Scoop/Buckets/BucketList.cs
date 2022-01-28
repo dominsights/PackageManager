@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DgSystems.Scoop
 {
-    internal class BucketList
+    public class BucketList
     {
         List<Bucket> buckets = new List<Bucket>();
 

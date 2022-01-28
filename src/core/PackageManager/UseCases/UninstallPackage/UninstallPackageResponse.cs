@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DgSystems.PackageManager.UseCases.UninstallPackage
 {
-    internal class UninstallPackageResponse
+    public class UninstallPackageResponse
     {
+        private string v;
+
+        public UninstallPackageResponse(string v)
+        {
+            this.v = v;
+        }
     }
 }

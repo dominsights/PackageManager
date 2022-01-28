@@ -63,7 +63,7 @@ namespace DgSystems.PackageManagerUnitTests.Features
         {
             var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageInstallation>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Success);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);
@@ -93,7 +93,7 @@ namespace DgSystems.PackageManagerUnitTests.Features
         {
             var dependencyPackage = new Package("java", "C:\\java.exe", "java.zip");
             var mainPackage = new Package("eclipse", "C:\\eclipse.exe", "eclipse.zip", new List<Package> { dependencyPackage });
-            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
+            var packageManager = Substitute.For<PackageManager.Entities.PackageInstallation>();
 
             packageManager.Install(dependencyPackage).Returns(InstallationStatus.Failure);
             packageManager.Install(mainPackage).Returns(InstallationStatus.Success);

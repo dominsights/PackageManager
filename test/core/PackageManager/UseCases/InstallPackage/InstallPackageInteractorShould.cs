@@ -13,7 +13,7 @@ namespace DgSystems.PackageManagerUnitTests.UseCases.InstallPackage
         {
             var presenter = Substitute.For<InstallPackageOutputBoundary>();
 
-            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
+            var packageManager = Substitute.For<PackageInstallation>();
             var package = new Package("notepad++", "C:\\setup.exe", "setup.zip");
             packageManager.IsPackageValid(package).Returns(true);
             packageManager.Install(package).Returns(InstallationStatus.Success);
@@ -31,7 +31,7 @@ namespace DgSystems.PackageManagerUnitTests.UseCases.InstallPackage
         {
             var presenter = Substitute.For<InstallPackageOutputBoundary>();
 
-            var packageManager = Substitute.For<PackageManager.Entities.PackageManager>();
+            var packageManager = Substitute.For<PackageInstallation>();
             var package = new Package("notepad++", "C:\\setup.exe", "setup.zip");
             packageManager.IsPackageValid(package).Returns(true);
             packageManager.Install(package).Returns(InstallationStatus.Failure);

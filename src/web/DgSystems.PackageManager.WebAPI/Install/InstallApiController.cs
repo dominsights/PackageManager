@@ -1,5 +1,6 @@
 ﻿using DgSystems.PackageManager.Controllers.InstallPackage;
 using DgSystems.PackageManager.Presenters;
+using DgSystems.Scoop;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -11,10 +12,10 @@ namespace DgSystems.PackageManager.WebAPI.Install
     [ApiController]
     public class InstallApiController : ControllerBase, Observer
     {
-        private readonly PackageManagerFactory packageManagerFactory;
+        private readonly ScoopFactory packageManagerFactory;
         private readonly Notifier notifier;
 
-        public InstallApiController(PackageManagerFactory packageManagerFactory, Notifier notifier)
+        public InstallApiController(ScoopFactory packageManagerFactory, Notifier notifier)
         {
             this.packageManagerFactory = packageManagerFactory;
             this.notifier = notifier;
@@ -38,7 +39,7 @@ namespace DgSystems.PackageManager.WebAPI.Install
         [HttpPost]
         public void Post([FromBody] InstallPackageInput input)
         {
-            var presenter = new Presenters.InstallPackage.Presenter();
+            var presenter = new Presenters.InstallPackage.InstallPackagePresenter();
             presenter.Attach(this);
             var interactor = new UseCases.InstallPackage.InstallPackageInteractor(presenter, packageManagerFactory.Create(), notifier);
             var installController = new InstallController(interactor);
@@ -60,7 +61,7 @@ namespace DgSystems.PackageManager.WebAPI.Install
         [NonAction]
         public void Update(Subject subject)
         {
-            if (subject is Presenters.InstallPackage.Presenter presenter)
+            if (subject is Presenters.InstallPackage.InstallPackagePresenter presenter)
             {
                 string json = JsonConvert.SerializeObject(presenter.InstallPackageOutput);
                 Response.WriteAsync(json); //TODO: reply with signalR
