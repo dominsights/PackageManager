@@ -43,8 +43,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "adapters", "adapters", "{C2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.ControllersUnitTests", "test\adapters\DgSystems.PackageManager.Controllers\DgSystems.PackageManager.ControllersUnitTests.csproj", "{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{7B7AF445-95A8-4831-82BF-B906D9981754}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.Presenters", "src\adapters\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.Presenters.csproj", "{50E2A58F-A0E2-4C50-A59E-B6D8A226321D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgSystems.PackageManager.PresentersUnitTests", "test\adapters\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.PresentersUnitTests.csproj", "{13B08A6E-1E92-407D-B8BA-29ABB7D6408B}"
@@ -130,7 +128,6 @@ Global
 		{C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45} = {1B57BE6D-4AA1-47DF-855E-1FD738F32CBE}
 		{C2986860-6C32-4BA2-90EC-7ADC86187924} = {0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}
 		{2D7073AD-BEE0-4F10-8731-0DFC8611F4D7} = {C2986860-6C32-4BA2-90EC-7ADC86187924}
-		{7B7AF445-95A8-4831-82BF-B906D9981754} = {0D7F0F0E-73B1-432B-AAB0-1BDE899F05C0}
 		{50E2A58F-A0E2-4C50-A59E-B6D8A226321D} = {C63A82BF-59B7-4FF7-A8A6-41C9A8B02B45}
 		{13B08A6E-1E92-407D-B8BA-29ABB7D6408B} = {C2986860-6C32-4BA2-90EC-7ADC86187924}
 	EndGlobalSection
