@@ -7,7 +7,7 @@ namespace DgSystems.Scoop
 {
     public class Scoop : PackageInstallation, PackageUninstallation
     {
-        private CommandLineShell console;
+        private readonly CommandLineShell console;
         private readonly BucketList bucketList;
         private readonly string downloadFolder;
         private readonly ExtractToDirectory extractToDirectory;
@@ -46,7 +46,7 @@ namespace DgSystems.Scoop
             return true; // TODO: validate manifest
         }
 
-        public Task<UninstallationStatus> Uninstall(string v)
+        public Task<UninstallationStatus> Uninstall(string packageName)
         {
             throw new NotImplementedException();
         }

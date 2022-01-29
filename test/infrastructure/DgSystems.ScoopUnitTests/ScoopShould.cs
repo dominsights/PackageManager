@@ -45,5 +45,20 @@ namespace DgSystems.ScoopUnitTests
             Assert.Equal(InstallationStatus.Failure, result);
             await console.DidNotReceive().Execute(Arg.Any<string>());
         }
+
+        [Fact]
+        public async void UninstallPackage()
+        {
+            var console = Substitute.For<CommandLineShell>();
+            var bucketList = new BucketList();
+            var bucket = Substitute.For<Bucket>();
+            bucketList.Add(bucket);
+            string downloadFolder = "C://downloads";
+            
+            var scoop = new ScoopClass(console, bucketList, downloadFolder, (x, y) => Console.Write(""));
+            var result = await scoop.Uninstall("notepadplusplus");
+
+            await console.Received().Execute(Arg.Is<string>("scoop uninstall notepadplusplus"));
+        }
     }
 }
