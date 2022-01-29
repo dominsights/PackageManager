@@ -46,9 +46,19 @@ namespace DgSystems.Scoop
             return true; // TODO: validate manifest
         }
 
-        public Task<UninstallationStatus> Uninstall(string packageName)
+        public async Task<UninstallationStatus> Uninstall(string packageName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await console.Execute($"scoop uninstall {packageName}");
+                return UninstallationStatus.Success;
+            }
+            catch (Exception e)
+            {
+                return UninstallationStatus.Failure;
+            }
+
+            return UninstallationStatus.Failure;
         }
     }
 }

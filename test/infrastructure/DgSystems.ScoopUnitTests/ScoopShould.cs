@@ -4,6 +4,7 @@ using NSubstitute;
 using System;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xunit;
 using ScoopClass = DgSystems.Scoop.Scoop;
 
@@ -59,6 +60,7 @@ namespace DgSystems.ScoopUnitTests
             var result = await scoop.Uninstall("notepadplusplus");
 
             await console.Received().Execute(Arg.Is<string>("scoop uninstall notepadplusplus"));
+            result.Should().Be(UninstallationStatus.Success);
         }
     }
 }
