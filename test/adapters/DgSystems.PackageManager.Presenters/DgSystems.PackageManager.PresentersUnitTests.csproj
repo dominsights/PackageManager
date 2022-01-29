@@ -20,8 +20,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\web\DgSystems.PackageManager.Presenters\DgSystems.PackageManager.PresentersUnitTests.csproj" />
-  </ItemGroup>
-
 </Project>
