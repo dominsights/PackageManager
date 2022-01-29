@@ -2,6 +2,6 @@
 {
     public interface PackageUninstallation
     {
-        public void Uninstall(string packageName);
+        public Task<UninstallationStatus> Uninstall(string packageName);
     }
 }

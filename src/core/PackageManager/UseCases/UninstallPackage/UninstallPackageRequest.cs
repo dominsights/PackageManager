@@ -8,11 +8,11 @@ namespace DgSystems.PackageManager.UseCases.UninstallPackage
 {
     public class UninstallPackageRequest
     {
-        private string v;
-
-        public UninstallPackageRequest(string v)
+        public UninstallPackageRequest(string packageName)
         {
-            this.v = v;
+            this.PackageName = packageName;
         }
+
+        public string PackageName { get; set; }
     }
 }
