@@ -8,22 +8,22 @@ namespace DgSystems.PackageManager.UseCases.UninstallPackage
 {
     public class UninstallPackageResponse
     {
-        private string packageName;
-
-        public UninstallPackageResponse(string packageName)
+        public UninstallPackageResponse(string message)
         {
-            this.packageName = packageName;
+            this.Message = message;
         }
+
+        public string Message { get; set; }
 
         public override bool Equals(object? obj)
         {
             return obj is UninstallPackageResponse response &&
-                   packageName == response.packageName;
+                   Message == response.Message;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(packageName);
+            return HashCode.Combine(Message);
         }
     }
 }

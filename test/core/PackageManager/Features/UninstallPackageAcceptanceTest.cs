@@ -10,6 +10,7 @@ using FluentAssertions;
 using NSubstitute;
 using System;
 using System.IO.Abstractions;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DgSystems.PackageManagerUnitTests.Acceptance
@@ -32,7 +33,7 @@ namespace DgSystems.PackageManagerUnitTests.Acceptance
 
 
         [Fact]
-        public void ShouldUninstallPackage()
+        public async Task ShouldUninstallPackageAsync()
         {
             // Given
             uninstallPresenter.Attach(observer);
@@ -40,7 +41,7 @@ namespace DgSystems.PackageManagerUnitTests.Acceptance
             var uninstallController = new UninstallController(uninstallInteractor);
 
             // When
-            uninstallController.Uninstall("notepadplusplus");
+            await uninstallController.UninstallAsync("notepadplusplus");
 
             // Then
             observer.Invoked.Should().BeTrue();

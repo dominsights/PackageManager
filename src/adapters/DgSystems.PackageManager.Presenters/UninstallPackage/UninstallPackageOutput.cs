@@ -8,6 +8,11 @@ namespace DgSystems.PackageManager.Presenters.UninstallPackage
 {
     public class UninstallPackageOutput
     {
-        public string? Message { get; set; }
+        public UninstallPackageOutput(string message)
+        {
+            Message = message;
+        }
+
+        public string Message { get; set; }
     }
 }

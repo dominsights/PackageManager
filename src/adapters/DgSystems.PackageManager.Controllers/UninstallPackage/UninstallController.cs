@@ -1,14 +1,19 @@
-﻿namespace DgSystems.PackageManager.Controllers.UninstallPackage
+﻿using DgSystems.PackageManager.UseCases.UninstallPackage;
+
+namespace DgSystems.PackageManager.Controllers.UninstallPackage
 {
     public class UninstallController
     {
-        public UninstallController(UseCases.UninstallPackage.UninstallPackageInteractor uninstallInteractor)
+        public UninstallController(UninstallPackageInteractor uninstallInteractor)
         {
+            this.uninstallInteractor = uninstallInteractor;
         }
 
-        public void Uninstall(string v)
+        private UninstallPackageInteractor uninstallInteractor;
+
+        public async Task UninstallAsync(string packageName)
         {
-            throw new NotImplementedException();
+            await uninstallInteractor.ExecuteAsync(new UninstallPackageRequest(packageName));
         }
     }
 }
