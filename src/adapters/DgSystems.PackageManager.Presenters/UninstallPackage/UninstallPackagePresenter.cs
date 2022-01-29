@@ -4,20 +4,21 @@ namespace DgSystems.PackageManager.Presenters.UninstallPackage
 {
     public class UninstallPackagePresenter : UninstallPackageOutputBoundary, Subject
     {
+        readonly List<Observer> observers = new List<Observer>();
         public UninstallPackageOutput? Output { get; set; }
         public void Attach(Observer observer)
         {
-            throw new NotImplementedException();
+            observers.Add(observer);
         }
 
         public void Detach(Observer observer)
         {
-            throw new NotImplementedException();
+            observers.Remove(observer);
         }
 
         public void Notify()
         {
-            throw new NotImplementedException();
+            observers.ForEach(o => o.Update(this));
         }
 
         public void PresentAsync(UninstallPackageResponse uninstallPackageResponse)

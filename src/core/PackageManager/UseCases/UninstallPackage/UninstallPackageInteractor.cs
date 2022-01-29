@@ -4,7 +4,7 @@ namespace DgSystems.PackageManager.UseCases.UninstallPackage
 {
     public class UninstallPackageInteractor
     {
-        private UninstallPackageOutputBoundary uninstallPresenter;
+        private readonly UninstallPackageOutputBoundary uninstallPresenter;
         private readonly PackageUninstallation uninstaller;
 
         public UninstallPackageInteractor(UninstallPackageOutputBoundary uninstallPresenter, PackageUninstallation uninstaller)
@@ -17,21 +17,29 @@ namespace DgSystems.PackageManager.UseCases.UninstallPackage
         {
             try
             {
-                var uninstallResult = await uninstaller.Uninstall(request.PackageName);
+                UninstallationStatus uninstallResult = await uninstaller.Uninstall(request.PackageName);
+                switch (uninstallResult)
+                {
+                    case UninstallationStatus.Success:
+                        string sucessMessage = $"{request.PackageName} was uninstalled successfully.";
+                        uninstallPresenter.PresentAsync(new UninstallPackageResponse(sucessMessage));
+                        break;
 
-                if (uninstallResult == UninstallationStatus.Success)
-                {
-                    uninstallPresenter.PresentAsync(new UninstallPackageResponse($"{request.PackageName} was uninstalled successfully."));
-                }
-                else
-                {
-                    uninstallPresenter.PresentAsync(new UninstallPackageResponse($"{request.PackageName} failed to uninstall."));
+                    default:
+                        PresentError(request.PackageName);
+                        break;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                uninstallPresenter.PresentAsync(new UninstallPackageResponse($"{request.PackageName} failed to uninstall."));
+                PresentError(request.PackageName);
             }
+        }
+
+        private void PresentError(string packageName)
+        {
+            string errorMessage = $"{packageName} failed to uninstall.";
+            uninstallPresenter.PresentAsync(new UninstallPackageResponse(errorMessage));
         }
     }
 }
