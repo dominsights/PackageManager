@@ -62,5 +62,22 @@ namespace DgSystems.ScoopUnitTests
             await console.Received().Execute(Arg.Is<string>("scoop uninstall notepadplusplus"));
             result.Should().Be(UninstallationStatus.Success);
         }
+        
+        [Fact]
+        public async void ReturnFailureWhenCommandFails()
+        {
+            var console = Substitute.For<CommandLineShell>();
+            console.Execute("scoop uninstall notepadplusplus").Returns(x => throw new Exception());;
+            var bucketList = new BucketList();
+            var bucket = Substitute.For<Bucket>();
+            bucketList.Add(bucket);
+            string downloadFolder = "C://downloads";
+            
+            var scoop = new ScoopClass(console, bucketList, downloadFolder, (x, y) => Console.Write(""));
+            var result = await scoop.Uninstall("notepadplusplus");
+
+            await console.Received().Execute(Arg.Is<string>("scoop uninstall notepadplusplus"));
+            result.Should().Be(UninstallationStatus.Failure);
+        }
     }
 }

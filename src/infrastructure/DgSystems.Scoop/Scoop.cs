@@ -57,8 +57,6 @@ namespace DgSystems.Scoop
             {
                 return UninstallationStatus.Failure;
             }
-
-            return UninstallationStatus.Failure;
         }
     }
 }

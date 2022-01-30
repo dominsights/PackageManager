@@ -46,7 +46,7 @@ namespace DgSystems.PackageManagerUnitTests.Acceptance
             // Then
             observer.Invoked.Should().BeTrue();
             Assert.NotNull(observer.Output);
-            observer.Output?.Message.Should().Be("notepadplusplus uninstalled with success.");
+            observer.Output?.Message.Should().Be("notepadplusplus was uninstalled successfully.");
         }
 
         private class PresenterObserver : Observer
