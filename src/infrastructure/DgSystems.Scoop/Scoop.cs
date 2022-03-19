@@ -1,8 +1,5 @@
 ﻿using DgSystems.PackageManager.Entities;
-using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("DgSystems.ScoopUnitTests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace DgSystems.Scoop
 {
     public class Scoop : PackageInstallation, PackageUninstallation
