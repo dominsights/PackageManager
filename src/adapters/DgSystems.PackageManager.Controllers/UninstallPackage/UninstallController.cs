@@ -9,7 +9,7 @@ namespace DgSystems.PackageManager.Controllers.UninstallPackage
             this.uninstallInteractor = uninstallInteractor;
         }
 
-        private readonly UninstallPackageInteractor uninstallInteractor;
+        private UninstallPackageInteractor uninstallInteractor;
 
         public async Task UninstallAsync(string packageName)
         {
